@@ -1,0 +1,7 @@
+uuid: fc024166-bf2a-4741-9b86-9149e50180b4
+langcode: en
+status: true
+dependencies: {  }
+id: full_width_panel
+label: 'Full-width panel'
+behavior_plugins: {  }
