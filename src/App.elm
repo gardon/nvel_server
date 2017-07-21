@@ -11,7 +11,7 @@ import Json.Decode as Decode
 
 main =
   Html.program
-    { init = init "cats"
+    { init = init
     , view = view
     , update = update
     , subscriptions = subscriptions
@@ -21,17 +21,20 @@ main =
 
 -- MODEL
 
+type alias Chapter =
+  { title : String
+  , field_description: String
+  }
 
 type alias Model =
-  { topic : String
-  , gifUrl : String
+  { chapters : List Chapter
   }
 
 
-init : String -> (Model, Cmd Msg)
-init topic =
-  ( Model topic "waiting.gif"
-  , getRandomGif topic
+init : (Model, Cmd Msg)
+init =
+  ( Model []
+  , getChapters
   )
 
 
@@ -40,20 +43,16 @@ init topic =
 
 
 type Msg
-  = MorePlease
-  | NewGif (Result Http.Error String)
+  = ChaptersLoad (Result Http.Error (List Chapter))
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    MorePlease ->
-      (model, getRandomGif model.topic)
+    ChaptersLoad (Ok chapters) ->
+      ({ model | chapters = chapters } , Cmd.none)
 
-    NewGif (Ok newUrl) ->
-      (Model model.topic newUrl, Cmd.none)
-
-    NewGif (Err _) ->
+    ChaptersLoad (Err _) ->
       (model, Cmd.none)
 
 
@@ -64,12 +63,17 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div []
-    [ h2 [] [text model.topic]
-    , button [ onClick MorePlease ] [ text "More Please!" ]
-    , br [] []
-    , img [src model.gifUrl] []
+    [ ul []
+      (List.map viewChapter model.chapters)
     ]
 
+viewChapter : Chapter -> Html Msg
+viewChapter chapter =
+  li []
+    [
+      h2 [] [ text chapter.title ]
+    , div [] [ text chapter.field_description ]
+    ]
 
 
 -- SUBSCRIPTIONS
@@ -84,15 +88,16 @@ subscriptions model =
 -- HTTP
 
 
-getRandomGif : String -> Cmd Msg
-getRandomGif topic =
+getChapters : Cmd Msg
+getChapters =
   let
     url =
-      "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" ++ topic
+      "http://server.nvel.docksal/chapters"
   in
-    Http.send NewGif (Http.get url decodeGifUrl)
+    Http.send ChaptersLoad (Http.get url decodeChapters)
 
+chapterDecoder = Decode.map2 Chapter (Decode.field "title" Decode.string) (Decode.field "field_description" Decode.string)
 
-decodeGifUrl : Decode.Decoder String
-decodeGifUrl =
-  Decode.at ["data", "image_url"] Decode.string
+decodeChapters : Decode.Decoder (List Chapter)
+decodeChapters =
+  Decode.list chapterDecoder
