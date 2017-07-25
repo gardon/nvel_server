@@ -1,12 +1,14 @@
 -- Read more about this program in the official Elm guide:
 -- https://guide.elm-lang.org/architecture/effects/http.html
+port module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode
-
+import Config exposing (..)
+import Skeleton exposing (..)
 
 
 main =
@@ -18,7 +20,6 @@ main =
     }
 
 
-
 -- MODEL
 
 type alias Chapter =
@@ -28,14 +29,19 @@ type alias Chapter =
 
 type alias Model =
   { chapters : List Chapter
+  , siteInformation : SiteInformation
+  , backendConfig : BackendConfig
   }
 
 
 init : (Model, Cmd Msg)
 init =
-  ( Model []
-  , getChapters
-  )
+  let
+    model = Model [] Config.siteInformation (switchBackend Local)
+  in 
+    ( model
+    , Cmd.batch [ updateSiteInfo model.siteInformation, getChapters model ]
+    )
 
 
 
@@ -44,7 +50,10 @@ init =
 
 type Msg
   = ChaptersLoad (Result Http.Error (List Chapter))
+  | UpdateSiteInfo
 
+
+port updateSiteInfo : SiteInformation -> Cmd msg
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -55,6 +64,9 @@ update msg model =
     ChaptersLoad (Err _) ->
       (model, Cmd.none)
 
+    UpdateSiteInfo ->
+      (model, (updateSiteInfo model.siteInformation))
+
 
 
 -- VIEW
@@ -62,14 +74,14 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div []
-    [ ul []
-      (List.map viewChapter model.chapters)
+  skeletonRow [
+    skeletonColumn [ classList [ ("one-half", True) ] ]
+      (List.map viewChapter model.chapters)  
     ]
 
 viewChapter : Chapter -> Html Msg
 viewChapter chapter =
-  li []
+  div []
     [
       h2 [] [ text chapter.title ]
     , div [] [ text chapter.field_description ]
@@ -88,11 +100,11 @@ subscriptions model =
 -- HTTP
 
 
-getChapters : Cmd Msg
-getChapters =
+getChapters : Model -> Cmd Msg
+getChapters model =
   let
     url =
-      "http://server.nvel.docksal/chapters"
+      model.backendConfig.backendURL ++ "/chapters"
   in
     Http.send ChaptersLoad (Http.get url decodeChapters)
 
