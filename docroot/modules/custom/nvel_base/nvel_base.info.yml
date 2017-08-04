@@ -1,0 +1,10 @@
+name: Nvel - Base
+type: module
+description: "Basic Nvel functionality and settings."
+package: Nvel
+version: 8.x-0.1
+core: 8.x
+dependencies:
+ - node
+ - rest
+hidden: false

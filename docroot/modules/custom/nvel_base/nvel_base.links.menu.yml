@@ -1,0 +1,6 @@
+nvel_base.settings:
+  title: "Nvel Settings"
+  description: "Configure basic settings for Nvel"
+  parent: system.admin_config_services
+  route_name: nvel_base.settings
+  weight: 100
