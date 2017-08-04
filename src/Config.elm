@@ -4,12 +4,15 @@ type alias BackendConfig =
     { backendURL : String }
 
 type alias SiteInformation = 
-    { sitename : String }
+    { title : String 
+    , description : String}
 
 localBackend : BackendConfig
 localBackend = {
     backendURL = "http://server.nvel.docksal/"
     }
+
+siteInformationEndpoint = "nvel_base?_format=json"
 
 type Environment = Local
 
@@ -21,5 +24,6 @@ switchBackend env =
 
 siteInformation : SiteInformation
 siteInformation = {
-    sitename = "Nvel - My Digital Graphic Novel"
+    title = "Nvel - My Digital Graphic Novel"
+    , description = ""
     }
