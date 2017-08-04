@@ -9033,54 +9033,359 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
-var _user$project$Config$siteInformation = {sitename: 'Nvel - My Digital Graphic Novel'};
-var _user$project$Config$localBackend = {backendURL: 'http://server.nvel.docksal/'};
-var _user$project$Config$switchBackend = function (env) {
-	var _p0 = env;
-	return _user$project$Config$localBackend;
-};
-var _user$project$Config$BackendConfig = function (a) {
-	return {backendURL: a};
-};
-var _user$project$Config$SiteInformation = function (a) {
-	return {sitename: a};
-};
-var _user$project$Config$Local = {ctor: 'Local'};
-
-var _user$project$Skeleton$skeletonColumn = F2(
-	function (attributes, content) {
-		return A2(
-			_elm_lang$html$Html$div,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$classList(
-						{
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'column', _1: true},
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				},
-				attributes),
-			content);
+var _truqu$elm_base64$BitList$partition = F2(
+	function (size, list) {
+		if (_elm_lang$core$Native_Utils.cmp(
+			_elm_lang$core$List$length(list),
+			size) < 1) {
+			return {
+				ctor: '::',
+				_0: list,
+				_1: {ctor: '[]'}
+			};
+		} else {
+			var partitionTail = F3(
+				function (size, list, res) {
+					partitionTail:
+					while (true) {
+						var _p0 = list;
+						if (_p0.ctor === '[]') {
+							return res;
+						} else {
+							var _v1 = size,
+								_v2 = A2(_elm_lang$core$List$drop, size, list),
+								_v3 = {
+								ctor: '::',
+								_0: A2(_elm_lang$core$List$take, size, list),
+								_1: res
+							};
+							size = _v1;
+							list = _v2;
+							res = _v3;
+							continue partitionTail;
+						}
+					}
+				});
+			return _elm_lang$core$List$reverse(
+				A3(
+					partitionTail,
+					size,
+					list,
+					{ctor: '[]'}));
+		}
 	});
-var _user$project$Skeleton$skeletonRow = function (content) {
-	return A2(
-		_elm_lang$html$Html$div,
+var _truqu$elm_base64$BitList$toByteReverse = function (bitList) {
+	var _p1 = bitList;
+	if (_p1.ctor === '[]') {
+		return 0;
+	} else {
+		if (_p1._0.ctor === 'Off') {
+			return 2 * _truqu$elm_base64$BitList$toByteReverse(_p1._1);
+		} else {
+			return 1 + (2 * _truqu$elm_base64$BitList$toByteReverse(_p1._1));
+		}
+	}
+};
+var _truqu$elm_base64$BitList$toByte = function (bitList) {
+	return _truqu$elm_base64$BitList$toByteReverse(
+		_elm_lang$core$List$reverse(bitList));
+};
+var _truqu$elm_base64$BitList$Off = {ctor: 'Off'};
+var _truqu$elm_base64$BitList$On = {ctor: 'On'};
+var _truqu$elm_base64$BitList$fromNumber = function ($int) {
+	return _elm_lang$core$Native_Utils.eq($int, 0) ? {ctor: '[]'} : (_elm_lang$core$Native_Utils.eq(
+		A2(_elm_lang$core$Basics_ops['%'], $int, 2),
+		1) ? A2(
+		_elm_lang$core$List$append,
+		_truqu$elm_base64$BitList$fromNumber(($int / 2) | 0),
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('row'),
+			_0: _truqu$elm_base64$BitList$On,
 			_1: {ctor: '[]'}
-		},
-		content);
+		}) : A2(
+		_elm_lang$core$List$append,
+		_truqu$elm_base64$BitList$fromNumber(($int / 2) | 0),
+		{
+			ctor: '::',
+			_0: _truqu$elm_base64$BitList$Off,
+			_1: {ctor: '[]'}
+		}));
+};
+var _truqu$elm_base64$BitList$fromNumberWithSize = F2(
+	function (number, size) {
+		var bitList = _truqu$elm_base64$BitList$fromNumber(number);
+		var paddingSize = size - _elm_lang$core$List$length(bitList);
+		return A2(
+			_elm_lang$core$List$append,
+			A2(_elm_lang$core$List$repeat, paddingSize, _truqu$elm_base64$BitList$Off),
+			bitList);
+	});
+var _truqu$elm_base64$BitList$fromByte = function ($byte) {
+	return A2(_truqu$elm_base64$BitList$fromNumberWithSize, $byte, 8);
 };
 
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
+var _truqu$elm_base64$Base64$dropLast = F2(
+	function (number, list) {
+		return _elm_lang$core$List$reverse(
+			A2(
+				_elm_lang$core$List$drop,
+				number,
+				_elm_lang$core$List$reverse(list)));
+	});
+var _truqu$elm_base64$Base64$partitionBits = function (list) {
+	var list_ = A3(
+		_elm_lang$core$List$foldr,
+		_elm_lang$core$List$append,
+		{ctor: '[]'},
+		A2(_elm_lang$core$List$map, _truqu$elm_base64$BitList$fromByte, list));
+	return A2(
+		_elm_lang$core$List$map,
+		_truqu$elm_base64$BitList$toByte,
+		A2(_truqu$elm_base64$BitList$partition, 6, list_));
 };
-var _user$project$Main$viewChapter = function (chapter) {
+var _truqu$elm_base64$Base64$base64CharsList = _elm_lang$core$String$toList('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/');
+var _truqu$elm_base64$Base64$base64Map = function () {
+	var insert = F2(
+		function (_p0, dict) {
+			var _p1 = _p0;
+			return A3(_elm_lang$core$Dict$insert, _p1._1, _p1._0, dict);
+		});
+	return A3(
+		_elm_lang$core$List$foldl,
+		insert,
+		_elm_lang$core$Dict$empty,
+		A2(
+			_elm_lang$core$List$indexedMap,
+			F2(
+				function (v0, v1) {
+					return {ctor: '_Tuple2', _0: v0, _1: v1};
+				}),
+			_truqu$elm_base64$Base64$base64CharsList));
+}();
+var _truqu$elm_base64$Base64$isValid = function (string) {
+	var string_ = A2(_elm_lang$core$String$endsWith, '==', string) ? A2(_elm_lang$core$String$dropRight, 2, string) : (A2(_elm_lang$core$String$endsWith, '=', string) ? A2(_elm_lang$core$String$dropRight, 1, string) : string);
+	var isBase64Char = function ($char) {
+		return A2(_elm_lang$core$Dict$member, $char, _truqu$elm_base64$Base64$base64Map);
+	};
+	return A2(_elm_lang$core$String$all, isBase64Char, string_);
+};
+var _truqu$elm_base64$Base64$toBase64BitList = function (string) {
+	var endingEquals = A2(_elm_lang$core$String$endsWith, '==', string) ? 2 : (A2(_elm_lang$core$String$endsWith, '=', string) ? 1 : 0);
+	var stripped = _elm_lang$core$String$toList(
+		A2(_elm_lang$core$String$dropRight, endingEquals, string));
+	var base64ToInt = function ($char) {
+		var _p2 = A2(_elm_lang$core$Dict$get, $char, _truqu$elm_base64$Base64$base64Map);
+		if (_p2.ctor === 'Just') {
+			return _p2._0;
+		} else {
+			return -1;
+		}
+	};
+	var numberList = A2(_elm_lang$core$List$map, base64ToInt, stripped);
+	return A2(
+		_truqu$elm_base64$Base64$dropLast,
+		endingEquals * 2,
+		A2(
+			_elm_lang$core$List$concatMap,
+			A2(_elm_lang$core$Basics$flip, _truqu$elm_base64$BitList$fromNumberWithSize, 6),
+			numberList));
+};
+var _truqu$elm_base64$Base64$toCharList = function (bitList) {
+	var array = _elm_lang$core$Array$fromList(_truqu$elm_base64$Base64$base64CharsList);
+	var toBase64Char = function (index) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			_elm_lang$core$Native_Utils.chr('!'),
+			A2(_elm_lang$core$Array$get, index, array));
+	};
+	var toChars = function (_p3) {
+		var _p4 = _p3;
+		var _p5 = {ctor: '_Tuple3', _0: _p4._0, _1: _p4._1, _2: _p4._2};
+		if (_p5._2 === -1) {
+			if (_p5._1 === -1) {
+				return A2(
+					_elm_lang$core$List$append,
+					A2(
+						_truqu$elm_base64$Base64$dropLast,
+						2,
+						A2(
+							_elm_lang$core$List$map,
+							toBase64Char,
+							_truqu$elm_base64$Base64$partitionBits(
+								{
+									ctor: '::',
+									_0: _p5._0,
+									_1: {
+										ctor: '::',
+										_0: 0,
+										_1: {
+											ctor: '::',
+											_0: 0,
+											_1: {ctor: '[]'}
+										}
+									}
+								}))),
+					{
+						ctor: '::',
+						_0: _elm_lang$core$Native_Utils.chr('='),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$core$Native_Utils.chr('='),
+							_1: {ctor: '[]'}
+						}
+					});
+			} else {
+				return A2(
+					_elm_lang$core$List$append,
+					A2(
+						_truqu$elm_base64$Base64$dropLast,
+						1,
+						A2(
+							_elm_lang$core$List$map,
+							toBase64Char,
+							_truqu$elm_base64$Base64$partitionBits(
+								{
+									ctor: '::',
+									_0: _p5._0,
+									_1: {
+										ctor: '::',
+										_0: _p5._1,
+										_1: {
+											ctor: '::',
+											_0: 0,
+											_1: {ctor: '[]'}
+										}
+									}
+								}))),
+					{
+						ctor: '::',
+						_0: _elm_lang$core$Native_Utils.chr('='),
+						_1: {ctor: '[]'}
+					});
+			}
+		} else {
+			return A2(
+				_elm_lang$core$List$map,
+				toBase64Char,
+				_truqu$elm_base64$Base64$partitionBits(
+					{
+						ctor: '::',
+						_0: _p5._0,
+						_1: {
+							ctor: '::',
+							_0: _p5._1,
+							_1: {
+								ctor: '::',
+								_0: _p5._2,
+								_1: {ctor: '[]'}
+							}
+						}
+					}));
+		}
+	};
+	return A2(_elm_lang$core$List$concatMap, toChars, bitList);
+};
+var _truqu$elm_base64$Base64$toTupleList = function () {
+	var toTupleListHelp = F2(
+		function (acc, list) {
+			toTupleListHelp:
+			while (true) {
+				var _p6 = list;
+				if (_p6.ctor === '::') {
+					if (_p6._1.ctor === '::') {
+						if (_p6._1._1.ctor === '::') {
+							var _v5 = {
+								ctor: '::',
+								_0: {ctor: '_Tuple3', _0: _p6._0, _1: _p6._1._0, _2: _p6._1._1._0},
+								_1: acc
+							},
+								_v6 = _p6._1._1._1;
+							acc = _v5;
+							list = _v6;
+							continue toTupleListHelp;
+						} else {
+							return {
+								ctor: '::',
+								_0: {ctor: '_Tuple3', _0: _p6._0, _1: _p6._1._0, _2: -1},
+								_1: acc
+							};
+						}
+					} else {
+						return {
+							ctor: '::',
+							_0: {ctor: '_Tuple3', _0: _p6._0, _1: -1, _2: -1},
+							_1: acc
+						};
+					}
+				} else {
+					return acc;
+				}
+			}
+		});
+	return function (_p7) {
+		return _elm_lang$core$List$reverse(
+			A2(
+				toTupleListHelp,
+				{ctor: '[]'},
+				_p7));
+	};
+}();
+var _truqu$elm_base64$Base64$toCodeList = function (string) {
+	return A2(
+		_elm_lang$core$List$map,
+		_elm_lang$core$Char$toCode,
+		_elm_lang$core$String$toList(string));
+};
+var _truqu$elm_base64$Base64$decode = function (s) {
+	if (!_truqu$elm_base64$Base64$isValid(s)) {
+		return _elm_lang$core$Result$Err('Error while decoding');
+	} else {
+		var bitList = A2(
+			_elm_lang$core$List$map,
+			_truqu$elm_base64$BitList$toByte,
+			A2(
+				_truqu$elm_base64$BitList$partition,
+				8,
+				_truqu$elm_base64$Base64$toBase64BitList(s)));
+		var charList = A2(_elm_lang$core$List$map, _elm_lang$core$Char$fromCode, bitList);
+		return _elm_lang$core$Result$Ok(
+			_elm_lang$core$String$fromList(charList));
+	}
+};
+var _truqu$elm_base64$Base64$encode = function (s) {
+	return _elm_lang$core$Result$Ok(
+		_elm_lang$core$String$fromList(
+			_truqu$elm_base64$Base64$toCharList(
+				_truqu$elm_base64$Base64$toTupleList(
+					_truqu$elm_base64$Base64$toCodeList(s)))));
+};
+
+var _kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationToken = F2(
+	function (username, password) {
+		var result = _truqu$elm_base64$Base64$encode(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				username,
+				A2(_elm_lang$core$Basics_ops['++'], ':', password)));
+		var _p0 = result;
+		if (_p0.ctor === 'Ok') {
+			return _p0._0;
+		} else {
+			return A2(_elm_lang$core$Basics_ops['++'], 'error: ', _p0._0);
+		}
+	});
+var _kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader = F2(
+	function (username, password) {
+		return A2(
+			_elm_lang$http$Http$header,
+			'Authorization',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'Basic ',
+				A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationToken, username, password)));
+	});
+
+var _user$project$Chapter$viewChapterListItem = function (chapter) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -9108,30 +9413,354 @@ var _user$project$Main$viewChapter = function (chapter) {
 			}
 		});
 };
+var _user$project$Chapter$viewChapterList = function (chapters) {
+	var _p0 = chapters;
+	if (_p0.ctor === 'Nothing') {
+		return {
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Loading chapters...'),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return A2(_elm_lang$core$List$map, _user$project$Chapter$viewChapterListItem, _p0._0);
+	}
+};
+var _user$project$Chapter$chapterListEndpoint = 'chapters';
+var _user$project$Chapter$Chapter = F2(
+	function (a, b) {
+		return {title: a, field_description: b};
+	});
+
+var _user$project$Config$siteInformation = {title: 'Nvel - My Digital Graphic Novel', description: ''};
+var _user$project$Config$siteInformationEndpoint = 'nvel_base?_format=json';
+var _user$project$Config$localBackend = {backendURL: 'http://server.nvel.docksal/'};
+var _user$project$Config$switchBackend = function (env) {
+	var _p0 = env;
+	return _user$project$Config$localBackend;
+};
+var _user$project$Config$BackendConfig = function (a) {
+	return {backendURL: a};
+};
+var _user$project$Config$SiteInformation = F2(
+	function (a, b) {
+		return {title: a, description: b};
+	});
+var _user$project$Config$Local = {ctor: 'Local'};
+
+var _user$project$Skeleton$skeletonRow = F2(
+	function (attributes, content) {
+		return A2(
+			_elm_lang$html$Html$div,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('row'),
+					_1: {ctor: '[]'}
+				},
+				attributes),
+			content);
+	});
+var _user$project$Skeleton$skeletonGridSize = function (size) {
+	var $class = A2(
+		_elm_lang$core$List$map,
+		function (a) {
+			return {ctor: '_Tuple2', _0: a, _1: true};
+		},
+		function () {
+			var _p0 = size;
+			switch (_p0.ctor) {
+				case 'OneColumn':
+					return {
+						ctor: '::',
+						_0: 'one',
+						_1: {
+							ctor: '::',
+							_0: 'column',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'TwoColumns':
+					return {
+						ctor: '::',
+						_0: 'two',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'ThreeColumns':
+					return {
+						ctor: '::',
+						_0: 'three',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'FourColumns':
+					return {
+						ctor: '::',
+						_0: 'four',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'FiveColumns':
+					return {
+						ctor: '::',
+						_0: 'five',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'SixColumns':
+					return {
+						ctor: '::',
+						_0: 'six',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'SevenColumns':
+					return {
+						ctor: '::',
+						_0: 'seven',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'EightColumns':
+					return {
+						ctor: '::',
+						_0: 'eight',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'NineColumns':
+					return {
+						ctor: '::',
+						_0: 'nine',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'TenColumns':
+					return {
+						ctor: '::',
+						_0: 'ten',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'ElevenColumns':
+					return {
+						ctor: '::',
+						_0: 'eleven',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'TwelveColumns':
+					return {
+						ctor: '::',
+						_0: 'twelve',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'OneThird':
+					return {
+						ctor: '::',
+						_0: 'one-third',
+						_1: {
+							ctor: '::',
+							_0: 'column',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'TwoThirds':
+					return {
+						ctor: '::',
+						_0: 'two-thirds',
+						_1: {
+							ctor: '::',
+							_0: 'column',
+							_1: {ctor: '[]'}
+						}
+					};
+				default:
+					return {
+						ctor: '::',
+						_0: 'one-half',
+						_1: {
+							ctor: '::',
+							_0: 'column',
+							_1: {ctor: '[]'}
+						}
+					};
+			}
+		}());
+	return {
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$classList($class),
+		_1: {ctor: '[]'}
+	};
+};
+var _user$project$Skeleton$skeletonColumn = F3(
+	function (size, attributes, content) {
+		return A2(
+			_elm_lang$html$Html$div,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Skeleton$skeletonGridSize(size),
+				attributes),
+			content);
+	});
+var _user$project$Skeleton$OneHalf = {ctor: 'OneHalf'};
+var _user$project$Skeleton$TwoThirds = {ctor: 'TwoThirds'};
+var _user$project$Skeleton$OneThird = {ctor: 'OneThird'};
+var _user$project$Skeleton$TwelveColumns = {ctor: 'TwelveColumns'};
+var _user$project$Skeleton$ElevenColumns = {ctor: 'ElevenColumns'};
+var _user$project$Skeleton$TenColumns = {ctor: 'TenColumns'};
+var _user$project$Skeleton$NineColumns = {ctor: 'NineColumns'};
+var _user$project$Skeleton$EightColumns = {ctor: 'EightColumns'};
+var _user$project$Skeleton$SevenColumns = {ctor: 'SevenColumns'};
+var _user$project$Skeleton$SixColumns = {ctor: 'SixColumns'};
+var _user$project$Skeleton$FiveColumns = {ctor: 'FiveColumns'};
+var _user$project$Skeleton$FourColumns = {ctor: 'FourColumns'};
+var _user$project$Skeleton$ThreeColumns = {ctor: 'ThreeColumns'};
+var _user$project$Skeleton$TwoColumns = {ctor: 'TwoColumns'};
+var _user$project$Skeleton$OneColumn = {ctor: 'OneColumn'};
+
+var _user$project$Menu$menu = {
+	ctor: '::',
+	_0: {title: 'Home', path: '/'},
+	_1: {
+		ctor: '::',
+		_0: {title: 'Start reading', path: '/start'},
+		_1: {
+			ctor: '::',
+			_0: {title: 'Index', path: '/index'},
+			_1: {
+				ctor: '::',
+				_0: {title: 'Latest chapter', path: '/latest'},
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Menu$MenuItem = F2(
+	function (a, b) {
+		return {title: a, path: b};
+	});
+
+var _user$project$Main$decodeSiteInformation = A3(
+	_elm_lang$core$Json_Decode$map2,
+	_user$project$Config$SiteInformation,
+	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
+var _user$project$Main$getAuth = F2(
+	function (url, decoder) {
+		var authHeader = A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader, 'admin', 'admin');
+		return _elm_lang$http$Http$request(
+			{
+				method: 'GET',
+				headers: {
+					ctor: '::',
+					_0: authHeader,
+					_1: {ctor: '[]'}
+				},
+				url: url,
+				body: _elm_lang$http$Http$emptyBody,
+				expect: _elm_lang$http$Http$expectJson(decoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _user$project$Main$chapterDecoder = A3(
+	_elm_lang$core$Json_Decode$map2,
+	_user$project$Chapter$Chapter,
+	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'field_description', _elm_lang$core$Json_Decode$string));
+var _user$project$Main$decodeChapters = _elm_lang$core$Json_Decode$list(_user$project$Main$chapterDecoder);
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
 var _user$project$Main$view = function (model) {
-	return _user$project$Skeleton$skeletonRow(
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
-				_user$project$Skeleton$skeletonColumn,
+				_user$project$Skeleton$skeletonRow,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$classList(
+					_0: _elm_lang$html$Html_Attributes$style(
 						{
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'one-half', _1: true},
+							_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '15%'},
 							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
 				},
-				A2(_elm_lang$core$List$map, _user$project$Main$viewChapter, model.chapters)),
-			_1: {ctor: '[]'}
+				{
+					ctor: '::',
+					_0: A3(
+						_user$project$Skeleton$skeletonColumn,
+						_user$project$Skeleton$TwelveColumns,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Here goes the menu'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_user$project$Skeleton$skeletonRow,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A3(
+							_user$project$Skeleton$skeletonColumn,
+							_user$project$Skeleton$TwelveColumns,
+							{ctor: '[]'},
+							_user$project$Chapter$viewChapterList(model.chapters)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Main$updateSiteInfo = _elm_lang$core$Native_Platform.outgoingPort(
 	'updateSiteInfo',
 	function (v) {
-		return {sitename: v.sitename};
+		return {title: v.title, description: v.description};
 	});
 var _user$project$Main$update = F2(
 	function (msg, model) {
@@ -9142,58 +9771,67 @@ var _user$project$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{chapters: _p0._0._0}),
+						{
+							chapters: _elm_lang$core$Maybe$Just(_p0._0._0)
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			}
 		} else {
-			return {
-				ctor: '_Tuple2',
-				_0: model,
-				_1: _user$project$Main$updateSiteInfo(model.siteInformation)
-			};
+			if (_p0._0.ctor === 'Ok') {
+				var _p1 = _p0._0._0;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{siteInformation: _p1}),
+					_1: _user$project$Main$updateSiteInfo(_p1)
+				};
+			} else {
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			}
 		}
 	});
-var _user$project$Main$Chapter = F2(
-	function (a, b) {
-		return {title: a, field_description: b};
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {chapters: a, siteInformation: b, backendConfig: c, menu: d};
 	});
-var _user$project$Main$chapterDecoder = A3(
-	_elm_lang$core$Json_Decode$map2,
-	_user$project$Main$Chapter,
-	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'field_description', _elm_lang$core$Json_Decode$string));
-var _user$project$Main$decodeChapters = _elm_lang$core$Json_Decode$list(_user$project$Main$chapterDecoder);
-var _user$project$Main$Model = F3(
-	function (a, b, c) {
-		return {chapters: a, siteInformation: b, backendConfig: c};
-	});
-var _user$project$Main$UpdateSiteInfo = {ctor: 'UpdateSiteInfo'};
+var _user$project$Main$UpdateSiteInfo = function (a) {
+	return {ctor: 'UpdateSiteInfo', _0: a};
+};
+var _user$project$Main$getSiteInformation = function (model) {
+	var url = A2(_elm_lang$core$Basics_ops['++'], model.backendConfig.backendURL, _user$project$Config$siteInformationEndpoint);
+	return A2(
+		_elm_lang$http$Http$send,
+		_user$project$Main$UpdateSiteInfo,
+		A2(_user$project$Main$getAuth, url, _user$project$Main$decodeSiteInformation));
+};
 var _user$project$Main$ChaptersLoad = function (a) {
 	return {ctor: 'ChaptersLoad', _0: a};
 };
 var _user$project$Main$getChapters = function (model) {
-	var url = A2(_elm_lang$core$Basics_ops['++'], model.backendConfig.backendURL, '/chapters');
+	var url = A2(_elm_lang$core$Basics_ops['++'], model.backendConfig.backendURL, _user$project$Chapter$chapterListEndpoint);
 	return A2(
 		_elm_lang$http$Http$send,
 		_user$project$Main$ChaptersLoad,
 		A2(_elm_lang$http$Http$get, url, _user$project$Main$decodeChapters));
 };
 var _user$project$Main$init = function () {
-	var model = A3(
+	var model = A4(
 		_user$project$Main$Model,
-		{ctor: '[]'},
+		_elm_lang$core$Maybe$Nothing,
 		_user$project$Config$siteInformation,
-		_user$project$Config$switchBackend(_user$project$Config$Local));
+		_user$project$Config$switchBackend(_user$project$Config$Local),
+		_user$project$Menu$menu);
 	return {
 		ctor: '_Tuple2',
 		_0: model,
 		_1: _elm_lang$core$Platform_Cmd$batch(
 			{
 				ctor: '::',
-				_0: _user$project$Main$updateSiteInfo(model.siteInformation),
+				_0: _user$project$Main$getSiteInformation(model),
 				_1: {
 					ctor: '::',
 					_0: _user$project$Main$getChapters(model),
