@@ -7,16 +7,22 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http exposing (Header, Request)
 import Json.Decode as Decode
-import BasicAuth  
+import Routing exposing (parseLocation)
+import Navigation exposing (Location, newUrl)
+import List exposing (head)
 
+
+import Models exposing (..)
 import Config exposing (..)
 import Skeleton exposing (..)
-import Chapter exposing (..)
+import Chapters exposing (..)
+import Chapters.Chapter
 import Menu exposing (..)
+import Msgs exposing (..)
 
 
 main =
-  Html.program
+  Navigation.program OnLocationChange
     { init = init
     , view = view
     , update = update
@@ -24,36 +30,25 @@ main =
     }
 
 
--- MODEL
+-- UPDATE
 
-type alias Model =
-  { chapters : Maybe (List Chapter)
-  , siteInformation : SiteInformation
-  , backendConfig : BackendConfig
-  , menu : List MenuItem
-  }
-
-
-init : (Model, Cmd Msg)
-init =
+init : Location -> (Model, Cmd Msg)
+init location =
   let
-    model = Model Nothing Config.siteInformation (switchBackend Local) Menu.menu
+    chapters = Nothing
+    siteInformation = Config.siteInformation
+    pageData = { title = "Loading..." }
+    backendConfig = switchBackend Local
+    menu = Menu.menu
+    route = parseLocation location
+    model = Model chapters siteInformation pageData backendConfig menu route
   in 
     ( model
-    , Cmd.batch [ getSiteInformation model, getChapters model ]
+    , Cmd.batch [ getSiteInformation model, getChapters model, updatePageData (Config.pageData model) ]
     )
 
 
-
--- UPDATE
-
-
-type Msg
-  = ChaptersLoad (Result Http.Error (List Chapter))
-  | UpdateSiteInfo (Result Http.Error SiteInformation)
-
-
-port updateSiteInfo : SiteInformation -> Cmd msg
+port updatePageData : PageData -> Cmd msg
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -65,29 +60,61 @@ update msg model =
       (model, Cmd.none)
 
     UpdateSiteInfo (Ok siteInformation) ->
-      ({ model | siteInformation = siteInformation } , (updateSiteInfo siteInformation))
+      ({ model | siteInformation = siteInformation } , Cmd.none)
 
     UpdateSiteInfo (Err _) ->
       (model, Cmd.none)
+
+    ChangeLocation path ->
+      (model, newUrl path)
+
+    OnLocationChange location ->
+      let
+          newRoute =
+              parseLocation location
+          newmodel = { model | route = newRoute }
+      in
+          ( newmodel, updatePageData (pageData newmodel))
+
+    UpdatePageData data ->
+      ( { model | pageData = data } , updatePageData data)
 
 
 
 -- VIEW
 
 
-view : Model -> Html msg
+view : Model -> Html Msg
 view model =
-  div [] [
-    skeletonRow [ style [ ("margin-top", "15%") ] ] [
-      skeletonColumn TwelveColumns []
-        [ text "Here goes the menu" ]
-      ]
+  let 
+    content = case model.route of 
+      ChaptersRoute ->
+        viewChapterList model.chapters
 
-    ,skeletonRow [] [
-      skeletonColumn TwelveColumns []
-        (viewChapterList model.chapters)
+      ChapterRoute id ->
+        let chapter = 
+          case model.chapters of 
+            Nothing -> 
+              Nothing
+            Just chapters ->
+              head chapters
+        in
+          [ Chapters.Chapter.view chapter ]
+
+      NotFoundRoute ->
+        [ text "Not Found" ]
+  in 
+    div [] [
+      skeletonRow [ style [ ("margin-top", "15%") ] ] [
+        skeletonColumn TwelveColumns []
+          [ text "Here goes the menu" ]
+        ]
+
+      ,skeletonRow [] [
+        skeletonColumn TwelveColumns []
+          content
+        ]
       ]
-    ]
 
 
 
@@ -102,47 +129,3 @@ subscriptions model =
 -- HTTP
 
 
-getChapters : Model -> Cmd Msg
-getChapters model =
-  let
-    url =
-      model.backendConfig.backendURL ++ chapterListEndpoint
-  in
-    Http.send ChaptersLoad (Http.get url decodeChapters)
-
-chapterDecoder = 
-  Decode.field "field_description" Decode.string
-    |> Decode.map2 Chapter (Decode.field "title" Decode.string)
-
-decodeChapters : Decode.Decoder (List Chapter)
-decodeChapters =
-  Decode.list chapterDecoder
-
-getAuth : String -> Decode.Decoder a -> Request a
-getAuth url decoder =
-  let 
-    authHeader = BasicAuth.buildAuthorizationHeader "admin" "admin"
-  in 
-    Http.request 
-      { method = "GET"
-      , headers = [ authHeader ]
-      , url = url
-      , body = Http.emptyBody
-      , expect = Http.expectJson decoder
-      , timeout = Nothing
-      , withCredentials = False
-      }
-
-getSiteInformation : Model -> Cmd Msg
-getSiteInformation model = 
-  let 
-    url = 
-      model.backendConfig.backendURL ++ siteInformationEndpoint
-
-  in 
-    Http.send UpdateSiteInfo (getAuth url decodeSiteInformation)
-
-decodeSiteInformation : Decode.Decoder SiteInformation
-decodeSiteInformation = 
-  Decode.field "description" Decode.string
-    |> Decode.map2 SiteInformation (Decode.field "title" Decode.string)
