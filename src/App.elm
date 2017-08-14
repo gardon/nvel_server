@@ -7,12 +7,12 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http exposing (Header, Request)
 import Json.Decode as Decode
-import Routing exposing (parseLocation)
+import Routing exposing (parseLocation, routeContent)
 import Navigation exposing (Location, newUrl)
 import List exposing (head)
 
-
 import Models exposing (..)
+import View exposing (..)
 import Config exposing (..)
 import Skeleton exposing (..)
 import Chapters exposing (..)
@@ -59,6 +59,12 @@ update msg model =
     ChaptersLoad (Err _) ->
       (model, Cmd.none)
 
+    ChapterContentLoad (Ok chapter) ->
+      ({ model | chapters = Chapters.Chapter.replaceChapter model.chapters chapter } , Cmd.none)
+
+    ChapterContentLoad (Err _) ->
+      (model, Cmd.none)
+
     UpdateSiteInfo (Ok siteInformation) ->
       ({ model | siteInformation = siteInformation } , Cmd.none)
 
@@ -87,22 +93,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
   let 
-    content = case model.route of 
-      ChaptersRoute ->
-        viewChapterList model.chapters
-
-      ChapterRoute id ->
-        let chapter = 
-          case model.chapters of 
-            Nothing -> 
-              Nothing
-            Just chapters ->
-              head chapters
-        in
-          [ Chapters.Chapter.view chapter ]
-
-      NotFoundRoute ->
-        [ text "Not Found" ]
+    content = routeContent model
   in 
     div [] [
       skeletonRow [ style [ ("margin-top", "15%") ] ] [

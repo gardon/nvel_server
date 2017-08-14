@@ -14,6 +14,12 @@ type alias Model =
 type alias Chapter =
   { title : String
   , field_description: String
+  , nid : String
+  , content: Maybe (List ChapterContent)
+  }
+
+type alias ChapterContent = 
+  { content: String
   }
 
 type alias BackendConfig =
@@ -37,5 +43,7 @@ type Route
     | ChapterRoute ChapterId
     | NotFoundRoute
 
+chapterListEndpoint = "chapters"
+chapterContentEndpoint = "node"
 
 
