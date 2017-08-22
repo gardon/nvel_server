@@ -5,6 +5,7 @@ import Msgs exposing (..)
 import Http exposing (Header, Request)
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
+import Dict exposing (Dict)
 
 
 -- Http
@@ -42,6 +43,6 @@ chapterDecoder =
       |> required "nid" Decode.string
       |> hardcoded Nothing
 
-decodeChapters : Decode.Decoder (List Chapter)
+decodeChapters : Decode.Decoder (Dict String Chapter)
 decodeChapters =
-  Decode.list chapterDecoder
+  Decode.dict chapterDecoder

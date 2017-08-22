@@ -60,7 +60,7 @@ update msg model =
       (model, Cmd.none)
 
     ChapterContentLoad (Ok chapter) ->
-      ({ model | chapters = Chapters.Chapter.replaceChapter model.chapters chapter } , Cmd.none)
+      (Chapters.Chapter.replaceChapter model chapter, Cmd.none)
 
     ChapterContentLoad (Err _) ->
       (model, Cmd.none)

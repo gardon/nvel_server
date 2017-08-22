@@ -6,6 +6,7 @@ import Html.Events exposing (..)
 import Models exposing (..)
 import Msgs exposing (..)
 import Json.Decode as Decode
+import Dict exposing (Dict)
 
 
 onLinkClick : msg -> Attribute msg
@@ -19,14 +20,14 @@ onLinkClick message =
       onWithOptions "click" options (Decode.succeed message)
 
 
-viewChapterList : Maybe (List Chapter) -> List (Html Msg)
+viewChapterList : Maybe (Dict String Chapter) -> List (Html Msg)
 viewChapterList chapters = 
   case chapters of 
     Nothing -> 
         [ text "Loading chapters..."]
 
     Just chapters -> 
-        List.map viewChapterListItem chapters
+        List.map viewChapterListItem (Dict.values chapters)
 
 
 viewChapterListItem : Chapter -> Html Msg

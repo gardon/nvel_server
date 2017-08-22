@@ -10395,7 +10395,7 @@ var _user$project$Chapters$chapterDecoder = A2(
 				'title',
 				_elm_lang$core$Json_Decode$string,
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Chapter)))));
-var _user$project$Chapters$decodeChapters = _elm_lang$core$Json_Decode$list(_user$project$Chapters$chapterDecoder);
+var _user$project$Chapters$decodeChapters = _elm_lang$core$Json_Decode$dict(_user$project$Chapters$chapterDecoder);
 var _user$project$Chapters$chapterContentDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'content',
@@ -10542,22 +10542,30 @@ var _user$project$View$viewChapterList = function (chapters) {
 			_1: {ctor: '[]'}
 		};
 	} else {
-		return A2(_elm_lang$core$List$map, _user$project$View$viewChapterListItem, _p1._0);
+		return A2(
+			_elm_lang$core$List$map,
+			_user$project$View$viewChapterListItem,
+			_elm_lang$core$Dict$values(_p1._0));
 	}
 };
 
 var _user$project$Chapters_Chapter$replaceChapter = F2(
-	function (listchapters, newchapter) {
-		var _p0 = listchapters;
+	function (model, newchapter) {
+		var _p0 = model.chapters;
 		if (_p0.ctor === 'Nothing') {
-			return _elm_lang$core$Maybe$Nothing;
-		} else {
-			var replace = F2(
-				function (index, chapter) {
-					return _elm_lang$core$Native_Utils.eq(chapter.nid, newchapter.nid) ? newchapter : chapter;
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					chapters: _elm_lang$core$Maybe$Just(
+						A2(_elm_lang$core$Dict$singleton, newchapter.nid, newchapter))
 				});
-			return _elm_lang$core$Maybe$Just(
-				A2(_elm_lang$core$List$indexedMap, replace, _p0._0));
+		} else {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					chapters: _elm_lang$core$Maybe$Just(
+						A3(_elm_lang$core$Dict$insert, newchapter.nid, newchapter, _p0._0))
+				});
 		}
 	});
 var _user$project$Chapters_Chapter$view = function (model) {
@@ -10608,23 +10616,37 @@ var _user$project$Config$decodeSiteInformation = A3(
 	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
 var _user$project$Config$notFoundData = {title: 'Oops, there was a problem!'};
-var _user$project$Config$chapterData = function (chapter) {
-	return {
-		title: A2(
-			_elm_lang$core$Basics_ops['++'],
-			'Chapter ',
-			_elm_lang$core$Basics$toString(chapter))
-	};
-};
+var _user$project$Config$getChapterFromId = F2(
+	function (chapters, id) {
+		var _p0 = chapters;
+		if (_p0.ctor === 'Nothing') {
+			return _elm_lang$core$Maybe$Nothing;
+		} else {
+			return A2(_elm_lang$core$Dict$get, id, _p0._0);
+		}
+	});
+var _user$project$Config$chapterData = F2(
+	function (model, id) {
+		var chapter = A2(_user$project$Config$getChapterFromId, model.chapters, id);
+		var title = function () {
+			var _p1 = chapter;
+			if (_p1.ctor === 'Nothing') {
+				return 'Not Found';
+			} else {
+				return _p1._0.title;
+			}
+		}();
+		return {title: title};
+	});
 var _user$project$Config$chaptersListData = {title: 'Chapters'};
 var _user$project$Config$pageData = function (model) {
 	var data = function () {
-		var _p0 = model.route;
-		switch (_p0.ctor) {
+		var _p2 = model.route;
+		switch (_p2.ctor) {
 			case 'ChaptersRoute':
 				return _user$project$Config$chaptersListData;
 			case 'ChapterRoute':
-				return _user$project$Config$chapterData(_p0._0);
+				return A2(_user$project$Config$chapterData, model, _p2._0);
 			default:
 				return _user$project$Config$notFoundData;
 		}
@@ -10649,7 +10671,7 @@ var _user$project$Config$getSiteInformation = function (model) {
 };
 var _user$project$Config$localBackend = {backendURL: 'http://server.nvel.docksal/'};
 var _user$project$Config$switchBackend = function (env) {
-	var _p1 = env;
+	var _p3 = env;
 	return _user$project$Config$localBackend;
 };
 
@@ -10664,7 +10686,7 @@ var _user$project$Routing$routeContent = function (model) {
 				if (_p1.ctor === 'Nothing') {
 					return _elm_lang$core$Maybe$Nothing;
 				} else {
-					return _elm_lang$core$List$head(_p1._0);
+					return A2(_elm_lang$core$Dict$get, _p0._0, _p1._0);
 				}
 			}();
 			return {
@@ -10692,7 +10714,7 @@ var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 				A2(
 					_evancz$url_parser$UrlParser_ops['</>'],
 					_evancz$url_parser$UrlParser$s('chapters'),
-					_evancz$url_parser$UrlParser$int)),
+					_evancz$url_parser$UrlParser$string)),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -11027,11 +11049,7 @@ var _user$project$Main$update = F2(
 				if (_p0._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								chapters: A2(_user$project$Chapters_Chapter$replaceChapter, model.chapters, _p0._0._0)
-							}),
+						_0: A2(_user$project$Chapters_Chapter$replaceChapter, model, _p0._0._0),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {

@@ -5,6 +5,7 @@ import Json.Decode as Decode
 import Models exposing (..)
 import Msgs exposing (..)
 import Resources exposing (..)
+import Dict exposing (Dict)
 
 localBackend : BackendConfig
 localBackend = {
@@ -30,10 +31,29 @@ chaptersListData =
     { title = "Chapters"
     }
 
-chapterData : Int -> PageData
-chapterData chapter = 
-    { title = "Chapter " ++ toString chapter
-    }
+getChapterFromId : Maybe (Dict String Chapter) -> String -> Maybe Chapter
+getChapterFromId chapters id =
+    case chapters of 
+        Nothing ->
+            Nothing
+        Just chapters ->
+            Dict.get id chapters
+
+chapterData : Model -> String -> PageData
+chapterData model id = 
+    let 
+        chapter = getChapterFromId model.chapters id
+        title =
+            case chapter of 
+                Nothing ->
+                    "Not Found"
+                Just chapter ->
+                    chapter.title
+
+    in 
+
+        { title = title
+        }
 
 notFoundData : PageData
 notFoundData =
@@ -45,7 +65,7 @@ pageData model =
     let data = 
         case model.route of
             ChaptersRoute -> chaptersListData
-            ChapterRoute id -> chapterData id
+            ChapterRoute id -> chapterData model id
             NotFoundRoute -> notFoundData
 
     in 

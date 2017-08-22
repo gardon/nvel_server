@@ -1,8 +1,9 @@
 module Chapters.Chapter exposing (..)
 
 import Html exposing (..)
-import Models exposing (Chapter, ChapterContent)
+import Models exposing (Model, Chapter, ChapterContent)
 import View exposing (loading, viewChapter)
+import Dict exposing (Dict)
 
 
 view :  Maybe Chapter -> Html msg
@@ -16,18 +17,11 @@ view model =
         Just chapter ->
             viewChapter chapter
 
-replaceChapter : Maybe (List Chapter) -> Chapter -> Maybe (List Chapter)
-replaceChapter listchapters newchapter =
-    case listchapters of 
+replaceChapter : Model -> Chapter -> Model
+replaceChapter model newchapter =
+    case model.chapters of 
         Nothing ->
-            Nothing
+            { model | chapters = Just (Dict.singleton newchapter.nid newchapter) }
 
         Just chapters ->
-            let 
-                replace index chapter =
-                    if (chapter.nid == newchapter.nid) then
-                        newchapter
-                    else
-                        chapter
-            in 
-                Just (List.indexedMap replace chapters)
+            { model | chapters = Just (Dict.insert newchapter.nid newchapter chapters) } 

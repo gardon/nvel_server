@@ -7,12 +7,13 @@ import UrlParser exposing (..)
 import Html exposing (text, Html)
 import View exposing (viewChapterList)
 import Chapters.Chapter exposing (view)
+import Dict exposing (Dict)
 
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map ChaptersRoute top
-        , map ChapterRoute (s "chapters" </> int)
+        , map ChapterRoute (s "chapters" </> string)
         , map ChaptersRoute (s "chapters")
         ]
 
@@ -37,7 +38,7 @@ routeContent model = case model.route of
             Nothing -> 
               Nothing
             Just chapters ->
-              List.head chapters
+              Dict.get id chapters
         in
           [ Chapters.Chapter.view chapter ]
 

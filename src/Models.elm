@@ -1,9 +1,10 @@
 module Models exposing (..)
 
 import Menu exposing (..)
+import Dict exposing (Dict)
 
 type alias Model =
-  { chapters : Maybe (List Chapter)
+  { chapters : Maybe (Dict String Chapter)
   , siteInformation : SiteInformation
   , pageData : PageData
   , backendConfig : BackendConfig
@@ -36,7 +37,7 @@ type alias PageData =
 
 type Environment = Local
 
-type alias ChapterId = Int
+type alias ChapterId = String
 
 type Route
     = ChaptersRoute
