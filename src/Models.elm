@@ -44,7 +44,7 @@ type Route
     | ChapterRoute ChapterId
     | NotFoundRoute
 
-chapterListEndpoint = "chapters"
-chapterContentEndpoint = "node"
+chapterListEndpoint = "chapters?_format=json"
+chapterContentEndpoint = "node?_format=json"
 
 

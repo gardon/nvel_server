@@ -6,6 +6,7 @@ import Html.Events exposing (..)
 import Models exposing (..)
 import Msgs exposing (..)
 import Json.Decode as Decode
+import Json.Encode as Encode
 import Dict exposing (Dict)
 
 
@@ -38,7 +39,7 @@ viewChapterListItem chapter =
       div []
         [
           h2 [] [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ] [ text chapter.title ] ]
-        , div [] [ text chapter.field_description ]
+        , div [ property "innerHTML" (Encode.string chapter.field_description) ] []
         ]
 
 viewChapter : Chapter -> Html msg
@@ -58,9 +59,10 @@ viewChapterContent model =
             div [] 
                 (List.map viewChapterContentItem list)
 
+-- For now this is expecting content to be html, in the future it should be more structured and create dom for each component within Elm.
 viewChapterContentItem : ChapterContent -> Html msg
 viewChapterContentItem model =
-    div [] [ text model.content ]       
+    div [ property "innerHTML" (Encode.string model.content) ] []       
 
 loading : String -> Html msg
 loading message = 

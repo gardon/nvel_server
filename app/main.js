@@ -10330,8 +10330,8 @@ var _user$project$Menu$MenuItem = F2(
 		return {title: a, path: b};
 	});
 
-var _user$project$Models$chapterContentEndpoint = 'node';
-var _user$project$Models$chapterListEndpoint = 'chapters';
+var _user$project$Models$chapterContentEndpoint = 'node?_format=json';
+var _user$project$Models$chapterListEndpoint = 'chapters?_format=json';
 var _user$project$Models$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f};
@@ -10441,12 +10441,15 @@ var _user$project$View$loading = function (message) {
 var _user$project$View$viewChapterContentItem = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(model.content),
+			_0: A2(
+				_elm_lang$html$Html_Attributes$property,
+				'innerHTML',
+				_elm_lang$core$Json_Encode$string(model.content)),
 			_1: {ctor: '[]'}
-		});
+		},
+		{ctor: '[]'});
 };
 var _user$project$View$viewChapterContent = function (model) {
 	var _p0 = model;
@@ -10523,12 +10526,15 @@ var _user$project$View$viewChapterListItem = function (chapter) {
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$div,
-					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(chapter.field_description),
+						_0: A2(
+							_elm_lang$html$Html_Attributes$property,
+							'innerHTML',
+							_elm_lang$core$Json_Encode$string(chapter.field_description)),
 						_1: {ctor: '[]'}
-					}),
+					},
+					{ctor: '[]'}),
 				_1: {ctor: '[]'}
 			}
 		});
