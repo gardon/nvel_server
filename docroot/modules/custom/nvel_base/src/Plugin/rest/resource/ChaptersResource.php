@@ -6,6 +6,7 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\node\Entity\Node;
+use Drupal\Component\Render\PlainTextOutput;
 //use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 //use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -43,18 +44,18 @@ class ChaptersResource extends ResourceBase {
     foreach ($entity_ids as $id) {
       $node = Node::load($id);
       $title = $node->get('title')->view();
-      $description = $node->get('field_description')->view();
+      $description = $node->get('field_description')->view(array('label' => 'hidden'));
       $chapter = array(
         'nid' => $id,
-        'title' => $renderer->renderRoot($title),
-        'field_description' => $renderer->renderRoot($description),
+        'title' => PlainTextOutput::renderFromHtml($renderer->renderRoot($title)),
+        'field_description' => nl2br(trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($description)))),
       );
       $chapters[$id] = $chapter;
     }
 
     $build = new ResourceResponse($chapters);
     foreach ($nodes as $node) {
-      $build->addCacheableDependency($node);
+      $build->addCacheableDependency($build, $node);
     }
 
     return $build;
