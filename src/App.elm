@@ -97,17 +97,10 @@ view model =
   let 
     content = routeContent model
   in 
-    div [] [
-      skeletonRow [ style [ ("margin-top", "15%") ] ] [
-        skeletonColumn TwelveColumns []
-          [ text "Here goes the menu" ]
-        ]
-
-      ,skeletonRow [] [
-        skeletonColumn TwelveColumns []
-          content
-        ]
-      ]
+    div [] 
+    ([ skeletonRowOneCol [ style [ ("margin-top", "15%") ] ] 
+        [ text "Here goes the menu" ]
+    ] ++ content)
 
 
 

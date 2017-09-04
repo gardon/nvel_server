@@ -9,6 +9,7 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import Dict exposing (Dict)
 import Image exposing (Image)
+import Skeleton exposing (..)
 
 
 onLinkClick : msg -> Attribute msg
@@ -43,17 +44,15 @@ viewChapterListItem chapter =
         , div [ property "innerHTML" (Encode.string chapter.field_description) ] []
         ]
 
-viewChapter : Chapter -> Html msg
+viewChapter : Chapter -> Html Msg
 viewChapter chapter = 
     div []
-        [ h1 [] [ text chapter.title ]
-        , viewChapterContent chapter.content
-        ]
+        ( [ skeletonRowOneCol [] [ h1 [] [ text chapter.title ] ]
+        ] ++ viewChapterContent chapter.content )
 
-viewChapterContent : List Section -> Html msg
+viewChapterContent : List Section -> List (Html msg)
 viewChapterContent model =
-    div [] 
-        (List.map viewSection model)
+   (List.map viewSection model)
 
 -- For now this is expecting content to be html, in the future it should be more structured and create dom for each component within Elm.
 viewSection : Section -> Html msg
@@ -63,11 +62,17 @@ viewSection model =
         div [] []  
 
       FullWidthSingleImage ->
-        div [] [ viewImage model.image ]
+        skeletonRowFullWidth [] [ viewImage [ class "u-full-width" ] model.image ]
 
-viewImage : Image -> Html msg
-viewImage image =
-  img [ src image.uri, width (Result.withDefault 0 (String.toInt image.width)), height (Result.withDefault 0 (String.toInt image.height)), alt image.alt, title image.title ] []
+viewImage : List (Attribute msg) -> Image -> Html msg
+viewImage attributes image =
+  img (attributes ++ 
+    [ src image.uri
+    , width (Result.withDefault 0 (String.toInt image.width))
+    , height (Result.withDefault 0 (String.toInt image.height))
+    , alt image.alt
+    , title image.title 
+    ]) []
 
 loading : String -> Html msg
 loading message = 

@@ -4,9 +4,10 @@ import Html exposing (..)
 import Models exposing (Model, Chapter)
 import View exposing (loading, viewChapter)
 import Dict exposing (Dict)
+import Msgs exposing (Msg)
 
 
-view :  Maybe Chapter -> Html msg
+view :  Maybe Chapter -> Html Msg
 view model =
     case model of
         Nothing ->

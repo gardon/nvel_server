@@ -3,6 +3,7 @@ module Skeleton exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Msgs exposing (Msg)
 
 type GridSize 
     = OneColumn
@@ -47,8 +48,19 @@ skeletonGridSize size =
 
 skeletonRow :  List (Attribute msg) -> List (Html msg) -> Html msg
 skeletonRow attributes content =
- div ([ class "row"] ++ attributes) content
+    div ([ class "row container" ] ++ attributes) content
+
+skeletonRowFullWidth :  List (Attribute msg) -> List (Html msg) -> Html msg
+skeletonRowFullWidth attributes content =
+    skeletonRow ( [ class "u-full-width u-max-full-width" ] ++ attributes ) content
 
 skeletonColumn : GridSize ->  List (Attribute msg) -> List (Html msg) -> Html msg
 skeletonColumn size attributes content =
-  div (skeletonGridSize size ++ attributes) content
+    div (skeletonGridSize size ++ attributes) content
+
+skeletonRowOneCol : List (Attribute Msg) -> List (Html Msg) -> Html Msg
+skeletonRowOneCol attributes content = 
+  skeletonRow attributes
+    [ skeletonColumn TwelveColumns []
+        content
+    ]

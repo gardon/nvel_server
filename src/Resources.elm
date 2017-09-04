@@ -26,8 +26,8 @@ imageDecoder : Decode.Decoder Image
 imageDecoder =
   decode Image
       |> required "uri" Decode.string
-      |> optional "height" Decode.string ""
       |> optional "width" Decode.string ""
+      |> optional "height" Decode.string ""
       |> optional "alt" Decode.string ""
       |> optional "title" Decode.string ""
 

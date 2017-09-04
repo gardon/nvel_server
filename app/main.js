@@ -10399,12 +10399,12 @@ var _user$project$Resources$imageDecoder = A4(
 		'',
 		A4(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
-			'width',
+			'height',
 			_elm_lang$core$Json_Decode$string,
 			'',
 			A4(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
-				'height',
+				'width',
 				_elm_lang$core$Json_Decode$string,
 				'',
 				A3(
@@ -10496,6 +10496,242 @@ var _user$project$Chapters$getChapters = function (model) {
 		A2(_elm_lang$http$Http$get, url, _user$project$Chapters$decodeChapters));
 };
 
+var _user$project$Skeleton$skeletonRow = F2(
+	function (attributes, content) {
+		return A2(
+			_elm_lang$html$Html$div,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('row container'),
+					_1: {ctor: '[]'}
+				},
+				attributes),
+			content);
+	});
+var _user$project$Skeleton$skeletonRowFullWidth = F2(
+	function (attributes, content) {
+		return A2(
+			_user$project$Skeleton$skeletonRow,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('u-full-width u-max-full-width'),
+					_1: {ctor: '[]'}
+				},
+				attributes),
+			content);
+	});
+var _user$project$Skeleton$skeletonGridSize = function (size) {
+	var $class = A2(
+		_elm_lang$core$List$map,
+		function (a) {
+			return {ctor: '_Tuple2', _0: a, _1: true};
+		},
+		function () {
+			var _p0 = size;
+			switch (_p0.ctor) {
+				case 'OneColumn':
+					return {
+						ctor: '::',
+						_0: 'one',
+						_1: {
+							ctor: '::',
+							_0: 'column',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'TwoColumns':
+					return {
+						ctor: '::',
+						_0: 'two',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'ThreeColumns':
+					return {
+						ctor: '::',
+						_0: 'three',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'FourColumns':
+					return {
+						ctor: '::',
+						_0: 'four',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'FiveColumns':
+					return {
+						ctor: '::',
+						_0: 'five',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'SixColumns':
+					return {
+						ctor: '::',
+						_0: 'six',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'SevenColumns':
+					return {
+						ctor: '::',
+						_0: 'seven',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'EightColumns':
+					return {
+						ctor: '::',
+						_0: 'eight',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'NineColumns':
+					return {
+						ctor: '::',
+						_0: 'nine',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'TenColumns':
+					return {
+						ctor: '::',
+						_0: 'ten',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'ElevenColumns':
+					return {
+						ctor: '::',
+						_0: 'eleven',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'TwelveColumns':
+					return {
+						ctor: '::',
+						_0: 'twelve',
+						_1: {
+							ctor: '::',
+							_0: 'columns',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'OneThird':
+					return {
+						ctor: '::',
+						_0: 'one-third',
+						_1: {
+							ctor: '::',
+							_0: 'column',
+							_1: {ctor: '[]'}
+						}
+					};
+				case 'TwoThirds':
+					return {
+						ctor: '::',
+						_0: 'two-thirds',
+						_1: {
+							ctor: '::',
+							_0: 'column',
+							_1: {ctor: '[]'}
+						}
+					};
+				default:
+					return {
+						ctor: '::',
+						_0: 'one-half',
+						_1: {
+							ctor: '::',
+							_0: 'column',
+							_1: {ctor: '[]'}
+						}
+					};
+			}
+		}());
+	return {
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$classList($class),
+		_1: {ctor: '[]'}
+	};
+};
+var _user$project$Skeleton$skeletonColumn = F3(
+	function (size, attributes, content) {
+		return A2(
+			_elm_lang$html$Html$div,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Skeleton$skeletonGridSize(size),
+				attributes),
+			content);
+	});
+var _user$project$Skeleton$OneHalf = {ctor: 'OneHalf'};
+var _user$project$Skeleton$TwoThirds = {ctor: 'TwoThirds'};
+var _user$project$Skeleton$OneThird = {ctor: 'OneThird'};
+var _user$project$Skeleton$TwelveColumns = {ctor: 'TwelveColumns'};
+var _user$project$Skeleton$skeletonRowOneCol = F2(
+	function (attributes, content) {
+		return A2(
+			_user$project$Skeleton$skeletonRow,
+			attributes,
+			{
+				ctor: '::',
+				_0: A3(
+					_user$project$Skeleton$skeletonColumn,
+					_user$project$Skeleton$TwelveColumns,
+					{ctor: '[]'},
+					content),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Skeleton$ElevenColumns = {ctor: 'ElevenColumns'};
+var _user$project$Skeleton$TenColumns = {ctor: 'TenColumns'};
+var _user$project$Skeleton$NineColumns = {ctor: 'NineColumns'};
+var _user$project$Skeleton$EightColumns = {ctor: 'EightColumns'};
+var _user$project$Skeleton$SevenColumns = {ctor: 'SevenColumns'};
+var _user$project$Skeleton$SixColumns = {ctor: 'SixColumns'};
+var _user$project$Skeleton$FiveColumns = {ctor: 'FiveColumns'};
+var _user$project$Skeleton$FourColumns = {ctor: 'FourColumns'};
+var _user$project$Skeleton$ThreeColumns = {ctor: 'ThreeColumns'};
+var _user$project$Skeleton$TwoColumns = {ctor: 'TwoColumns'};
+var _user$project$Skeleton$OneColumn = {ctor: 'OneColumn'};
+
 var _user$project$View$loading = function (message) {
 	return A2(
 		_elm_lang$html$Html$span,
@@ -10510,40 +10746,44 @@ var _user$project$View$loading = function (message) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View$viewImage = function (image) {
-	return A2(
-		_elm_lang$html$Html$img,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$src(image.uri),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$width(
-					A2(
-						_elm_lang$core$Result$withDefault,
-						0,
-						_elm_lang$core$String$toInt(image.width))),
-				_1: {
+var _user$project$View$viewImage = F2(
+	function (attributes, image) {
+		return A2(
+			_elm_lang$html$Html$img,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				attributes,
+				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$height(
-						A2(
-							_elm_lang$core$Result$withDefault,
-							0,
-							_elm_lang$core$String$toInt(image.height))),
+					_0: _elm_lang$html$Html_Attributes$src(image.uri),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$alt(image.alt),
+						_0: _elm_lang$html$Html_Attributes$width(
+							A2(
+								_elm_lang$core$Result$withDefault,
+								0,
+								_elm_lang$core$String$toInt(image.width))),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$title(image.title),
-							_1: {ctor: '[]'}
+							_0: _elm_lang$html$Html_Attributes$height(
+								A2(
+									_elm_lang$core$Result$withDefault,
+									0,
+									_elm_lang$core$String$toInt(image.height))),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$alt(image.alt),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$title(image.title),
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
-				}
-			}
-		},
-		{ctor: '[]'});
-};
+				}),
+			{ctor: '[]'});
+	});
 var _user$project$View$viewSection = function (model) {
 	var _p0 = model.sectionType;
 	if (_p0.ctor === 'SingleImage') {
@@ -10553,41 +10793,51 @@ var _user$project$View$viewSection = function (model) {
 			{ctor: '[]'});
 	} else {
 		return A2(
-			_elm_lang$html$Html$div,
+			_user$project$Skeleton$skeletonRowFullWidth,
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: _user$project$View$viewImage(model.image),
+				_0: A2(
+					_user$project$View$viewImage,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
+						_1: {ctor: '[]'}
+					},
+					model.image),
 				_1: {ctor: '[]'}
 			});
 	}
 };
 var _user$project$View$viewChapterContent = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(_elm_lang$core$List$map, _user$project$View$viewSection, model));
+	return A2(_elm_lang$core$List$map, _user$project$View$viewSection, model);
 };
 var _user$project$View$viewChapter = function (chapter) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h1,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(chapter.title),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
 				ctor: '::',
-				_0: _user$project$View$viewChapterContent(chapter.content),
+				_0: A2(
+					_user$project$Skeleton$skeletonRowOneCol,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h1,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(chapter.title),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
 				_1: {ctor: '[]'}
-			}
-		});
+			},
+			_user$project$View$viewChapterContent(chapter.content)));
 };
 var _user$project$View$onLinkClick = function (message) {
 	var options = {stopPropagation: false, preventDefault: true};
@@ -10827,213 +11077,6 @@ var _user$project$Routing$parseLocation = function (location) {
 	}
 };
 
-var _user$project$Skeleton$skeletonRow = F2(
-	function (attributes, content) {
-		return A2(
-			_elm_lang$html$Html$div,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('row'),
-					_1: {ctor: '[]'}
-				},
-				attributes),
-			content);
-	});
-var _user$project$Skeleton$skeletonGridSize = function (size) {
-	var $class = A2(
-		_elm_lang$core$List$map,
-		function (a) {
-			return {ctor: '_Tuple2', _0: a, _1: true};
-		},
-		function () {
-			var _p0 = size;
-			switch (_p0.ctor) {
-				case 'OneColumn':
-					return {
-						ctor: '::',
-						_0: 'one',
-						_1: {
-							ctor: '::',
-							_0: 'column',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'TwoColumns':
-					return {
-						ctor: '::',
-						_0: 'two',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'ThreeColumns':
-					return {
-						ctor: '::',
-						_0: 'three',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'FourColumns':
-					return {
-						ctor: '::',
-						_0: 'four',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'FiveColumns':
-					return {
-						ctor: '::',
-						_0: 'five',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'SixColumns':
-					return {
-						ctor: '::',
-						_0: 'six',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'SevenColumns':
-					return {
-						ctor: '::',
-						_0: 'seven',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'EightColumns':
-					return {
-						ctor: '::',
-						_0: 'eight',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'NineColumns':
-					return {
-						ctor: '::',
-						_0: 'nine',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'TenColumns':
-					return {
-						ctor: '::',
-						_0: 'ten',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'ElevenColumns':
-					return {
-						ctor: '::',
-						_0: 'eleven',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'TwelveColumns':
-					return {
-						ctor: '::',
-						_0: 'twelve',
-						_1: {
-							ctor: '::',
-							_0: 'columns',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'OneThird':
-					return {
-						ctor: '::',
-						_0: 'one-third',
-						_1: {
-							ctor: '::',
-							_0: 'column',
-							_1: {ctor: '[]'}
-						}
-					};
-				case 'TwoThirds':
-					return {
-						ctor: '::',
-						_0: 'two-thirds',
-						_1: {
-							ctor: '::',
-							_0: 'column',
-							_1: {ctor: '[]'}
-						}
-					};
-				default:
-					return {
-						ctor: '::',
-						_0: 'one-half',
-						_1: {
-							ctor: '::',
-							_0: 'column',
-							_1: {ctor: '[]'}
-						}
-					};
-			}
-		}());
-	return {
-		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$classList($class),
-		_1: {ctor: '[]'}
-	};
-};
-var _user$project$Skeleton$skeletonColumn = F3(
-	function (size, attributes, content) {
-		return A2(
-			_elm_lang$html$Html$div,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Skeleton$skeletonGridSize(size),
-				attributes),
-			content);
-	});
-var _user$project$Skeleton$OneHalf = {ctor: 'OneHalf'};
-var _user$project$Skeleton$TwoThirds = {ctor: 'TwoThirds'};
-var _user$project$Skeleton$OneThird = {ctor: 'OneThird'};
-var _user$project$Skeleton$TwelveColumns = {ctor: 'TwelveColumns'};
-var _user$project$Skeleton$ElevenColumns = {ctor: 'ElevenColumns'};
-var _user$project$Skeleton$TenColumns = {ctor: 'TenColumns'};
-var _user$project$Skeleton$NineColumns = {ctor: 'NineColumns'};
-var _user$project$Skeleton$EightColumns = {ctor: 'EightColumns'};
-var _user$project$Skeleton$SevenColumns = {ctor: 'SevenColumns'};
-var _user$project$Skeleton$SixColumns = {ctor: 'SixColumns'};
-var _user$project$Skeleton$FiveColumns = {ctor: 'FiveColumns'};
-var _user$project$Skeleton$FourColumns = {ctor: 'FourColumns'};
-var _user$project$Skeleton$ThreeColumns = {ctor: 'ThreeColumns'};
-var _user$project$Skeleton$TwoColumns = {ctor: 'TwoColumns'};
-var _user$project$Skeleton$OneColumn = {ctor: 'OneColumn'};
-
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
@@ -11042,50 +11085,30 @@ var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_user$project$Skeleton$skeletonRow,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$style(
-						{
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '15%'},
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A3(
-						_user$project$Skeleton$skeletonColumn,
-						_user$project$Skeleton$TwelveColumns,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Here goes the menu'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
 				ctor: '::',
 				_0: A2(
-					_user$project$Skeleton$skeletonRow,
-					{ctor: '[]'},
+					_user$project$Skeleton$skeletonRowOneCol,
 					{
 						ctor: '::',
-						_0: A3(
-							_user$project$Skeleton$skeletonColumn,
-							_user$project$Skeleton$TwelveColumns,
-							{ctor: '[]'},
-							content),
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '15%'},
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Here goes the menu'),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
-			}
-		});
+			},
+			content));
 };
 var _user$project$Main$updatePageData = _elm_lang$core$Native_Platform.outgoingPort(
 	'updatePageData',
