@@ -2,6 +2,7 @@ module Models exposing (..)
 
 import Menu exposing (..)
 import Dict exposing (Dict)
+import Image exposing (Image)
 
 type alias Model =
   { chapters : Maybe (Dict String Chapter)
@@ -16,12 +17,16 @@ type alias Chapter =
   { title : String
   , field_description: String
   , nid : String
-  , content: Maybe (List ChapterContent)
+  , content: List Section
   }
 
-type alias ChapterContent = 
-  { content: String
-  }
+type SectionType
+  = SingleImage
+  | FullWidthSingleImage
+
+type alias Section =
+    { sectionType : SectionType
+    , image : Image }
 
 type alias BackendConfig =
     { backendURL : String }
@@ -45,6 +50,6 @@ type Route
     | NotFoundRoute
 
 chapterListEndpoint = "chapters?_format=json"
-chapterContentEndpoint = "node?_format=json"
+chapterContentEndpoint = "chapters"
 
 

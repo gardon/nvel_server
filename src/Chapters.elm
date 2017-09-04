@@ -6,6 +6,7 @@ import Http exposing (Header, Request)
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
 import Dict exposing (Dict)
+import Resources exposing (..)
 
 
 -- Http
@@ -21,19 +22,14 @@ getChapters model =
 getChapterContent : Model -> Chapter -> Cmd Msg
 getChapterContent model chapter = 
   let 
-    url = model.backendConfig.backendURL ++ chapterContentEndpoint ++ "/" ++ chapter.nid
+    url = model.backendConfig.backendURL ++ chapterContentEndpoint ++ "/" ++ chapter.nid ++ "?_format=json"
   in
     Http.send ChapterContentLoad (Http.get url chapterDecoder)
 
 
-chapterContentDecoder : Decode.Decoder ChapterContent
-chapterContentDecoder =
-  decode ChapterContent
-      |> required "content" Decode.string
-
-decodeChapterContent : Decode.Decoder (List ChapterContent)
+decodeChapterContent : Decode.Decoder (List Section)
 decodeChapterContent =
-  Decode.list chapterContentDecoder
+  Decode.list sectionDecoder
 
 chapterDecoder : Decode.Decoder Chapter
 chapterDecoder = 
@@ -41,7 +37,7 @@ chapterDecoder =
       |> required "title" Decode.string
       |> required "field_description" Decode.string
       |> required "nid" Decode.string
-      |> hardcoded Nothing
+      |> required "content" decodeChapterContent
 
 decodeChapters : Decode.Decoder (Dict String Chapter)
 decodeChapters =

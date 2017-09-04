@@ -1,7 +1,7 @@
 module Chapters.Chapter exposing (..)
 
 import Html exposing (..)
-import Models exposing (Model, Chapter, ChapterContent)
+import Models exposing (Model, Chapter)
 import View exposing (loading, viewChapter)
 import Dict exposing (Dict)
 

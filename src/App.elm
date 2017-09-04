@@ -54,10 +54,12 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     ChaptersLoad (Ok chapters) ->
-      ({ model | chapters = Just chapters } , Cmd.none)
+      let newmodel = { model | chapters = Just chapters }
+      in 
+        ( newmodel , updatePageData (Config.pageData newmodel))
 
-    ChaptersLoad (Err _) ->
-      (model, Cmd.none)
+    ChaptersLoad (Err error) ->
+      ( model, Cmd.none)
 
     ChapterContentLoad (Ok chapter) ->
       (Chapters.Chapter.replaceChapter model chapter, Cmd.none)

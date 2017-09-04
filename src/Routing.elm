@@ -39,6 +39,7 @@ routeContent model = case model.route of
               Nothing
             Just chapters ->
               Dict.get id chapters
+          
         in
           [ Chapters.Chapter.view chapter ]
 

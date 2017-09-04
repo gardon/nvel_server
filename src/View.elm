@@ -8,6 +8,7 @@ import Msgs exposing (..)
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Dict exposing (Dict)
+import Image exposing (Image)
 
 
 onLinkClick : msg -> Attribute msg
@@ -49,20 +50,24 @@ viewChapter chapter =
         , viewChapterContent chapter.content
         ]
 
-viewChapterContent : Maybe (List ChapterContent) -> Html msg
+viewChapterContent : List Section -> Html msg
 viewChapterContent model =
-    case model of 
-        Nothing ->
-            loading "Loading chapter content..."
-
-        Just list ->
-            div [] 
-                (List.map viewChapterContentItem list)
+    div [] 
+        (List.map viewSection model)
 
 -- For now this is expecting content to be html, in the future it should be more structured and create dom for each component within Elm.
-viewChapterContentItem : ChapterContent -> Html msg
-viewChapterContentItem model =
-    div [ property "innerHTML" (Encode.string model.content) ] []       
+viewSection : Section -> Html msg
+viewSection model =
+    case model.sectionType of 
+      SingleImage ->
+        div [] []  
+
+      FullWidthSingleImage ->
+        div [] [ viewImage model.image ]
+
+viewImage : Image -> Html msg
+viewImage image =
+  img [ src image.uri, width (Result.withDefault 0 (String.toInt image.width)), height (Result.withDefault 0 (String.toInt image.height)), alt image.alt, title image.title ] []
 
 loading : String -> Html msg
 loading message = 

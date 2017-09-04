@@ -10330,7 +10330,12 @@ var _user$project$Menu$MenuItem = F2(
 		return {title: a, path: b};
 	});
 
-var _user$project$Models$chapterContentEndpoint = 'node?_format=json';
+var _user$project$Image$Image = F5(
+	function (a, b, c, d, e) {
+		return {uri: a, width: b, height: c, alt: d, title: e};
+	});
+
+var _user$project$Models$chapterContentEndpoint = 'chapters';
 var _user$project$Models$chapterListEndpoint = 'chapters?_format=json';
 var _user$project$Models$Model = F6(
 	function (a, b, c, d, e, f) {
@@ -10340,9 +10345,10 @@ var _user$project$Models$Chapter = F4(
 	function (a, b, c, d) {
 		return {title: a, field_description: b, nid: c, content: d};
 	});
-var _user$project$Models$ChapterContent = function (a) {
-	return {content: a};
-};
+var _user$project$Models$Section = F2(
+	function (a, b) {
+		return {sectionType: a, image: b};
+	});
 var _user$project$Models$BackendConfig = function (a) {
 	return {backendURL: a};
 };
@@ -10353,6 +10359,8 @@ var _user$project$Models$SiteInformation = F2(
 var _user$project$Models$PageData = function (a) {
 	return {title: a};
 };
+var _user$project$Models$FullWidthSingleImage = {ctor: 'FullWidthSingleImage'};
+var _user$project$Models$SingleImage = {ctor: 'SingleImage'};
 var _user$project$Models$Local = {ctor: 'Local'};
 var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
 var _user$project$Models$ChapterRoute = function (a) {
@@ -10379,9 +10387,76 @@ var _user$project$Msgs$ChaptersLoad = function (a) {
 	return {ctor: 'ChaptersLoad', _0: a};
 };
 
-var _user$project$Chapters$chapterDecoder = A2(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
-	_elm_lang$core$Maybe$Nothing,
+var _user$project$Resources$imageDecoder = A4(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+	'title',
+	_elm_lang$core$Json_Decode$string,
+	'',
+	A4(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+		'alt',
+		_elm_lang$core$Json_Decode$string,
+		'',
+		A4(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+			'width',
+			_elm_lang$core$Json_Decode$string,
+			'',
+			A4(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+				'height',
+				_elm_lang$core$Json_Decode$string,
+				'',
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+					'uri',
+					_elm_lang$core$Json_Decode$string,
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Image$Image))))));
+var _user$project$Resources$decodeFullWidthSingleImageSection = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'image',
+	_user$project$Resources$imageDecoder,
+	A2(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+		_user$project$Models$FullWidthSingleImage,
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
+var _user$project$Resources$decodeSection = function (sectionType) {
+	var _p0 = sectionType;
+	if (_p0 === 'full_width_single_panel') {
+		return _user$project$Resources$decodeFullWidthSingleImageSection;
+	} else {
+		return _elm_lang$core$Json_Decode$fail(
+			A2(_elm_lang$core$Basics_ops['++'], 'Unknown section type: ', sectionType));
+	}
+};
+var _user$project$Resources$sectionDecoder = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	_user$project$Resources$decodeSection,
+	A2(_elm_lang$core$Json_Decode$field, 'type', _elm_lang$core$Json_Decode$string));
+var _user$project$Resources$getAuth = F2(
+	function (url, decoder) {
+		var authHeader = A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader, 'admin', 'admin');
+		return _elm_lang$http$Http$request(
+			{
+				method: 'GET',
+				headers: {
+					ctor: '::',
+					_0: authHeader,
+					_1: {ctor: '[]'}
+				},
+				url: url,
+				body: _elm_lang$http$Http$emptyBody,
+				expect: _elm_lang$http$Http$expectJson(decoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+
+var _user$project$Chapters$decodeChapterContent = _elm_lang$core$Json_Decode$list(_user$project$Resources$sectionDecoder);
+var _user$project$Chapters$chapterDecoder = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'content',
+	_user$project$Chapters$decodeChapterContent,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 		'nid',
@@ -10396,12 +10471,6 @@ var _user$project$Chapters$chapterDecoder = A2(
 				_elm_lang$core$Json_Decode$string,
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Chapter)))));
 var _user$project$Chapters$decodeChapters = _elm_lang$core$Json_Decode$dict(_user$project$Chapters$chapterDecoder);
-var _user$project$Chapters$chapterContentDecoder = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'content',
-	_elm_lang$core$Json_Decode$string,
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$ChapterContent));
-var _user$project$Chapters$decodeChapterContent = _elm_lang$core$Json_Decode$list(_user$project$Chapters$chapterContentDecoder);
 var _user$project$Chapters$getChapterContent = F2(
 	function (model, chapter) {
 		var url = A2(
@@ -10410,7 +10479,10 @@ var _user$project$Chapters$getChapterContent = F2(
 			A2(
 				_elm_lang$core$Basics_ops['++'],
 				_user$project$Models$chapterContentEndpoint,
-				A2(_elm_lang$core$Basics_ops['++'], '/', chapter.nid)));
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/',
+					A2(_elm_lang$core$Basics_ops['++'], chapter.nid, '?_format=json'))));
 		return A2(
 			_elm_lang$http$Http$send,
 			_user$project$Msgs$ChapterContentLoad,
@@ -10438,29 +10510,63 @@ var _user$project$View$loading = function (message) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View$viewChapterContentItem = function (model) {
+var _user$project$View$viewImage = function (image) {
 	return A2(
-		_elm_lang$html$Html$div,
+		_elm_lang$html$Html$img,
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html_Attributes$property,
-				'innerHTML',
-				_elm_lang$core$Json_Encode$string(model.content)),
-			_1: {ctor: '[]'}
+			_0: _elm_lang$html$Html_Attributes$src(image.uri),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$width(
+					A2(
+						_elm_lang$core$Result$withDefault,
+						0,
+						_elm_lang$core$String$toInt(image.width))),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$height(
+						A2(
+							_elm_lang$core$Result$withDefault,
+							0,
+							_elm_lang$core$String$toInt(image.height))),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$alt(image.alt),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$title(image.title),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
 		},
 		{ctor: '[]'});
 };
-var _user$project$View$viewChapterContent = function (model) {
-	var _p0 = model;
-	if (_p0.ctor === 'Nothing') {
-		return _user$project$View$loading('Loading chapter content...');
+var _user$project$View$viewSection = function (model) {
+	var _p0 = model.sectionType;
+	if (_p0.ctor === 'SingleImage') {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'});
 	} else {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
-			A2(_elm_lang$core$List$map, _user$project$View$viewChapterContentItem, _p0._0));
+			{
+				ctor: '::',
+				_0: _user$project$View$viewImage(model.image),
+				_1: {ctor: '[]'}
+			});
 	}
+};
+var _user$project$View$viewChapterContent = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(_elm_lang$core$List$map, _user$project$View$viewSection, model));
 };
 var _user$project$View$viewChapter = function (chapter) {
 	return A2(
@@ -10596,25 +10702,6 @@ var _user$project$Chapters_Chapter$view = function (model) {
 		return _user$project$View$viewChapter(_p1._0);
 	}
 };
-
-var _user$project$Resources$getAuth = F2(
-	function (url, decoder) {
-		var authHeader = A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader, 'admin', 'admin');
-		return _elm_lang$http$Http$request(
-			{
-				method: 'GET',
-				headers: {
-					ctor: '::',
-					_0: authHeader,
-					_1: {ctor: '[]'}
-				},
-				url: url,
-				body: _elm_lang$http$Http$emptyBody,
-				expect: _elm_lang$http$Http$expectJson(decoder),
-				timeout: _elm_lang$core$Maybe$Nothing,
-				withCredentials: false
-			});
-	});
 
 var _user$project$Config$decodeSiteInformation = A3(
 	_elm_lang$core$Json_Decode$map2,
@@ -11039,14 +11126,16 @@ var _user$project$Main$update = F2(
 		switch (_p0.ctor) {
 			case 'ChaptersLoad':
 				if (_p0._0.ctor === 'Ok') {
+					var newmodel = _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							chapters: _elm_lang$core$Maybe$Just(_p0._0._0)
+						});
 					return {
 						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								chapters: _elm_lang$core$Maybe$Just(_p0._0._0)
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
+						_0: newmodel,
+						_1: _user$project$Main$updatePageData(
+							_user$project$Config$pageData(newmodel))
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
