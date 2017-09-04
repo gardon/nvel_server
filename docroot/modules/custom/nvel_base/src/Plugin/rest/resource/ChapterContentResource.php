@@ -15,14 +15,14 @@ use Drupal\Component\Render\PlainTextOutput;
  * Provides a resource for serving chapters.
  *
  * @RestResource(
- *   id = "nvel_base_chapters",
- *   label = @Translation("Nvel Chapters"),
+ *   id = "nvel_base_chapter_content",
+ *   label = @Translation("Nvel Chapter Content"),
  *   uri_paths = {
- *     "canonical" = "/chapters"
+ *     "canonical" = "/chapters/{id}"
  *   }
  * )
  */
-class ChaptersResource extends ResourceBase {
+class ChapterContentResource extends ResourceBase {
 
   /**
    * Responds to GET requests.
@@ -32,38 +32,22 @@ class ChaptersResource extends ResourceBase {
    * @return \Drupal\rest\ResourceResponse
    *   The response containing the chapters.
    */
-  public function get() {
+  public function get($id = NULL) {
+    if (!$id) {
+      throw new BadRequestHttpException(t('No ID was provided'));
+    }
+
     $config = \Drupal::config('nvel_base.settings');
 
-    $query = \Drupal::entityQuery('node');
-    $query->condition('status', 1);
-    $query->condition('type', 'chapter');
-    $entity_ids = $query->execute();
-
-    $chapters = $nodes = array();
     $renderer = \Drupal::service('renderer');
-    foreach ($entity_ids as $id) {
-      $node = Node::load($id);
-      $title = $node->get('title')->view();
-      $description = $node->get('field_description')->view(array('label' => 'hidden'));
-      $chapter = array(
-        'nid' => $id,
-        'title' => PlainTextOutput::renderFromHtml($renderer->renderRoot($title)),
-        'field_description' => nl2br(trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($description)))),
-        'content' => $this->getSections($node),
-      );
-      $chapters[$id] = $chapter;
+    $node = Node::load($id);
+
+    if (!$node) {
+      throw new BadRequestHttpException(t('Invalid ID was provided'));
     }
 
-    $build = new ResourceResponse($chapters);
-    foreach ($nodes as $node) {
-      $build->addCacheableDependency($build, $node);
-    }
-
-    return $build;
-  }
-
-  private function getSections($node) {
+    $title = $node->get('title')->view();
+    $description = $node->get('field_description')->view(array('label' => 'hidden'));
     $paragraphs = $node->get('field_sections');
     $sections = array();
     foreach ($paragraphs as $paragraph) {
@@ -82,6 +66,16 @@ class ChaptersResource extends ResourceBase {
       }
       $sections[] = $section;
     }
-    return $sections;
+    $chapter = array(
+      'nid' => $id,
+      'title' => PlainTextOutput::renderFromHtml($renderer->renderRoot($title)),
+      'field_description' => nl2br(trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($description)))),
+      'content' => $sections,
+      );
+
+    $build = new ResourceResponse($chapter);
+    $build->addCacheableDependency($build, $node);
+
+    return $build;
   }
 }
