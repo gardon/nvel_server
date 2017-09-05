@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.chapter.field_description
+    - field.field.node.chapter.field_sections
+    - node.type.chapter
+  module:
+    - user
+id: node.chapter.teaser
+targetEntityType: node
+bundle: chapter
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_description: true
+  field_sections: true

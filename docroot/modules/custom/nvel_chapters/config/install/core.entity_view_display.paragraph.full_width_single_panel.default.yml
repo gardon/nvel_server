@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.full_width_single_panel.field_panel_image
+    - paragraphs.paragraphs_type.full_width_single_panel
+  module:
+    - image
+id: paragraph.full_width_single_panel.default
+targetEntityType: paragraph
+bundle: full_width_single_panel
+mode: default
+content:
+  field_panel_image:
+    weight: 0
+    label: hidden
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+hidden: {  }

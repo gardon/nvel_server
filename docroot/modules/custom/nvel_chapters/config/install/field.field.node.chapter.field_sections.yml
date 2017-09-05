@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sections
+    - node.type.chapter
+    - paragraphs.paragraphs_type.full_width_single_panel
+  module:
+    - entity_reference_revisions
+id: node.chapter.field_sections
+field_name: field_sections
+entity_type: node
+bundle: chapter
+label: Sections
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      full_width_single_panel: full_width_single_panel
+    target_bundles_drag_drop:
+      full_width_single_panel:
+        enabled: true
+        weight: 2
+field_type: entity_reference_revisions

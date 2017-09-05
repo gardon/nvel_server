@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: full_width_single_panel
+label: 'Full-width Single Panel'
+behavior_plugins: {  }
