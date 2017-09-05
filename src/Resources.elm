@@ -10,7 +10,7 @@ import Image exposing (Image)
 getAuth : String -> Decode.Decoder a -> Request a
 getAuth url decoder =
   let 
-    authHeader = BasicAuth.buildAuthorizationHeader "admin" "admin"
+    authHeader = BasicAuth.buildAuthorizationHeader "" ""
   in 
     Http.request 
       { method = "GET"

@@ -78,7 +78,7 @@ getSiteInformation model =
       model.backendConfig.backendURL ++ siteInformationEndpoint
 
   in 
-    Http.send UpdateSiteInfo (getAuth url decodeSiteInformation)
+    Http.send UpdateSiteInfo (Http.get url decodeSiteInformation)
 
 decodeSiteInformation : Decode.Decoder SiteInformation
 decodeSiteInformation = 

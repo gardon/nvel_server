@@ -10435,7 +10435,7 @@ var _user$project$Resources$sectionDecoder = A2(
 	A2(_elm_lang$core$Json_Decode$field, 'type', _elm_lang$core$Json_Decode$string));
 var _user$project$Resources$getAuth = F2(
 	function (url, decoder) {
-		var authHeader = A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader, 'admin', 'admin');
+		var authHeader = A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader, '', '');
 		return _elm_lang$http$Http$request(
 			{
 				method: 'GET',
@@ -11010,7 +11010,7 @@ var _user$project$Config$getSiteInformation = function (model) {
 	return A2(
 		_elm_lang$http$Http$send,
 		_user$project$Msgs$UpdateSiteInfo,
-		A2(_user$project$Resources$getAuth, url, _user$project$Config$decodeSiteInformation));
+		A2(_elm_lang$http$Http$get, url, _user$project$Config$decodeSiteInformation));
 };
 var _user$project$Config$localBackend = {backendURL: 'http://server.nvel.docksal/'};
 var _user$project$Config$switchBackend = function (env) {
