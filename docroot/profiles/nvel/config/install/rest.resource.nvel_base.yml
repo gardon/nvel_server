@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - nvel_base
+    - serialization
+    - user
+id: nvel_base
+plugin_id: nvel_base
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
+      - cookie
