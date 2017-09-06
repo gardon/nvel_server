@@ -10397,16 +10397,14 @@ var _user$project$Resources$imageDecoder = A4(
 		'alt',
 		_elm_lang$core$Json_Decode$string,
 		'',
-		A4(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 			'height',
-			_elm_lang$core$Json_Decode$string,
-			'',
-			A4(
-				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+			_elm_lang$core$Json_Decode$int,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 				'width',
-				_elm_lang$core$Json_Decode$string,
-				'',
+				_elm_lang$core$Json_Decode$int,
 				A3(
 					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 					'uri',
@@ -10758,18 +10756,10 @@ var _user$project$View$viewImage = F2(
 					_0: _elm_lang$html$Html_Attributes$src(image.uri),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$width(
-							A2(
-								_elm_lang$core$Result$withDefault,
-								0,
-								_elm_lang$core$String$toInt(image.width))),
+						_0: _elm_lang$html$Html_Attributes$width(image.width),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$height(
-								A2(
-									_elm_lang$core$Result$withDefault,
-									0,
-									_elm_lang$core$String$toInt(image.height))),
+							_0: _elm_lang$html$Html_Attributes$height(image.height),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$alt(image.alt),

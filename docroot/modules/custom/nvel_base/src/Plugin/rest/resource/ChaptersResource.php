@@ -78,6 +78,8 @@ class ChaptersResource extends ResourceBase {
           $image = $entity->get('field_panel_image')->first()->getValue();
           $section['image'] = $image;
           $section['image']['uri'] = $image_file->url();
+          $section['image']['width'] = (int) $section['image']['width'];
+          $section['image']['height'] = (int) $section['image']['height'];
           break;
       }
       $sections[] = $section;

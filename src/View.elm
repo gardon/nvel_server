@@ -68,8 +68,8 @@ viewImage : List (Attribute msg) -> Image -> Html msg
 viewImage attributes image =
   img (attributes ++ 
     [ src image.uri
-    , width (Result.withDefault 0 (String.toInt image.width))
-    , height (Result.withDefault 0 (String.toInt image.height))
+    , width image.width
+    , height image.height
     , alt image.alt
     , title image.title 
     ]) []

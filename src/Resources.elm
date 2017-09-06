@@ -26,10 +26,11 @@ imageDecoder : Decode.Decoder Image
 imageDecoder =
   decode Image
       |> required "uri" Decode.string
-      |> optional "width" Decode.string ""
-      |> optional "height" Decode.string ""
+      |> required "width" Decode.int
+      |> required "height" Decode.int
       |> optional "alt" Decode.string ""
       |> optional "title" Decode.string ""
+
 
 sectionDecoder : Decode.Decoder Section
 sectionDecoder =

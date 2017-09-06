@@ -2,8 +2,8 @@ module Image exposing (..)
 
 type alias Image =
     { uri : String
-    , width : String
-    , height : String
+    , width : Int
+    , height : Int
     , alt : String
     , title : String
     }
