@@ -8,6 +8,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Component\Render\PlainTextOutput;
+use Drupal\views\Views;
 //use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 //use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -42,7 +43,10 @@ class ChaptersResource extends ResourceBase {
 
     $chapters = $nodes = array();
     $renderer = \Drupal::service('renderer');
-    foreach ($entity_ids as $id) {
+    $view = Views::getView('chapters_admin');
+    $view->execute('master');
+    foreach ($view->result as $row) {
+      $id = $row->nid;
       $node = Node::load($id);
       $title = $node->get('title')->view();
       $description = $node->get('field_description')->view(array('label' => 'hidden'));
@@ -51,14 +55,13 @@ class ChaptersResource extends ResourceBase {
         'title' => PlainTextOutput::renderFromHtml($renderer->renderRoot($title)),
         'field_description' => nl2br(trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($description)))),
         'content' => $this->getSections($node),
+        'index' => (int) $row->draggableviews_structure_weight,
       );
       $chapters[$id] = $chapter;
     }
 
     $build = new ResourceResponse($chapters);
-    foreach ($nodes as $node) {
-      $build->addCacheableDependency($build, $node);
-    }
+    $build->addCacheableDependency($build, $view->result);
 
     return $build;
   }

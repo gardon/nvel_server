@@ -18,6 +18,7 @@ type alias Chapter =
   , field_description: String
   , nid : String
   , content: List Section
+  , index: Int
   }
 
 type SectionType

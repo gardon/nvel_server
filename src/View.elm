@@ -30,7 +30,11 @@ viewChapterList chapters =
         [ text "Loading chapters..."]
 
     Just chapters -> 
-        List.map viewChapterListItem (Dict.values chapters)
+        List.map viewChapterListItem (sortChapterList chapters)
+
+sortChapterList : Dict String Chapter -> List Chapter
+sortChapterList chapters = 
+  List.sortBy .index (Dict.values chapters)
 
 
 viewChapterListItem : Chapter -> Html Msg
@@ -54,7 +58,6 @@ viewChapterContent : List Section -> List (Html msg)
 viewChapterContent model =
    (List.map viewSection model)
 
--- For now this is expecting content to be html, in the future it should be more structured and create dom for each component within Elm.
 viewSection : Section -> Html msg
 viewSection model =
     case model.sectionType of 
@@ -66,7 +69,7 @@ viewSection model =
 
 viewImage : List (Attribute msg) -> Image -> Html msg
 viewImage attributes image =
-  img (attributes ++ 
+  img ( attributes ++ 
     [ src image.uri
     , width image.width
     , height image.height

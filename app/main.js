@@ -10341,9 +10341,9 @@ var _user$project$Models$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f};
 	});
-var _user$project$Models$Chapter = F4(
-	function (a, b, c, d) {
-		return {title: a, field_description: b, nid: c, content: d};
+var _user$project$Models$Chapter = F5(
+	function (a, b, c, d, e) {
+		return {title: a, field_description: b, nid: c, content: d, index: e};
 	});
 var _user$project$Models$Section = F2(
 	function (a, b) {
@@ -10453,21 +10453,25 @@ var _user$project$Resources$getAuth = F2(
 var _user$project$Chapters$decodeChapterContent = _elm_lang$core$Json_Decode$list(_user$project$Resources$sectionDecoder);
 var _user$project$Chapters$chapterDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'content',
-	_user$project$Chapters$decodeChapterContent,
+	'index',
+	_elm_lang$core$Json_Decode$int,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'nid',
-		_elm_lang$core$Json_Decode$string,
+		'content',
+		_user$project$Chapters$decodeChapterContent,
 		A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'field_description',
+			'nid',
 			_elm_lang$core$Json_Decode$string,
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				'title',
+				'field_description',
 				_elm_lang$core$Json_Decode$string,
-				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Chapter)))));
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+					'title',
+					_elm_lang$core$Json_Decode$string,
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Chapter))))));
 var _user$project$Chapters$decodeChapters = _elm_lang$core$Json_Decode$dict(_user$project$Chapters$chapterDecoder);
 var _user$project$Chapters$getChapterContent = F2(
 	function (model, chapter) {
@@ -10829,6 +10833,14 @@ var _user$project$View$viewChapter = function (chapter) {
 			},
 			_user$project$View$viewChapterContent(chapter.content)));
 };
+var _user$project$View$sortChapterList = function (chapters) {
+	return A2(
+		_elm_lang$core$List$sortBy,
+		function (_) {
+			return _.index;
+		},
+		_elm_lang$core$Dict$values(chapters));
+};
 var _user$project$View$onLinkClick = function (message) {
 	var options = {stopPropagation: false, preventDefault: true};
 	return A3(
@@ -10897,7 +10909,7 @@ var _user$project$View$viewChapterList = function (chapters) {
 		return A2(
 			_elm_lang$core$List$map,
 			_user$project$View$viewChapterListItem,
-			_elm_lang$core$Dict$values(_p1._0));
+			_user$project$View$sortChapterList(_p1._0));
 	}
 };
 

@@ -38,6 +38,7 @@ chapterDecoder =
       |> required "field_description" Decode.string
       |> required "nid" Decode.string
       |> required "content" decodeChapterContent
+      |> required "index" Decode.int
 
 decodeChapters : Decode.Decoder (Dict String Chapter)
 decodeChapters =
