@@ -1,0 +1,32 @@
+Index: draggableviews.module
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- draggableviews.module	(revision 4679b169d4c8ee3981eb1a8038e9c98f16f7e0ee)
++++ draggableviews.module	(revision )
+@@ -58,10 +58,24 @@
+         'left_table' => $base_table,
+         'left_field' => $entity_keys['id'],
+         'field' => 'entity_id',
++        'extra' => array(
++          array('field' => 'view_name', 'value' => '***VIEW_ID***'),
++        ),
+       );
+     }
+   }
+ }
++
++/**
++ * Implements hook_views_query_substitutions().
++ *
++ * Allow replacement of current userid so we can cache these queries.
++ */
++function draggableviews_views_query_substitutions(\Drupal\views\ViewExecutable $view) {
++  return array(
++    '***VIEW_ID***' => $view->id(),
++  );
++}
+ 
+ /**
+  * Implements hook_preprocess_views_view_table().
