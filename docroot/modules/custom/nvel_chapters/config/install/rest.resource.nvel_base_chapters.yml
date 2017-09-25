@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - hal
+    - nvel_base
+    - serialization
+    - user
+id: nvel_base_chapters
+plugin_id: nvel_base_chapters
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - hal_json
+      - json
+    supported_auth:
+      - cookie

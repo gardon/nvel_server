@@ -4,11 +4,15 @@ package: Nvel
 type: module
 core: 8.x
 dependencies:
+  - datetime
+  - draggableviews
   - entity_reference_revisions
   - field
   - file
+  - hal
   - image
   - node
+  - nvel_base
   - paragraphs
   - rest
   - serialization

@@ -50,18 +50,31 @@ class ChaptersResource extends ResourceBase {
       $node = Node::load($id);
       $title = $node->get('title')->view();
       $description = $node->get('field_description')->view(array('label' => 'hidden'));
+      $image_file = $node->get('field_thumbnail')->referencedEntities()[0];
+      $image = $node->get('field_thumbnail')->first()->getValue();
+      $image = $this->buildImage($image, $image_file->url());
+      $pub_date = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'Y-m-d')));
+      $authors = array();
+      foreach ($node->get('field_authors') as $author) {
+        $view = $author->view();
+        $authors[] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
+      }
       $chapter = array(
         'nid' => $id,
         'title' => PlainTextOutput::renderFromHtml($renderer->renderRoot($title)),
         'field_description' => nl2br(trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($description)))),
         'content' => $this->getSections($node),
         'index' => (int) $row->draggableviews_structure_weight,
+        'thumbnail' => $image,
+        'authors' => $authors,
+        'publication_date' => PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date)),
+        'debug' => $pub_date,
       );
       $chapters[$id] = $chapter;
     }
 
     $build = new ResourceResponse($chapters);
-    $build->addCacheableDependency($build, $view->result);
+    $build->addCacheableDependency($build, $view);
 
     return $build;
   }
@@ -79,14 +92,19 @@ class ChaptersResource extends ResourceBase {
         case 'full_width_single_panel':
           $image_file = $entity->get('field_panel_image')->referencedEntities()[0];
           $image = $entity->get('field_panel_image')->first()->getValue();
-          $section['image'] = $image;
-          $section['image']['uri'] = $image_file->url();
-          $section['image']['width'] = (int) $section['image']['width'];
-          $section['image']['height'] = (int) $section['image']['height'];
+          $section['image'] = $this->buildImage($image, $image_file->url());
           break;
       }
       $sections[] = $section;
     }
     return $sections;
+  }
+
+  private function buildImage($image, $uri) {
+    $image['uri'] = $uri;
+    $image['width'] = (int) $image['width'];
+    $image['height'] = (int) $image['height'];
+
+    return $image;
   }
 }
