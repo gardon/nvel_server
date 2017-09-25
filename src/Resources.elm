@@ -30,7 +30,13 @@ imageDecoder =
       |> required "height" Decode.int
       |> optional "alt" Decode.string ""
       |> optional "title" Decode.string ""
+      |> optional "derivatives" (Decode.list decodeDerivative) []
 
+decodeDerivative : Decode.Decoder Image.Derivative
+decodeDerivative =
+  decode Image.Derivative
+      |> required "uri" Decode.string
+      |> required "size" Decode.string
 
 sectionDecoder : Decode.Decoder Section
 sectionDecoder =

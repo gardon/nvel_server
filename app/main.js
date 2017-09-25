@@ -10330,9 +10330,13 @@ var _user$project$Menu$MenuItem = F2(
 		return {title: a, path: b};
 	});
 
-var _user$project$Image$Image = F5(
-	function (a, b, c, d, e) {
-		return {uri: a, width: b, height: c, alt: d, title: e};
+var _user$project$Image$Image = F6(
+	function (a, b, c, d, e, f) {
+		return {uri: a, width: b, height: c, alt: d, title: e, derivatives: f};
+	});
+var _user$project$Image$Derivative = F2(
+	function (a, b) {
+		return {uri: a, size: b};
 	});
 
 var _user$project$Models$chapterContentEndpoint = 'chapters';
@@ -10387,29 +10391,43 @@ var _user$project$Msgs$ChaptersLoad = function (a) {
 	return {ctor: 'ChaptersLoad', _0: a};
 };
 
+var _user$project$Resources$decodeDerivative = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'size',
+	_elm_lang$core$Json_Decode$string,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'uri',
+		_elm_lang$core$Json_Decode$string,
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Image$Derivative)));
 var _user$project$Resources$imageDecoder = A4(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
-	'title',
-	_elm_lang$core$Json_Decode$string,
-	'',
+	'derivatives',
+	_elm_lang$core$Json_Decode$list(_user$project$Resources$decodeDerivative),
+	{ctor: '[]'},
 	A4(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
-		'alt',
+		'title',
 		_elm_lang$core$Json_Decode$string,
 		'',
-		A3(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'height',
-			_elm_lang$core$Json_Decode$int,
+		A4(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+			'alt',
+			_elm_lang$core$Json_Decode$string,
+			'',
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				'width',
+				'height',
 				_elm_lang$core$Json_Decode$int,
 				A3(
 					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-					'uri',
-					_elm_lang$core$Json_Decode$string,
-					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Image$Image))))));
+					'width',
+					_elm_lang$core$Json_Decode$int,
+					A3(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+						'uri',
+						_elm_lang$core$Json_Decode$string,
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Image$Image)))))));
 var _user$project$Resources$decodeFullWidthSingleImageSection = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'image',
@@ -10748,91 +10766,6 @@ var _user$project$View$loading = function (message) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View$viewImage = F2(
-	function (attributes, image) {
-		return A2(
-			_elm_lang$html$Html$img,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				attributes,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(image.uri),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$width(image.width),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$height(image.height),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$alt(image.alt),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$title(image.title),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				}),
-			{ctor: '[]'});
-	});
-var _user$project$View$viewSection = function (model) {
-	var _p0 = model.sectionType;
-	if (_p0.ctor === 'SingleImage') {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'});
-	} else {
-		return A2(
-			_user$project$Skeleton$skeletonRowFullWidth,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$View$viewImage,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
-						_1: {ctor: '[]'}
-					},
-					model.image),
-				_1: {ctor: '[]'}
-			});
-	}
-};
-var _user$project$View$viewChapterContent = function (model) {
-	return A2(_elm_lang$core$List$map, _user$project$View$viewSection, model);
-};
-var _user$project$View$viewChapter = function (chapter) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$Skeleton$skeletonRowOneCol,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h1,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(chapter.title),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			_user$project$View$viewChapterContent(chapter.content)));
-};
 var _user$project$View$sortChapterList = function (chapters) {
 	return A2(
 		_elm_lang$core$List$sortBy,
@@ -10898,8 +10831,8 @@ var _user$project$View$viewChapterListItem = function (chapter) {
 		});
 };
 var _user$project$View$viewChapterList = function (chapters) {
-	var _p1 = chapters;
-	if (_p1.ctor === 'Nothing') {
+	var _p0 = chapters;
+	if (_p0.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: _elm_lang$html$Html$text('Loading chapters...'),
@@ -10909,8 +10842,131 @@ var _user$project$View$viewChapterList = function (chapters) {
 		return A2(
 			_elm_lang$core$List$map,
 			_user$project$View$viewChapterListItem,
-			_user$project$View$sortChapterList(_p1._0));
+			_user$project$View$sortChapterList(_p0._0));
 	}
+};
+var _user$project$View$sizes = function (sizes) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'sizes',
+		_elm_lang$core$String$concat(
+			A2(_elm_lang$core$List$intersperse, ', ', sizes)));
+};
+var _user$project$View$srcset = function (derivatives) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'srcset',
+		_elm_lang$core$String$concat(
+			A2(
+				_elm_lang$core$List$intersperse,
+				', ',
+				A2(
+					_elm_lang$core$List$map,
+					function (derivative) {
+						return A2(
+							_elm_lang$core$Basics_ops['++'],
+							derivative.uri,
+							A2(_elm_lang$core$Basics_ops['++'], ' ', derivative.size));
+					},
+					derivatives))));
+};
+var _user$project$View$viewImage = F2(
+	function (attributes, image) {
+		return A2(
+			_elm_lang$html$Html$img,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				attributes,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$src(image.uri),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$width(image.width),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$height(image.height),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$alt(image.alt),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$title(image.title),
+									_1: {
+										ctor: '::',
+										_0: _user$project$View$srcset(image.derivatives),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}),
+			{ctor: '[]'});
+	});
+var _user$project$View$viewSection = function (model) {
+	var _p1 = model.sectionType;
+	if (_p1.ctor === 'SingleImage') {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'});
+	} else {
+		return A2(
+			_user$project$Skeleton$skeletonRowFullWidth,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$View$viewImage,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$sizes(
+								{
+									ctor: '::',
+									_0: '100w',
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					},
+					model.image),
+				_1: {ctor: '[]'}
+			});
+	}
+};
+var _user$project$View$viewChapterContent = function (model) {
+	return A2(_elm_lang$core$List$map, _user$project$View$viewSection, model);
+};
+var _user$project$View$viewChapter = function (chapter) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$Skeleton$skeletonRowOneCol,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h1,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(chapter.title),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			_user$project$View$viewChapterContent(chapter.content)));
 };
 
 var _user$project$Chapters_Chapter$replaceChapter = F2(

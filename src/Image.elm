@@ -6,4 +6,10 @@ type alias Image =
     , height : Int
     , alt : String
     , title : String
+    , derivatives : List Derivative
+    }
+
+type alias Derivative =
+    { uri : String
+    , size : String
     }

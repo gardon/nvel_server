@@ -8,9 +8,24 @@ import Msgs exposing (..)
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Dict exposing (Dict)
-import Image exposing (Image)
+import Image exposing (Image, Derivative)
 import Skeleton exposing (..)
 
+-- Needs a recursive elaboration
+srcset : List Derivative -> Attribute msg
+srcset derivatives =
+  derivatives
+    |> List.map (\derivative -> derivative.uri ++ " " ++ derivative.size)
+    |> List.intersperse ", "
+    |> String.concat 
+    |> attribute "srcset"
+
+sizes : List String -> Attribute msg
+sizes sizes =
+  sizes
+    |> List.intersperse ", "
+    |> String.concat
+    |> attribute "sizes"
 
 onLinkClick : msg -> Attribute msg
 onLinkClick message =
@@ -65,7 +80,7 @@ viewSection model =
         div [] []  
 
       FullWidthSingleImage ->
-        skeletonRowFullWidth [] [ viewImage [ class "u-full-width" ] model.image ]
+        skeletonRowFullWidth [] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]
 
 viewImage : List (Attribute msg) -> Image -> Html msg
 viewImage attributes image =
@@ -74,7 +89,8 @@ viewImage attributes image =
     , width image.width
     , height image.height
     , alt image.alt
-    , title image.title 
+    , title image.title
+    , srcset image.derivatives 
     ]) []
 
 loading : String -> Html msg
