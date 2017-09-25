@@ -5837,6 +5837,39 @@ var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required = F3(
 			decoder);
 	});
 
+//import Result //
+
+var _elm_lang$core$Native_Date = function() {
+
+function fromString(str)
+{
+	var date = new Date(str);
+	return isNaN(date.getTime())
+		? _elm_lang$core$Result$Err('Unable to parse \'' + str + '\' as a date. Dates must be in the ISO 8601 format.')
+		: _elm_lang$core$Result$Ok(date);
+}
+
+var dayTable = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+var monthTable =
+	['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+	 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+
+return {
+	fromString: fromString,
+	year: function(d) { return d.getFullYear(); },
+	month: function(d) { return { ctor: monthTable[d.getMonth()] }; },
+	day: function(d) { return d.getDate(); },
+	hour: function(d) { return d.getHours(); },
+	minute: function(d) { return d.getMinutes(); },
+	second: function(d) { return d.getSeconds(); },
+	millisecond: function(d) { return d.getMilliseconds(); },
+	toTime: function(d) { return d.getTime(); },
+	fromTime: function(t) { return new Date(t); },
+	dayOfWeek: function(d) { return { ctor: dayTable[d.getDay()] }; }
+};
+
+}();
 var _elm_lang$core$Task$onError = _elm_lang$core$Native_Scheduler.onError;
 var _elm_lang$core$Task$andThen = _elm_lang$core$Native_Scheduler.andThen;
 var _elm_lang$core$Task$spawnCmd = F2(
@@ -6248,6 +6281,39 @@ var _elm_lang$core$Time$subMap = F2(
 			});
 	});
 _elm_lang$core$Native_Platform.effectManagers['Time'] = {pkg: 'elm-lang/core', init: _elm_lang$core$Time$init, onEffects: _elm_lang$core$Time$onEffects, onSelfMsg: _elm_lang$core$Time$onSelfMsg, tag: 'sub', subMap: _elm_lang$core$Time$subMap};
+
+var _elm_lang$core$Date$millisecond = _elm_lang$core$Native_Date.millisecond;
+var _elm_lang$core$Date$second = _elm_lang$core$Native_Date.second;
+var _elm_lang$core$Date$minute = _elm_lang$core$Native_Date.minute;
+var _elm_lang$core$Date$hour = _elm_lang$core$Native_Date.hour;
+var _elm_lang$core$Date$dayOfWeek = _elm_lang$core$Native_Date.dayOfWeek;
+var _elm_lang$core$Date$day = _elm_lang$core$Native_Date.day;
+var _elm_lang$core$Date$month = _elm_lang$core$Native_Date.month;
+var _elm_lang$core$Date$year = _elm_lang$core$Native_Date.year;
+var _elm_lang$core$Date$fromTime = _elm_lang$core$Native_Date.fromTime;
+var _elm_lang$core$Date$toTime = _elm_lang$core$Native_Date.toTime;
+var _elm_lang$core$Date$fromString = _elm_lang$core$Native_Date.fromString;
+var _elm_lang$core$Date$now = A2(_elm_lang$core$Task$map, _elm_lang$core$Date$fromTime, _elm_lang$core$Time$now);
+var _elm_lang$core$Date$Date = {ctor: 'Date'};
+var _elm_lang$core$Date$Sun = {ctor: 'Sun'};
+var _elm_lang$core$Date$Sat = {ctor: 'Sat'};
+var _elm_lang$core$Date$Fri = {ctor: 'Fri'};
+var _elm_lang$core$Date$Thu = {ctor: 'Thu'};
+var _elm_lang$core$Date$Wed = {ctor: 'Wed'};
+var _elm_lang$core$Date$Tue = {ctor: 'Tue'};
+var _elm_lang$core$Date$Mon = {ctor: 'Mon'};
+var _elm_lang$core$Date$Dec = {ctor: 'Dec'};
+var _elm_lang$core$Date$Nov = {ctor: 'Nov'};
+var _elm_lang$core$Date$Oct = {ctor: 'Oct'};
+var _elm_lang$core$Date$Sep = {ctor: 'Sep'};
+var _elm_lang$core$Date$Aug = {ctor: 'Aug'};
+var _elm_lang$core$Date$Jul = {ctor: 'Jul'};
+var _elm_lang$core$Date$Jun = {ctor: 'Jun'};
+var _elm_lang$core$Date$May = {ctor: 'May'};
+var _elm_lang$core$Date$Apr = {ctor: 'Apr'};
+var _elm_lang$core$Date$Mar = {ctor: 'Mar'};
+var _elm_lang$core$Date$Feb = {ctor: 'Feb'};
+var _elm_lang$core$Date$Jan = {ctor: 'Jan'};
 
 var _elm_lang$core$Process$kill = _elm_lang$core$Native_Scheduler.kill;
 var _elm_lang$core$Process$sleep = _elm_lang$core$Native_Scheduler.sleep;
@@ -10345,9 +10411,9 @@ var _user$project$Models$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f};
 	});
-var _user$project$Models$Chapter = F5(
-	function (a, b, c, d, e) {
-		return {title: a, field_description: b, nid: c, content: d, index: e};
+var _user$project$Models$Chapter = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {title: a, field_description: b, nid: c, content: d, index: e, thumbnail: f, authors: g, date: h};
 	});
 var _user$project$Models$Section = F2(
 	function (a, b) {
@@ -10449,6 +10515,17 @@ var _user$project$Resources$sectionDecoder = A2(
 	_elm_lang$core$Json_Decode$andThen,
 	_user$project$Resources$decodeSection,
 	A2(_elm_lang$core$Json_Decode$field, 'type', _elm_lang$core$Json_Decode$string));
+var _user$project$Resources$dateDecoder = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	function (val) {
+		var _p1 = _elm_lang$core$Date$fromString(val);
+		if (_p1.ctor === 'Err') {
+			return _elm_lang$core$Json_Decode$fail(_p1._0);
+		} else {
+			return _elm_lang$core$Json_Decode$succeed(_p1._0);
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
 var _user$project$Resources$getAuth = F2(
 	function (url, decoder) {
 		var authHeader = A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader, '', '');
@@ -10471,25 +10548,37 @@ var _user$project$Resources$getAuth = F2(
 var _user$project$Chapters$decodeChapterContent = _elm_lang$core$Json_Decode$list(_user$project$Resources$sectionDecoder);
 var _user$project$Chapters$chapterDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'index',
-	_elm_lang$core$Json_Decode$int,
+	'publication_date',
+	_user$project$Resources$dateDecoder,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'content',
-		_user$project$Chapters$decodeChapterContent,
+		'authors',
+		_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string),
 		A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'nid',
-			_elm_lang$core$Json_Decode$string,
+			'thumbnail',
+			_user$project$Resources$imageDecoder,
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				'field_description',
-				_elm_lang$core$Json_Decode$string,
+				'index',
+				_elm_lang$core$Json_Decode$int,
 				A3(
 					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-					'title',
-					_elm_lang$core$Json_Decode$string,
-					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Chapter))))));
+					'content',
+					_user$project$Chapters$decodeChapterContent,
+					A3(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+						'nid',
+						_elm_lang$core$Json_Decode$string,
+						A3(
+							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+							'field_description',
+							_elm_lang$core$Json_Decode$string,
+							A3(
+								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+								'title',
+								_elm_lang$core$Json_Decode$string,
+								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Chapter)))))))));
 var _user$project$Chapters$decodeChapters = _elm_lang$core$Json_Decode$dict(_user$project$Chapters$chapterDecoder);
 var _user$project$Chapters$getChapterContent = F2(
 	function (model, chapter) {
@@ -10782,69 +10871,6 @@ var _user$project$View$onLinkClick = function (message) {
 		options,
 		_elm_lang$core$Json_Decode$succeed(message));
 };
-var _user$project$View$viewChapterListItem = function (chapter) {
-	var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h2,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$a,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$href(chapterPath),
-							_1: {
-								ctor: '::',
-								_0: _user$project$View$onLinkClick(
-									_user$project$Msgs$ChangeLocation(chapterPath)),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(chapter.title),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html_Attributes$property,
-							'innerHTML',
-							_elm_lang$core$Json_Encode$string(chapter.field_description)),
-						_1: {ctor: '[]'}
-					},
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$View$viewChapterList = function (chapters) {
-	var _p0 = chapters;
-	if (_p0.ctor === 'Nothing') {
-		return {
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Loading chapters...'),
-			_1: {ctor: '[]'}
-		};
-	} else {
-		return A2(
-			_elm_lang$core$List$map,
-			_user$project$View$viewChapterListItem,
-			_user$project$View$sortChapterList(_p0._0));
-	}
-};
 var _user$project$View$sizes = function (sizes) {
 	return A2(
 		_elm_lang$html$Html_Attributes$attribute,
@@ -10904,6 +10930,100 @@ var _user$project$View$viewImage = F2(
 				}),
 			{ctor: '[]'});
 	});
+var _user$project$View$viewChapterListItem = function (chapter) {
+	var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h2,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href(chapterPath),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$onLinkClick(
+									_user$project$Msgs$ChangeLocation(chapterPath)),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(chapter.title),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html_Attributes$property,
+							'innerHTML',
+							_elm_lang$core$Json_Encode$string(chapter.field_description)),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_user$project$View$viewImage,
+						{ctor: '[]'},
+						chapter.thumbnail),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_elm_lang$core$String$concat(chapter.authors)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_elm_lang$core$Basics$toString(chapter.date)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$View$viewChapterList = function (chapters) {
+	var _p0 = chapters;
+	if (_p0.ctor === 'Nothing') {
+		return {
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Loading chapters...'),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return A2(
+			_elm_lang$core$List$map,
+			_user$project$View$viewChapterListItem,
+			_user$project$View$sortChapterList(_p0._0));
+	}
+};
 var _user$project$View$viewSection = function (model) {
 	var _p1 = model.sectionType;
 	if (_p1.ctor === 'SingleImage') {
@@ -11219,7 +11339,14 @@ var _user$project$Main$update = F2(
 							_user$project$Config$pageData(newmodel))
 					};
 				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return {
+						ctor: '_Tuple2',
+						_0: A2(
+							_elm_lang$core$Debug$log,
+							_elm_lang$core$Basics$toString(_p0._0._0),
+							model),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				}
 			case 'ChapterContentLoad':
 				if (_p0._0.ctor === 'Ok') {

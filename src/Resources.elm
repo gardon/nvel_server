@@ -6,6 +6,7 @@ import BasicAuth
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
 import Image exposing (Image)
+import Date
 
 getAuth : String -> Decode.Decoder a -> Request a
 getAuth url decoder =
@@ -21,6 +22,15 @@ getAuth url decoder =
       , timeout = Nothing
       , withCredentials = False
       }
+
+dateDecoder : Decode.Decoder Date.Date
+dateDecoder =
+  Decode.string
+    |> Decode.andThen (\val ->
+        case Date.fromString val of
+          Err err -> Decode.fail err
+          Ok date -> Decode.succeed <| date)
+
 
 imageDecoder : Decode.Decoder Image
 imageDecoder =

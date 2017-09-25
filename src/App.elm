@@ -19,6 +19,7 @@ import Chapters exposing (..)
 import Chapters.Chapter
 import Menu exposing (..)
 import Msgs exposing (..)
+import Debug exposing (..)
 
 
 main =
@@ -59,7 +60,7 @@ update msg model =
         ( newmodel , updatePageData (Config.pageData newmodel))
 
     ChaptersLoad (Err error) ->
-      ( model, Cmd.none)
+      ( log (toString error) model, Cmd.none)
 
     ChapterContentLoad (Ok chapter) ->
       (Chapters.Chapter.replaceChapter model chapter, Cmd.none)

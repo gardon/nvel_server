@@ -39,6 +39,9 @@ chapterDecoder =
       |> required "nid" Decode.string
       |> required "content" decodeChapterContent
       |> required "index" Decode.int
+      |> required "thumbnail" imageDecoder
+      |> required "authors" (Decode.list Decode.string)
+      |> required "publication_date" dateDecoder
 
 decodeChapters : Decode.Decoder (Dict String Chapter)
 decodeChapters =

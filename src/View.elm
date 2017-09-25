@@ -61,6 +61,9 @@ viewChapterListItem chapter =
         [
           h2 [] [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ] [ text chapter.title ] ]
         , div [ property "innerHTML" (Encode.string chapter.field_description) ] []
+        , viewImage [] chapter.thumbnail
+        , div [] [ text (String.concat chapter.authors) ]
+        , div [] [ text (toString chapter.date)]
         ]
 
 viewChapter : Chapter -> Html Msg

@@ -3,6 +3,7 @@ module Models exposing (..)
 import Menu exposing (..)
 import Dict exposing (Dict)
 import Image exposing (Image)
+import Date exposing (Date)
 
 type alias Model =
   { chapters : Maybe (Dict String Chapter)
@@ -19,6 +20,9 @@ type alias Chapter =
   , nid : String
   , content: List Section
   , index: Int
+  , thumbnail: Image
+  , authors: List String
+  , date: Date
   }
 
 type SectionType
