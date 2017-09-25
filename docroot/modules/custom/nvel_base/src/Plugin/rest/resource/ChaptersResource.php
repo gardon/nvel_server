@@ -53,7 +53,7 @@ class ChaptersResource extends ResourceBase {
       $image_file = $node->get('field_thumbnail')->referencedEntities()[0];
       $image = $node->get('field_thumbnail')->first()->getValue();
       $image = $this->buildImage($image, $image_file->url());
-      $pub_date = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'Y-m-d')));
+      $pub_date = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'c')));
       $authors = array();
       foreach ($node->get('field_authors') as $author) {
         $view = $author->view();
@@ -67,8 +67,7 @@ class ChaptersResource extends ResourceBase {
         'index' => (int) $row->draggableviews_structure_weight,
         'thumbnail' => $image,
         'authors' => $authors,
-        'publication_date' => PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date)),
-        'debug' => $pub_date,
+        'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
       );
       $chapters[$id] = $chapter;
     }
