@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.chapter.field_authors
+    - field.field.node.chapter.field_chapter_number
     - field.field.node.chapter.field_description
     - field.field.node.chapter.field_original_publication_date
     - field.field.node.chapter.field_sections
@@ -25,6 +26,15 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_chapter_number:
+    weight: 106
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
     region: content
   field_description:
     weight: 101
@@ -64,4 +74,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  langcode: true

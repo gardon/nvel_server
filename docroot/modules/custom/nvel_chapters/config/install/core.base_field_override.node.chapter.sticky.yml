@@ -3,11 +3,11 @@ status: true
 dependencies:
   config:
     - node.type.chapter
-id: node.chapter.promote
-field_name: promote
+id: node.chapter.sticky
+field_name: sticky
 entity_type: node
 bundle: chapter
-label: 'Promoted to front page'
+label: 'Sticky at top of lists'
 description: ''
 required: false
 translatable: false

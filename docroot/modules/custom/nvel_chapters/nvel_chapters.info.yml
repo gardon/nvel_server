@@ -4,6 +4,7 @@ package: Nvel
 type: module
 core: 8.x
 dependencies:
+  - content_translation
   - datetime
   - draggableviews
   - entity_reference_revisions
@@ -11,9 +12,11 @@ dependencies:
   - file
   - hal
   - image
+  - language
   - node
   - nvel_base
   - paragraphs
+  - path
   - rest
   - serialization
   - user

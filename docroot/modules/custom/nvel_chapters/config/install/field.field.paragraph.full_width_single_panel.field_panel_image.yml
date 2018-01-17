@@ -5,7 +5,14 @@ dependencies:
     - field.storage.paragraph.field_panel_image
     - paragraphs.paragraphs_type.full_width_single_panel
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      file: '0'
+      title: '0'
 id: paragraph.full_width_single_panel.field_panel_image
 field_name: field_panel_image
 entity_type: paragraph
@@ -13,7 +20,7 @@ bundle: full_width_single_panel
 label: 'Panel image'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

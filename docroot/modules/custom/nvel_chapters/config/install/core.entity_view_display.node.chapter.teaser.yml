@@ -3,8 +3,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.chapter.field_authors
     - field.field.node.chapter.field_description
+    - field.field.node.chapter.field_original_publication_date
     - field.field.node.chapter.field_sections
+    - field.field.node.chapter.field_thumbnail
     - node.type.chapter
   module:
     - user
@@ -17,5 +20,9 @@ content:
     weight: 100
     region: content
 hidden:
+  field_authors: true
   field_description: true
+  field_original_publication_date: true
   field_sections: true
+  field_thumbnail: true
+  langcode: true

@@ -11,7 +11,7 @@ bundle: chapter
 label: Description
 description: 'A short description used for sharing, metatags or as a teaser for the chapter.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

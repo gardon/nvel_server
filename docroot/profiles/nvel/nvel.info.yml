@@ -13,6 +13,7 @@ dependencies:
   - comment
   - config
   - contact
+  - content_translation
   - contextual
   - datetime
   - dblog
@@ -23,6 +24,7 @@ dependencies:
   - help
   - history
   - image
+  - language
   - menu_link_content
   - menu_ui
   - node

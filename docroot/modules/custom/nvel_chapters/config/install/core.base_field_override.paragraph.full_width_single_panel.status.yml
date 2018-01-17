@@ -2,18 +2,18 @@ langcode: en
 status: true
 dependencies:
   config:
-    - node.type.chapter
-id: node.chapter.promote
-field_name: promote
-entity_type: node
-bundle: chapter
-label: 'Promoted to front page'
+    - paragraphs.paragraphs_type.full_width_single_panel
+id: paragraph.full_width_single_panel.status
+field_name: status
+entity_type: paragraph
+bundle: full_width_single_panel
+label: Published
 description: ''
 required: false
 translatable: false
 default_value:
   -
-    value: 0
+    value: 1
 default_value_callback: ''
 settings:
   on_label: 'On'
