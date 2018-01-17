@@ -46,6 +46,7 @@ dependencies:
 themes:
   - bartik
   - seven
+  - stark
 package: Nvel
 distribution:
   name: Nvel

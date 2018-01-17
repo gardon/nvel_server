@@ -273,7 +273,7 @@ $config_directories = array(
  *
  * @see install_select_profile()
  */
-$settings['install_profile'] = 'minimal';
+$settings['install_profile'] = 'nvel';
 
 /**
  * Salt for one-time login links, cancel links, form tokens, etc.
