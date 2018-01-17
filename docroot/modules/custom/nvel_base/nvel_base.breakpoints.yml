@@ -1,0 +1,22 @@
+nvel_base.mobile:
+  label: Mobile
+  mediaQuery: ''
+  weight: 0
+  multipliers:
+    - 1x
+    - 2x
+
+nvel_base.tablet:
+  label: Tablet
+  mediaQuery: 'all and (min-width: 1024px) and (max-width: 1200px)'
+  weight: 0
+  multipliers:
+    - 1x
+    - 2x
+
+nvel_base.desktop:
+  label: Desktop
+  mediaQuery: 'all and (min-width: 1201px)'
+  weight: 0
+  multipliers:
+    - 1x
