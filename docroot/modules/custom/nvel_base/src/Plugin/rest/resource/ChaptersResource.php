@@ -45,6 +45,7 @@ class ChaptersResource extends ResourceBase {
     $renderer = \Drupal::service('renderer');
     $view = Views::getView('chapters_admin');
     $view->execute('master');
+    $tags = array();
     foreach ($view->result as $row) {
       $id = $row->nid;
       $node = Node::load($id);
@@ -70,10 +71,14 @@ class ChaptersResource extends ResourceBase {
         'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
       );
       $chapters[$id] = $chapter;
+      $tags = array_merge($tags, $node->getCacheTags());
     }
 
     $build = new ResourceResponse($chapters);
-    $build->addCacheableDependency($build, $view);
+    $cacheableMetadata = $build->getCacheableMetadata();
+    $cacheableMetadata->addCacheTags($tags);
+
+    // TODO: add cache for multilingual
 
     return $build;
   }
