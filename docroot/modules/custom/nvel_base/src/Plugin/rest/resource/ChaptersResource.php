@@ -45,7 +45,6 @@ class ChaptersResource extends ResourceBase {
     $renderer = \Drupal::service('renderer');
     $view = Views::getView('chapters_admin');
     $view->execute('master');
-    $tags = array();
     foreach ($view->result as $row) {
       $id = $row->nid;
       $node = Node::load($id);
@@ -60,23 +59,23 @@ class ChaptersResource extends ResourceBase {
         $view = $author->view();
         $authors[] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
       }
+      $index = $node->get('field_chapter_number')->view(array('label' => 'hidden'));
       $chapter = array(
         'nid' => $id,
         'title' => PlainTextOutput::renderFromHtml($renderer->renderRoot($title)),
-        'field_description' => nl2br(trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($description)))),
+        'field_description' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($description))),
         'content' => $this->getSections($node),
-        'index' => (int) $row->draggableviews_structure_weight,
+        'index' => (int) trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($index))),
         'thumbnail' => $image,
         'authors' => $authors,
         'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
       );
       $chapters[$id] = $chapter;
-      $tags = array_merge($tags, $node->getCacheTags());
     }
 
     $build = new ResourceResponse($chapters);
     $cacheableMetadata = $build->getCacheableMetadata();
-    $cacheableMetadata->addCacheTags($tags);
+    $cacheableMetadata->addCacheTags(array('node_list'));
 
     // TODO: add cache for multilingual
 
