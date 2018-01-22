@@ -74,7 +74,7 @@ viewChapterList chapters =
         [ text "Loading chapters..."]
 
     Just chapters -> 
-        List.map viewChapterListItem (sortChapterList chapters)
+        [ div [ class "container" ] (List.map viewChapterListItem (sortChapterList chapters)) ]
 
 sortChapterList : Dict String Chapter -> List Chapter
 sortChapterList chapters = 

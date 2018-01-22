@@ -11761,10 +11761,21 @@ var _user$project$View$viewChapterList = function (chapters) {
 			_1: {ctor: '[]'}
 		};
 	} else {
-		return A2(
-			_elm_lang$core$List$map,
-			_user$project$View$viewChapterListItem,
-			_user$project$View$sortChapterList(_p5._0));
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('container'),
+					_1: {ctor: '[]'}
+				},
+				A2(
+					_elm_lang$core$List$map,
+					_user$project$View$viewChapterListItem,
+					_user$project$View$sortChapterList(_p5._0))),
+			_1: {ctor: '[]'}
+		};
 	}
 };
 var _user$project$View$viewSection = function (model) {
