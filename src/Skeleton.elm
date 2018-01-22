@@ -64,3 +64,4 @@ skeletonRowOneCol attributes content =
     [ skeletonColumn TwelveColumns []
         content
     ]
+

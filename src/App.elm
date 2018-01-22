@@ -39,7 +39,7 @@ init location =
     chapters = Nothing
     siteInformation = Config.siteInformation
     pageData = { title = "Loading..." }
-    backendConfig = switchBackend Local
+    backendConfig = switchBackend
     menu = Menu.menu
     route = parseLocation location
     model = Model chapters siteInformation pageData backendConfig menu route
@@ -98,10 +98,7 @@ view model =
   let 
     content = routeContent model
   in 
-    div [] 
-    ([ skeletonRowOneCol [ style [ ("margin-top", "15%") ] ] 
-        [ text "Here goes the menu" ]
-    ] ++ content)
+    div [] ([ viewMenu model.menu ] ++ content)
 
 
 

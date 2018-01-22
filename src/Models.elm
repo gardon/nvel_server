@@ -50,10 +50,12 @@ type Environment = Local
 type alias ChapterId = String
 
 type Route
-    = ChaptersRoute
+    = HomeRoute
+    | ChaptersRoute
     | ChapterRoute ChapterId
     | NotFoundRoute
 
+siteInformationEndpoint = "nvel_base?_format=json"
 chapterListEndpoint = "chapters?_format=json"
 chapterContentEndpoint = "chapters"
 

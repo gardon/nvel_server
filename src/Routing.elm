@@ -5,14 +5,14 @@ import Models exposing (ChapterId, Route(..), Model)
 import Msgs exposing (Msg)
 import UrlParser exposing (..)
 import Html exposing (text, Html)
-import View exposing (viewChapterList)
+import View exposing (viewChapterList, viewHome)
 import Chapters.Chapter exposing (view)
 import Dict exposing (Dict)
 
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
-        [ map ChaptersRoute top
+        [ map HomeRoute top
         , map ChapterRoute (s "chapters" </> string)
         , map ChaptersRoute (s "chapters")
         ]
@@ -29,6 +29,9 @@ parseLocation location =
 
 routeContent : Model -> List (Html Msg)
 routeContent model = case model.route of 
+      HomeRoute ->
+        viewHome model.chapters
+
       ChaptersRoute ->
         viewChapterList model.chapters
 

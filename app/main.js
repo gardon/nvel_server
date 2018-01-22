@@ -6315,9 +6315,146 @@ var _elm_lang$core$Date$Mar = {ctor: 'Mar'};
 var _elm_lang$core$Date$Feb = {ctor: 'Feb'};
 var _elm_lang$core$Date$Jan = {ctor: 'Jan'};
 
+//import Maybe, Native.List //
+
+var _elm_lang$core$Native_Regex = function() {
+
+function escape(str)
+{
+	return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+function caseInsensitive(re)
+{
+	return new RegExp(re.source, 'gi');
+}
+function regex(raw)
+{
+	return new RegExp(raw, 'g');
+}
+
+function contains(re, string)
+{
+	return string.match(re) !== null;
+}
+
+function find(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var out = [];
+	var number = 0;
+	var string = str;
+	var lastIndex = re.lastIndex;
+	var prevLastIndex = -1;
+	var result;
+	while (number++ < n && (result = re.exec(string)))
+	{
+		if (prevLastIndex === re.lastIndex) break;
+		var i = result.length - 1;
+		var subs = new Array(i);
+		while (i > 0)
+		{
+			var submatch = result[i];
+			subs[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		out.push({
+			match: result[0],
+			submatches: _elm_lang$core$Native_List.fromArray(subs),
+			index: result.index,
+			number: number
+		});
+		prevLastIndex = re.lastIndex;
+	}
+	re.lastIndex = lastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+function replace(n, re, replacer, string)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var count = 0;
+	function jsReplacer(match)
+	{
+		if (count++ >= n)
+		{
+			return match;
+		}
+		var i = arguments.length - 3;
+		var submatches = new Array(i);
+		while (i > 0)
+		{
+			var submatch = arguments[i];
+			submatches[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		return replacer({
+			match: match,
+			submatches: _elm_lang$core$Native_List.fromArray(submatches),
+			index: arguments[arguments.length - 2],
+			number: count
+		});
+	}
+	return string.replace(re, jsReplacer);
+}
+
+function split(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	if (n === Infinity)
+	{
+		return _elm_lang$core$Native_List.fromArray(str.split(re));
+	}
+	var string = str;
+	var result;
+	var out = [];
+	var start = re.lastIndex;
+	var restoreLastIndex = re.lastIndex;
+	while (n--)
+	{
+		if (!(result = re.exec(string))) break;
+		out.push(string.slice(start, result.index));
+		start = re.lastIndex;
+	}
+	out.push(string.slice(start));
+	re.lastIndex = restoreLastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+return {
+	regex: regex,
+	caseInsensitive: caseInsensitive,
+	escape: escape,
+
+	contains: F2(contains),
+	find: F3(find),
+	replace: F4(replace),
+	split: F3(split)
+};
+
+}();
+
 var _elm_lang$core$Process$kill = _elm_lang$core$Native_Scheduler.kill;
 var _elm_lang$core$Process$sleep = _elm_lang$core$Native_Scheduler.sleep;
 var _elm_lang$core$Process$spawn = _elm_lang$core$Native_Scheduler.spawn;
+
+var _elm_lang$core$Regex$split = _elm_lang$core$Native_Regex.split;
+var _elm_lang$core$Regex$replace = _elm_lang$core$Native_Regex.replace;
+var _elm_lang$core$Regex$find = _elm_lang$core$Native_Regex.find;
+var _elm_lang$core$Regex$contains = _elm_lang$core$Native_Regex.contains;
+var _elm_lang$core$Regex$caseInsensitive = _elm_lang$core$Native_Regex.caseInsensitive;
+var _elm_lang$core$Regex$regex = _elm_lang$core$Native_Regex.regex;
+var _elm_lang$core$Regex$escape = _elm_lang$core$Native_Regex.escape;
+var _elm_lang$core$Regex$Match = F4(
+	function (a, b, c, d) {
+		return {match: a, submatches: b, index: c, number: d};
+	});
+var _elm_lang$core$Regex$Regex = {ctor: 'Regex'};
+var _elm_lang$core$Regex$AtMost = function (a) {
+	return {ctor: 'AtMost', _0: a};
+};
+var _elm_lang$core$Regex$All = {ctor: 'All'};
 
 var _elm_lang$dom$Native_Dom = function() {
 
@@ -10374,20 +10511,356 @@ var _kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader = F2(
 				A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationToken, username, password)));
 	});
 
+var _mgold$elm_date_format$Date_Local$french = {
+	date: {
+		months: {jan: 'Janvier', feb: 'Février', mar: 'Mars', apr: 'Avril', may: 'Mai', jun: 'Juin', jul: 'Juillet', aug: 'Août', sep: 'Septembre', oct: 'Octobre', nov: 'Novembre', dec: 'Décembre'},
+		monthsAbbrev: {jan: 'Jan', feb: 'Fév', mar: 'Mar', apr: 'Avr', may: 'Mai', jun: 'Jui', jul: 'Jul', aug: 'Aoû', sep: 'Sep', oct: 'Oct', nov: 'Nov', dec: 'Déc'},
+		wdays: {mon: 'Lundi', tue: 'Mardi', wed: 'Mercredi', thu: 'Jeudi', fri: 'Vendredi', sat: 'Samedi', sun: 'Dimanche'},
+		wdaysAbbrev: {mon: 'Lun', tue: 'Mar', wed: 'Mer', thu: 'Jeu', fri: 'Ven', sat: 'Sam', sun: 'Dim'},
+		defaultFormat: _elm_lang$core$Maybe$Nothing
+	},
+	time: {am: 'am', pm: 'pm', defaultFormat: _elm_lang$core$Maybe$Nothing},
+	timeZones: _elm_lang$core$Maybe$Nothing,
+	defaultFormat: _elm_lang$core$Maybe$Nothing
+};
+var _mgold$elm_date_format$Date_Local$international = {
+	date: {
+		months: {jan: 'January', feb: 'February', mar: 'March', apr: 'April', may: 'May', jun: 'June', jul: 'July', aug: 'August', sep: 'September', oct: 'October', nov: 'November', dec: 'December'},
+		monthsAbbrev: {jan: 'Jan', feb: 'Feb', mar: 'Mar', apr: 'Apr', may: 'May', jun: 'Jun', jul: 'Jul', aug: 'Aug', sep: 'Sep', oct: 'Oct', nov: 'Nov', dec: 'Dec'},
+		wdays: {mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday'},
+		wdaysAbbrev: {mon: 'Mon', tue: 'Tue', wed: 'Wed', thu: 'Thu', fri: 'Fri', sat: 'Sat', sun: 'Sun'},
+		defaultFormat: _elm_lang$core$Maybe$Nothing
+	},
+	time: {am: 'am', pm: 'pm', defaultFormat: _elm_lang$core$Maybe$Nothing},
+	timeZones: _elm_lang$core$Maybe$Nothing,
+	defaultFormat: _elm_lang$core$Maybe$Nothing
+};
+var _mgold$elm_date_format$Date_Local$Local = F4(
+	function (a, b, c, d) {
+		return {date: a, time: b, timeZones: c, defaultFormat: d};
+	});
+var _mgold$elm_date_format$Date_Local$Months = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return function (k) {
+											return function (l) {
+												return {jan: a, feb: b, mar: c, apr: d, may: e, jun: f, jul: g, aug: h, sep: i, oct: j, nov: k, dec: l};
+											};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+var _mgold$elm_date_format$Date_Local$WeekDays = F7(
+	function (a, b, c, d, e, f, g) {
+		return {mon: a, tue: b, wed: c, thu: d, fri: e, sat: f, sun: g};
+	});
+
+var _mgold$elm_date_format$Date_Format$padWith = function (padding) {
+	var padder = function () {
+		var _p0 = padding;
+		switch (_p0.ctor) {
+			case 'NoPadding':
+				return _elm_lang$core$Basics$identity;
+			case 'Zero':
+				return A2(
+					_elm_lang$core$String$padLeft,
+					2,
+					_elm_lang$core$Native_Utils.chr('0'));
+			case 'ZeroThreeDigits':
+				return A2(
+					_elm_lang$core$String$padLeft,
+					3,
+					_elm_lang$core$Native_Utils.chr('0'));
+			default:
+				return A2(
+					_elm_lang$core$String$padLeft,
+					2,
+					_elm_lang$core$Native_Utils.chr(' '));
+		}
+	}();
+	return function (_p1) {
+		return padder(
+			_elm_lang$core$Basics$toString(_p1));
+	};
+};
+var _mgold$elm_date_format$Date_Format$zero2twelve = function (n) {
+	return _elm_lang$core$Native_Utils.eq(n, 0) ? 12 : n;
+};
+var _mgold$elm_date_format$Date_Format$mod12 = function (h) {
+	return A2(_elm_lang$core$Basics_ops['%'], h, 12);
+};
+var _mgold$elm_date_format$Date_Format$dayOfWeekToWord = F2(
+	function (loc, dow) {
+		var _p2 = dow;
+		switch (_p2.ctor) {
+			case 'Mon':
+				return loc.mon;
+			case 'Tue':
+				return loc.tue;
+			case 'Wed':
+				return loc.wed;
+			case 'Thu':
+				return loc.thu;
+			case 'Fri':
+				return loc.fri;
+			case 'Sat':
+				return loc.sat;
+			default:
+				return loc.sun;
+		}
+	});
+var _mgold$elm_date_format$Date_Format$monthToWord = F2(
+	function (loc, m) {
+		var _p3 = m;
+		switch (_p3.ctor) {
+			case 'Jan':
+				return loc.jan;
+			case 'Feb':
+				return loc.feb;
+			case 'Mar':
+				return loc.mar;
+			case 'Apr':
+				return loc.apr;
+			case 'May':
+				return loc.may;
+			case 'Jun':
+				return loc.jun;
+			case 'Jul':
+				return loc.jul;
+			case 'Aug':
+				return loc.aug;
+			case 'Sep':
+				return loc.sep;
+			case 'Oct':
+				return loc.oct;
+			case 'Nov':
+				return loc.nov;
+			default:
+				return loc.dec;
+		}
+	});
+var _mgold$elm_date_format$Date_Format$monthToInt = function (m) {
+	var _p4 = m;
+	switch (_p4.ctor) {
+		case 'Jan':
+			return 1;
+		case 'Feb':
+			return 2;
+		case 'Mar':
+			return 3;
+		case 'Apr':
+			return 4;
+		case 'May':
+			return 5;
+		case 'Jun':
+			return 6;
+		case 'Jul':
+			return 7;
+		case 'Aug':
+			return 8;
+		case 'Sep':
+			return 9;
+		case 'Oct':
+			return 10;
+		case 'Nov':
+			return 11;
+		default:
+			return 12;
+	}
+};
+var _mgold$elm_date_format$Date_Format$re = _elm_lang$core$Regex$regex('%(_|-|0)?(%|Y|y|m|B|b|d|e|a|A|H|k|I|l|L|p|P|M|S)');
+var _mgold$elm_date_format$Date_Format$ZeroThreeDigits = {ctor: 'ZeroThreeDigits'};
+var _mgold$elm_date_format$Date_Format$Zero = {ctor: 'Zero'};
+var _mgold$elm_date_format$Date_Format$Space = {ctor: 'Space'};
+var _mgold$elm_date_format$Date_Format$NoPadding = {ctor: 'NoPadding'};
+var _mgold$elm_date_format$Date_Format$formatToken = F3(
+	function (loc, d, m) {
+		var _p5 = function () {
+			var _p6 = m.submatches;
+			_v4_4:
+			do {
+				if (_p6.ctor === '::') {
+					if (_p6._0.ctor === 'Just') {
+						if (((_p6._1.ctor === '::') && (_p6._1._0.ctor === 'Just')) && (_p6._1._1.ctor === '[]')) {
+							switch (_p6._0._0) {
+								case '-':
+									return {
+										ctor: '_Tuple2',
+										_0: _elm_lang$core$Maybe$Just(_mgold$elm_date_format$Date_Format$NoPadding),
+										_1: _p6._1._0._0
+									};
+								case '_':
+									return {
+										ctor: '_Tuple2',
+										_0: _elm_lang$core$Maybe$Just(_mgold$elm_date_format$Date_Format$Space),
+										_1: _p6._1._0._0
+									};
+								case '0':
+									return {
+										ctor: '_Tuple2',
+										_0: _elm_lang$core$Maybe$Just(_mgold$elm_date_format$Date_Format$Zero),
+										_1: _p6._1._0._0
+									};
+								default:
+									break _v4_4;
+							}
+						} else {
+							break _v4_4;
+						}
+					} else {
+						if (((_p6._1.ctor === '::') && (_p6._1._0.ctor === 'Just')) && (_p6._1._1.ctor === '[]')) {
+							return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: _p6._1._0._0};
+						} else {
+							break _v4_4;
+						}
+					}
+				} else {
+					break _v4_4;
+				}
+			} while(false);
+			return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: ' '};
+		}();
+		var padding = _p5._0;
+		var symbol = _p5._1;
+		var _p7 = symbol;
+		switch (_p7) {
+			case '%':
+				return '%';
+			case 'Y':
+				return _elm_lang$core$Basics$toString(
+					_elm_lang$core$Date$year(d));
+			case 'y':
+				return A2(
+					_elm_lang$core$String$right,
+					2,
+					_elm_lang$core$Basics$toString(
+						_elm_lang$core$Date$year(d)));
+			case 'm':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Zero, padding),
+					_mgold$elm_date_format$Date_Format$monthToInt(
+						_elm_lang$core$Date$month(d)));
+			case 'B':
+				return A2(
+					_mgold$elm_date_format$Date_Format$monthToWord,
+					loc.date.months,
+					_elm_lang$core$Date$month(d));
+			case 'b':
+				return A2(
+					_mgold$elm_date_format$Date_Format$monthToWord,
+					loc.date.monthsAbbrev,
+					_elm_lang$core$Date$month(d));
+			case 'd':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Zero, padding),
+					_elm_lang$core$Date$day(d));
+			case 'e':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Space, padding),
+					_elm_lang$core$Date$day(d));
+			case 'a':
+				return A2(
+					_mgold$elm_date_format$Date_Format$dayOfWeekToWord,
+					loc.date.wdaysAbbrev,
+					_elm_lang$core$Date$dayOfWeek(d));
+			case 'A':
+				return A2(
+					_mgold$elm_date_format$Date_Format$dayOfWeekToWord,
+					loc.date.wdays,
+					_elm_lang$core$Date$dayOfWeek(d));
+			case 'H':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Zero, padding),
+					_elm_lang$core$Date$hour(d));
+			case 'k':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Space, padding),
+					_elm_lang$core$Date$hour(d));
+			case 'I':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Zero, padding),
+					_mgold$elm_date_format$Date_Format$zero2twelve(
+						_mgold$elm_date_format$Date_Format$mod12(
+							_elm_lang$core$Date$hour(d))));
+			case 'l':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Space, padding),
+					_mgold$elm_date_format$Date_Format$zero2twelve(
+						_mgold$elm_date_format$Date_Format$mod12(
+							_elm_lang$core$Date$hour(d))));
+			case 'p':
+				return (_elm_lang$core$Native_Utils.cmp(
+					_elm_lang$core$Date$hour(d),
+					12) < 0) ? _elm_lang$core$String$toUpper(loc.time.am) : _elm_lang$core$String$toUpper(loc.time.pm);
+			case 'P':
+				return (_elm_lang$core$Native_Utils.cmp(
+					_elm_lang$core$Date$hour(d),
+					12) < 0) ? loc.time.am : loc.time.pm;
+			case 'M':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Zero, padding),
+					_elm_lang$core$Date$minute(d));
+			case 'S':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$Zero, padding),
+					_elm_lang$core$Date$second(d));
+			case 'L':
+				return A2(
+					_mgold$elm_date_format$Date_Format$padWith,
+					A2(_elm_lang$core$Maybe$withDefault, _mgold$elm_date_format$Date_Format$ZeroThreeDigits, padding),
+					_elm_lang$core$Date$millisecond(d));
+			default:
+				return '';
+		}
+	});
+var _mgold$elm_date_format$Date_Format$localFormat = F3(
+	function (loc, s, d) {
+		return A4(
+			_elm_lang$core$Regex$replace,
+			_elm_lang$core$Regex$All,
+			_mgold$elm_date_format$Date_Format$re,
+			A2(_mgold$elm_date_format$Date_Format$formatToken, loc, d),
+			s);
+	});
+var _mgold$elm_date_format$Date_Format$format = F2(
+	function (s, d) {
+		return A3(_mgold$elm_date_format$Date_Format$localFormat, _mgold$elm_date_format$Date_Local$international, s, d);
+	});
+var _mgold$elm_date_format$Date_Format$formatISO8601 = _mgold$elm_date_format$Date_Format$format('%Y-%m-%dT%H:%M:%SZ');
+
 var _user$project$Menu$menu = {
 	ctor: '::',
 	_0: {title: 'Home', path: '/'},
 	_1: {
 		ctor: '::',
-		_0: {title: 'Start reading', path: '/start'},
+		_0: {title: 'Archive', path: '/chapters'},
 		_1: {
 			ctor: '::',
-			_0: {title: 'Index', path: '/index'},
-			_1: {
-				ctor: '::',
-				_0: {title: 'Latest chapter', path: '/latest'},
-				_1: {ctor: '[]'}
-			}
+			_0: {title: 'About', path: '/about'},
+			_1: {ctor: '[]'}
 		}
 	}
 };
@@ -10407,6 +10880,7 @@ var _user$project$Image$Derivative = F2(
 
 var _user$project$Models$chapterContentEndpoint = 'chapters';
 var _user$project$Models$chapterListEndpoint = 'chapters?_format=json';
+var _user$project$Models$siteInformationEndpoint = 'nvel_base?_format=json';
 var _user$project$Models$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f};
@@ -10437,6 +10911,7 @@ var _user$project$Models$ChapterRoute = function (a) {
 	return {ctor: 'ChapterRoute', _0: a};
 };
 var _user$project$Models$ChaptersRoute = {ctor: 'ChaptersRoute'};
+var _user$project$Models$HomeRoute = {ctor: 'HomeRoute'};
 
 var _user$project$Msgs$UpdatePageData = function (a) {
 	return {ctor: 'UpdatePageData', _0: a};
@@ -10871,6 +11346,96 @@ var _user$project$View$onLinkClick = function (message) {
 		options,
 		_elm_lang$core$Json_Decode$succeed(message));
 };
+var _user$project$View$linkButtonPrimary = F2(
+	function (path, title) {
+		return A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href(path),
+				_1: {
+					ctor: '::',
+					_0: _user$project$View$onLinkClick(
+						_user$project$Msgs$ChangeLocation(path)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('button button-primary'),
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(title),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$View$viewMenuItem = function (item) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('navbar-item'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(item.path),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$onLinkClick(
+							_user$project$Msgs$ChangeLocation(item.path)),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('navbar-link'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(item.title),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$viewMenu = function (menu) {
+	return A2(
+		_elm_lang$html$Html$nav,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('navbar'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('container'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$ul,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('navbar-list'),
+							_1: {ctor: '[]'}
+						},
+						A2(_elm_lang$core$List$map, _user$project$View$viewMenuItem, menu)),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$View$sizes = function (sizes) {
 	return A2(
 		_elm_lang$html$Html_Attributes$attribute,
@@ -10930,67 +11495,233 @@ var _user$project$View$viewImage = F2(
 				}),
 			{ctor: '[]'});
 	});
+var _user$project$View$viewChapterFeatured = F3(
+	function (caption, featured_class, chapter) {
+		var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class(
+					A2(_elm_lang$core$Basics_ops['++'], 'chapter-featured ', featured_class)),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$View$viewImage,
+					{ctor: '[]'},
+					chapter.thumbnail),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h3,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(caption),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$a,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$href(chapterPath),
+										_1: {
+											ctor: '::',
+											_0: _user$project$View$onLinkClick(
+												_user$project$Msgs$ChangeLocation(chapterPath)),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(chapter.title),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(_user$project$View$linkButtonPrimary, chapterPath, 'Read it'),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(chapter.field_description),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(
+												_elm_lang$core$String$concat(chapter.authors)),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+	});
+var _user$project$View$viewChapterFeaturedCurrent = function (chapter) {
+	return A3(_user$project$View$viewChapterFeatured, 'Current chapter', 'current-chapter', chapter);
+};
+var _user$project$View$viewChapterFeaturedFirst = function (chapter) {
+	return A3(_user$project$View$viewChapterFeatured, 'Start from the beginning', 'first-chapter', chapter);
+};
+var _user$project$View$viewHome = function (chapters) {
+	var _p0 = chapters;
+	if (_p0.ctor === 'Nothing') {
+		return {
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Loading chapters...'),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		var list = _user$project$View$sortChapterList(_p0._0);
+		var content = function () {
+			var _p1 = _elm_lang$core$List$head(
+				_elm_lang$core$List$reverse(list));
+			if (_p1.ctor === 'Nothing') {
+				return {ctor: '[]'};
+			} else {
+				var _p4 = _p1._0;
+				var _p2 = _elm_lang$core$List$head(list);
+				if (_p2.ctor === 'Nothing') {
+					return {
+						ctor: '::',
+						_0: _user$project$View$viewChapterFeaturedCurrent(_p4),
+						_1: {ctor: '[]'}
+					};
+				} else {
+					var _p3 = _p2._0;
+					return _elm_lang$core$Native_Utils.eq(_p4, _p3) ? {
+						ctor: '::',
+						_0: _user$project$View$viewChapterFeaturedCurrent(_p4),
+						_1: {ctor: '[]'}
+					} : {
+						ctor: '::',
+						_0: _user$project$View$viewChapterFeaturedCurrent(_p4),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$viewChapterFeaturedFirst(_p3),
+							_1: {ctor: '[]'}
+						}
+					};
+				}
+			}
+		}();
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('container'),
+					_1: {ctor: '[]'}
+				},
+				content),
+			_1: {ctor: '[]'}
+		};
+	}
+};
 var _user$project$View$viewChapterListItem = function (chapter) {
+	var chapterNumber = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'#',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(chapter.index),
+			': '));
 	var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('chapter-list-item'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h2,
+				_elm_lang$html$Html$h3,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$a,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$href(chapterPath),
-							_1: {
-								ctor: '::',
-								_0: _user$project$View$onLinkClick(
-									_user$project$Msgs$ChangeLocation(chapterPath)),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(chapter.title),
-							_1: {ctor: '[]'}
-						}),
+					_0: _elm_lang$html$Html$text(chapterNumber),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$div,
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
 					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html_Attributes$property,
-							'innerHTML',
-							_elm_lang$core$Json_Encode$string(chapter.field_description)),
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$href(chapterPath),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$onLinkClick(
+										_user$project$Msgs$ChangeLocation(chapterPath)),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(chapter.title),
+								_1: {ctor: '[]'}
+							}),
 						_1: {ctor: '[]'}
-					},
-					{ctor: '[]'}),
+					}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_user$project$View$viewImage,
+						_elm_lang$html$Html$div,
 						{ctor: '[]'},
-						chapter.thumbnail),
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(chapter.field_description),
+							_1: {ctor: '[]'}
+						}),
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$div,
+							_user$project$View$viewImage,
 							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_elm_lang$core$String$concat(chapter.authors)),
-								_1: {ctor: '[]'}
-							}),
+							chapter.thumbnail),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -10999,10 +11730,22 @@ var _user$project$View$viewChapterListItem = function (chapter) {
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
-										_elm_lang$core$Basics$toString(chapter.date)),
+										_elm_lang$core$String$concat(chapter.authors)),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(
+											A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}
@@ -11010,8 +11753,8 @@ var _user$project$View$viewChapterListItem = function (chapter) {
 		});
 };
 var _user$project$View$viewChapterList = function (chapters) {
-	var _p0 = chapters;
-	if (_p0.ctor === 'Nothing') {
+	var _p5 = chapters;
+	if (_p5.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: _elm_lang$html$Html$text('Loading chapters...'),
@@ -11021,12 +11764,12 @@ var _user$project$View$viewChapterList = function (chapters) {
 		return A2(
 			_elm_lang$core$List$map,
 			_user$project$View$viewChapterListItem,
-			_user$project$View$sortChapterList(_p0._0));
+			_user$project$View$sortChapterList(_p5._0));
 	}
 };
 var _user$project$View$viewSection = function (model) {
-	var _p1 = model.sectionType;
-	if (_p1.ctor === 'SingleImage') {
+	var _p6 = model.sectionType;
+	if (_p6.ctor === 'SingleImage') {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -11131,12 +11874,25 @@ var _user$project$Chapters_Chapter$view = function (model) {
 	}
 };
 
+var _user$project$Config_Environment$backend = {backendURL: 'http://server.nvel.docksal/'};
+
+var _user$project$Config_Site$notFoundData = {title: 'Oops, there was a problem!'};
+var _user$project$Config_Site$chaptersListData = {title: 'Chapters'};
+var _user$project$Config_Site$homeData = {title: ''};
+var _user$project$Config_Site$siteInformation = {title: 'Nvel - Digital Graphic Novel', description: ''};
+
 var _user$project$Config$decodeSiteInformation = A3(
 	_elm_lang$core$Json_Decode$map2,
 	_user$project$Models$SiteInformation,
 	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
-var _user$project$Config$notFoundData = {title: 'Oops, there was a problem!'};
+var _user$project$Config$getSiteInformation = function (model) {
+	var url = A2(_elm_lang$core$Basics_ops['++'], model.backendConfig.backendURL, _user$project$Models$siteInformationEndpoint);
+	return A2(
+		_elm_lang$http$Http$send,
+		_user$project$Msgs$UpdateSiteInfo,
+		A2(_elm_lang$http$Http$get, url, _user$project$Config$decodeSiteInformation));
+};
 var _user$project$Config$getChapterFromId = F2(
 	function (chapters, id) {
 		var _p0 = chapters;
@@ -11159,46 +11915,36 @@ var _user$project$Config$chapterData = F2(
 		}();
 		return {title: title};
 	});
-var _user$project$Config$chaptersListData = {title: 'Chapters'};
 var _user$project$Config$pageData = function (model) {
 	var data = function () {
 		var _p2 = model.route;
 		switch (_p2.ctor) {
+			case 'HomeRoute':
+				return _user$project$Config_Site$homeData;
 			case 'ChaptersRoute':
-				return _user$project$Config$chaptersListData;
+				return _user$project$Config_Site$chaptersListData;
 			case 'ChapterRoute':
 				return A2(_user$project$Config$chapterData, model, _p2._0);
 			default:
-				return _user$project$Config$notFoundData;
+				return _user$project$Config_Site$notFoundData;
 		}
 	}();
+	var title = _elm_lang$core$Native_Utils.eq(data.title, '') ? model.siteInformation.title : A2(
+		_elm_lang$core$Basics_ops['++'],
+		data.title,
+		A2(_elm_lang$core$Basics_ops['++'], ' | ', model.siteInformation.title));
 	return _elm_lang$core$Native_Utils.update(
 		data,
-		{
-			title: A2(
-				_elm_lang$core$Basics_ops['++'],
-				data.title,
-				A2(_elm_lang$core$Basics_ops['++'], ' | ', model.siteInformation.title))
-		});
+		{title: title});
 };
-var _user$project$Config$siteInformation = {title: 'Nvel - Digital Graphic Novel', description: ''};
-var _user$project$Config$siteInformationEndpoint = 'nvel_base?_format=json';
-var _user$project$Config$getSiteInformation = function (model) {
-	var url = A2(_elm_lang$core$Basics_ops['++'], model.backendConfig.backendURL, _user$project$Config$siteInformationEndpoint);
-	return A2(
-		_elm_lang$http$Http$send,
-		_user$project$Msgs$UpdateSiteInfo,
-		A2(_elm_lang$http$Http$get, url, _user$project$Config$decodeSiteInformation));
-};
-var _user$project$Config$localBackend = {backendURL: 'http://server.nvel.docksal/'};
-var _user$project$Config$switchBackend = function (env) {
-	var _p3 = env;
-	return _user$project$Config$localBackend;
-};
+var _user$project$Config$siteInformation = _user$project$Config_Site$siteInformation;
+var _user$project$Config$switchBackend = _user$project$Config_Environment$backend;
 
 var _user$project$Routing$routeContent = function (model) {
 	var _p0 = model.route;
 	switch (_p0.ctor) {
+		case 'HomeRoute':
+			return _user$project$View$viewHome(model.chapters);
 		case 'ChaptersRoute':
 			return _user$project$View$viewChapterList(model.chapters);
 		case 'ChapterRoute':
@@ -11226,7 +11972,7 @@ var _user$project$Routing$routeContent = function (model) {
 var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 	{
 		ctor: '::',
-		_0: A2(_evancz$url_parser$UrlParser$map, _user$project$Models$ChaptersRoute, _evancz$url_parser$UrlParser$top),
+		_0: A2(_evancz$url_parser$UrlParser$map, _user$project$Models$HomeRoute, _evancz$url_parser$UrlParser$top),
 		_1: {
 			ctor: '::',
 			_0: A2(
@@ -11267,23 +12013,7 @@ var _user$project$Main$view = function (model) {
 			_elm_lang$core$Basics_ops['++'],
 			{
 				ctor: '::',
-				_0: A2(
-					_user$project$Skeleton$skeletonRowOneCol,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$style(
-							{
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '15%'},
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Here goes the menu'),
-						_1: {ctor: '[]'}
-					}),
+				_0: _user$project$View$viewMenu(model.menu),
 				_1: {ctor: '[]'}
 			},
 			content));
@@ -11296,7 +12026,7 @@ var _user$project$Main$updatePageData = _elm_lang$core$Native_Platform.outgoingP
 var _user$project$Main$init = function (location) {
 	var route = _user$project$Routing$parseLocation(location);
 	var menu = _user$project$Menu$menu;
-	var backendConfig = _user$project$Config$switchBackend(_user$project$Models$Local);
+	var backendConfig = _user$project$Config$switchBackend;
 	var pageData = {title: 'Loading...'};
 	var siteInformation = _user$project$Config$siteInformation;
 	var chapters = _elm_lang$core$Maybe$Nothing;

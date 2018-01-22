@@ -7,29 +7,17 @@ import Msgs exposing (..)
 import Resources exposing (..)
 import Dict exposing (Dict)
 
-localBackend : BackendConfig
-localBackend = {
-    backendURL = "http://server.nvel.docksal/"
-    }
+import Config.Environment exposing (..)
+import Config.Site exposing (..)
 
-siteInformationEndpoint = "nvel_base?_format=json"
-
-switchBackend : Environment -> BackendConfig
-switchBackend env =
-    case env of
-        Local -> 
-            localBackend
+switchBackend : BackendConfig
+switchBackend =
+    backend
 
 siteInformation : SiteInformation
 siteInformation = 
-    { title = "Nvel - Digital Graphic Novel"
-    , description = ""
-    }
+    Config.Site.siteInformation
 
-chaptersListData : PageData
-chaptersListData = 
-    { title = "Chapters"
-    }
 
 getChapterFromId : Maybe (Dict String Chapter) -> String -> Maybe Chapter
 getChapterFromId chapters id =
@@ -55,21 +43,22 @@ chapterData model id =
         { title = title
         }
 
-notFoundData : PageData
-notFoundData =
-    { title = "Oops, there was a problem!"
-    }
-
 pageData : Model -> PageData 
 pageData model = 
     let data = 
         case model.route of
+            HomeRoute -> homeData
             ChaptersRoute -> chaptersListData
             ChapterRoute id -> chapterData model id
             NotFoundRoute -> notFoundData
 
+        title = 
+            if data.title == "" then
+                model.siteInformation.title
+            else
+                data.title ++ " | " ++ model.siteInformation.title
     in 
-        { data | title = data.title ++ " | " ++ model.siteInformation.title}
+        { data | title = title }
 
 getSiteInformation : Model -> Cmd Msg
 getSiteInformation model = 

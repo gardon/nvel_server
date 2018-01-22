@@ -11,13 +11,10 @@ menu =
       { title = "Home"
       , path = "/"
       }
-      ,{ title = "Start reading"
-      , path = "/start"
+      ,{ title = "Archive"
+      , path = "/chapters"
       }
-      ,{ title = "Index"
-      , path = "/index"
-      }
-      ,{ title = "Latest chapter"
-      , path = "/latest"
+      ,{ title = "About"
+      , path = "/about"
       }
     ]
