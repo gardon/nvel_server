@@ -56,6 +56,7 @@ type Route
     = HomeRoute
     | ChaptersRoute
     | ChapterRoute ChapterId
+    | AboutRoute
     | NotFoundRoute
 
 siteInformationEndpoint = "nvel_base?_format=json"

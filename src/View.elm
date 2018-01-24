@@ -156,9 +156,7 @@ viewImage attributes image =
 viewMenu : List MenuItem -> Html Msg 
 viewMenu menu =
   nav [ class "navbar"] [
-      div [ class "container" ] [ 
-        ul [ class "navbar-list" ] (List.map viewMenuItem menu)
-      ]
+      ul [ class "navbar-list" ] (List.map viewMenuItem menu)
   ]
 
 viewMenuItem : MenuItem -> Html Msg
@@ -167,6 +165,35 @@ viewMenuItem item =
       a [ href item.path, onLinkClick (ChangeLocation item.path), class "navbar-link" ] [ text item.title ]
   ]
 
+viewSocialLinks : Model -> Html Msg
+viewSocialLinks model =
+  ul [ class "social-links" ] 
+    [ li [ class "social-links-item facebook" ] [ viewFacebookPageLink model.siteInformation.facebook_page ]
+    , li [ class "social-links-item instagram" ] [ viewInstagramLink model.siteInformation.instagram_handle ]
+    , li [ class "social-links-item deviantart" ] [ viewDeviantArtLink model.siteInformation.deviantart_profile ]
+    ]
+
+viewFacebookPageLink : String -> Html msg
+viewFacebookPageLink handle =
+  a [ href ("http://www.facebook.com/" ++ handle), class "social-link facebook external-link", target "_blank" ] [ text "Facebook" ]
+
+viewInstagramLink : String -> Html msg
+viewInstagramLink handle =
+  a [ href ("http://instagram.com/" ++ handle), class "social-link instagram external-link", target "_blank" ] [ text "Instagram" ]
+
+viewDeviantArtLink : String -> Html msg
+viewDeviantArtLink handle =
+  a [ href ("http://" ++ handle ++ ".deviantart.com/"), class "social-link deviantart external-link", target "_blank" ] [ text "DeviantArt" ]
+
 loading : String -> Html msg
 loading message = 
     span [ class "loading-icon" ] [ text message ]
+
+templateHome : Model -> List (Html Msg) -> List (Html Msg)
+templateHome model content =
+    [ header [ class "container" ] 
+      [ viewMenu model.menu
+      , viewSocialLinks model 
+      ]
+    ] 
+    ++ content

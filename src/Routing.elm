@@ -5,7 +5,7 @@ import Models exposing (ChapterId, Route(..), Model)
 import Msgs exposing (Msg)
 import UrlParser exposing (..)
 import Html exposing (text, Html)
-import View exposing (viewChapterList, viewHome)
+import View exposing (viewChapterList, viewHome, templateHome)
 import Chapters.Chapter exposing (view)
 import Dict exposing (Dict)
 
@@ -15,6 +15,7 @@ matchers =
         [ map HomeRoute top
         , map ChapterRoute (s "chapters" </> string)
         , map ChaptersRoute (s "chapters")
+        , map AboutRoute (s "about")
         ]
 
 
@@ -30,10 +31,12 @@ parseLocation location =
 routeContent : Model -> List (Html Msg)
 routeContent model = case model.route of 
       HomeRoute ->
-        viewHome model.chapters
+        let content = viewHome model.chapters
+        in templateHome model content
 
       ChaptersRoute ->
-        viewChapterList model.chapters
+        let content = viewChapterList model.chapters
+        in templateHome model content
 
       ChapterRoute id ->
         let chapter = 
@@ -46,5 +49,10 @@ routeContent model = case model.route of
         in
           [ Chapters.Chapter.view chapter ]
 
+      AboutRoute ->
+        let content = [ text "About"]
+        in templateHome model content
+
       NotFoundRoute ->
-        [ text "Not Found" ]
+        let content = [ text "Not Found"  ]
+        in templateHome model content

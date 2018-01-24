@@ -98,7 +98,7 @@ view model =
   let 
     content = routeContent model
   in 
-    div [] ([ viewMenu model.menu ] ++ content)
+    div [] content
 
 
 

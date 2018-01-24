@@ -10907,6 +10907,7 @@ var _user$project$Models$FullWidthSingleImage = {ctor: 'FullWidthSingleImage'};
 var _user$project$Models$SingleImage = {ctor: 'SingleImage'};
 var _user$project$Models$Local = {ctor: 'Local'};
 var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
+var _user$project$Models$AboutRoute = {ctor: 'AboutRoute'};
 var _user$project$Models$ChapterRoute = function (a) {
 	return {ctor: 'ChapterRoute', _0: a};
 };
@@ -11354,6 +11355,133 @@ var _user$project$View$loading = function (message) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$View$viewDeviantArtLink = function (handle) {
+	return A2(
+		_elm_lang$html$Html$a,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$href(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'http://',
+					A2(_elm_lang$core$Basics_ops['++'], handle, '.deviantart.com/'))),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('social-link deviantart external-link'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$target('_blank'),
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('DeviantArt'),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$viewInstagramLink = function (handle) {
+	return A2(
+		_elm_lang$html$Html$a,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$href(
+				A2(_elm_lang$core$Basics_ops['++'], 'http://instagram.com/', handle)),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('social-link instagram external-link'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$target('_blank'),
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Instagram'),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$viewFacebookPageLink = function (handle) {
+	return A2(
+		_elm_lang$html$Html$a,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$href(
+				A2(_elm_lang$core$Basics_ops['++'], 'http://www.facebook.com/', handle)),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('social-link facebook external-link'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$target('_blank'),
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Facebook'),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$viewSocialLinks = function (model) {
+	return A2(
+		_elm_lang$html$Html$ul,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('social-links'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$li,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('social-links-item facebook'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _user$project$View$viewFacebookPageLink(model.siteInformation.facebook_page),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$li,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('social-links-item instagram'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _user$project$View$viewInstagramLink(model.siteInformation.instagram_handle),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$li,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('social-links-item deviantart'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _user$project$View$viewDeviantArtLink(model.siteInformation.deviantart_profile),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
 var _user$project$View$sortChapterList = function (chapters) {
 	return A2(
 		_elm_lang$core$List$sortBy,
@@ -11439,27 +11567,42 @@ var _user$project$View$viewMenu = function (menu) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$div,
+				_elm_lang$html$Html$ul,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('container'),
+					_0: _elm_lang$html$Html_Attributes$class('navbar-list'),
 					_1: {ctor: '[]'}
 				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$ul,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navbar-list'),
-							_1: {ctor: '[]'}
-						},
-						A2(_elm_lang$core$List$map, _user$project$View$viewMenuItem, menu)),
-					_1: {ctor: '[]'}
-				}),
+				A2(_elm_lang$core$List$map, _user$project$View$viewMenuItem, menu)),
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$View$templateHome = F2(
+	function (model, content) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$header,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('container'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _user$project$View$viewMenu(model.menu),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$viewSocialLinks(model),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			},
+			content);
+	});
 var _user$project$View$sizes = function (sizes) {
 	return A2(
 		_elm_lang$html$Html_Attributes$attribute,
@@ -11912,6 +12055,7 @@ var _user$project$Chapters_Chapter$view = function (model) {
 var _user$project$Config_Environment$backend = {backendURL: 'http://server.nvel.docksal/'};
 
 var _user$project$Config_Site$notFoundData = {title: 'Oops, there was a problem!'};
+var _user$project$Config_Site$aboutData = {title: 'About'};
 var _user$project$Config_Site$chaptersListData = {title: 'Chapters'};
 var _user$project$Config_Site$homeData = {title: ''};
 var _user$project$Config_Site$siteInformation = {title: 'Nvel - Digital Graphic Novel', description: '', facebook_page: '', instagram_handle: '', deviantart_profile: ''};
@@ -11955,6 +12099,8 @@ var _user$project$Config$pageData = function (model) {
 				return _user$project$Config_Site$chaptersListData;
 			case 'ChapterRoute':
 				return A2(_user$project$Config$chapterData, model, _p2._0);
+			case 'AboutRoute':
+				return _user$project$Config_Site$aboutData;
 			default:
 				return _user$project$Config_Site$notFoundData;
 		}
@@ -11974,9 +12120,11 @@ var _user$project$Routing$routeContent = function (model) {
 	var _p0 = model.route;
 	switch (_p0.ctor) {
 		case 'HomeRoute':
-			return _user$project$View$viewHome(model.chapters);
+			var content = _user$project$View$viewHome(model.chapters);
+			return A2(_user$project$View$templateHome, model, content);
 		case 'ChaptersRoute':
-			return _user$project$View$viewChapterList(model.chapters);
+			var content = _user$project$View$viewChapterList(model.chapters);
+			return A2(_user$project$View$templateHome, model, content);
 		case 'ChapterRoute':
 			var chapter = function () {
 				var _p1 = model.chapters;
@@ -11991,12 +12139,20 @@ var _user$project$Routing$routeContent = function (model) {
 				_0: _user$project$Chapters_Chapter$view(chapter),
 				_1: {ctor: '[]'}
 			};
+		case 'AboutRoute':
+			var content = {
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('About'),
+				_1: {ctor: '[]'}
+			};
+			return A2(_user$project$View$templateHome, model, content);
 		default:
-			return {
+			var content = {
 				ctor: '::',
 				_0: _elm_lang$html$Html$text('Not Found'),
 				_1: {ctor: '[]'}
 			};
+			return A2(_user$project$View$templateHome, model, content);
 	}
 };
 var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
@@ -12018,7 +12174,14 @@ var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 					_evancz$url_parser$UrlParser$map,
 					_user$project$Models$ChaptersRoute,
 					_evancz$url_parser$UrlParser$s('chapters')),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_evancz$url_parser$UrlParser$map,
+						_user$project$Models$AboutRoute,
+						_evancz$url_parser$UrlParser$s('about')),
+					_1: {ctor: '[]'}
+				}
 			}
 		}
 	});
@@ -12039,14 +12202,7 @@ var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			{
-				ctor: '::',
-				_0: _user$project$View$viewMenu(model.menu),
-				_1: {ctor: '[]'}
-			},
-			content));
+		content);
 };
 var _user$project$Main$updatePageData = _elm_lang$core$Native_Platform.outgoingPort(
 	'updatePageData',

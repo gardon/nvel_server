@@ -21,6 +21,11 @@ chaptersListData =
     { title = "Chapters"
     }
 
+aboutData : PageData
+aboutData =
+    { title = "About"
+    }
+
 notFoundData : PageData
 notFoundData =
     { title = "Oops, there was a problem!"

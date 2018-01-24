@@ -50,6 +50,7 @@ pageData model =
             HomeRoute -> homeData
             ChaptersRoute -> chaptersListData
             ChapterRoute id -> chapterData model id
+            AboutRoute -> aboutData
             NotFoundRoute -> notFoundData
 
         title = 
