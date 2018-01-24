@@ -7,9 +7,9 @@ dependencies:
     - content_translation
 third_party_settings:
   content_translation:
-    enabled: true
+    enabled: false
 id: node.chapter
 target_entity_type_id: node
 target_bundle: chapter
 default_langcode: current_interface
-language_alterable: true
+language_alterable: false

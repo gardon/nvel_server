@@ -1,6 +1,13 @@
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
 name: Chapter
 type: chapter
 description: 'This is a chapter or episode of the Graphic Novel.'
