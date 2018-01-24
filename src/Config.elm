@@ -69,7 +69,3 @@ getSiteInformation model =
   in 
     Http.send UpdateSiteInfo (Http.get url decodeSiteInformation)
 
-decodeSiteInformation : Decode.Decoder SiteInformation
-decodeSiteInformation = 
-  Decode.field "description" Decode.string
-    |> Decode.map2 SiteInformation (Decode.field "title" Decode.string)

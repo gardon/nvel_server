@@ -10896,9 +10896,9 @@ var _user$project$Models$Section = F2(
 var _user$project$Models$BackendConfig = function (a) {
 	return {backendURL: a};
 };
-var _user$project$Models$SiteInformation = F2(
-	function (a, b) {
-		return {title: a, description: b};
+var _user$project$Models$SiteInformation = F5(
+	function (a, b, c, d, e) {
+		return {title: a, description: b, facebook_page: c, instagram_handle: d, deviantart_profile: e};
 	});
 var _user$project$Models$PageData = function (a) {
 	return {title: a};
@@ -10932,6 +10932,30 @@ var _user$project$Msgs$ChaptersLoad = function (a) {
 	return {ctor: 'ChaptersLoad', _0: a};
 };
 
+var _user$project$Resources$decodeSiteInformation = A4(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+	'deviantart_profile',
+	_elm_lang$core$Json_Decode$string,
+	'',
+	A4(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+		'instagram_handle',
+		_elm_lang$core$Json_Decode$string,
+		'',
+		A4(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+			'facebook_page',
+			_elm_lang$core$Json_Decode$string,
+			'',
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'description',
+				_elm_lang$core$Json_Decode$string,
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+					'title',
+					_elm_lang$core$Json_Decode$string,
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$SiteInformation))))));
 var _user$project$Resources$decodeDerivative = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'size',
@@ -11890,19 +11914,14 @@ var _user$project$Config_Environment$backend = {backendURL: 'http://server.nvel.
 var _user$project$Config_Site$notFoundData = {title: 'Oops, there was a problem!'};
 var _user$project$Config_Site$chaptersListData = {title: 'Chapters'};
 var _user$project$Config_Site$homeData = {title: ''};
-var _user$project$Config_Site$siteInformation = {title: 'Nvel - Digital Graphic Novel', description: ''};
+var _user$project$Config_Site$siteInformation = {title: 'Nvel - Digital Graphic Novel', description: '', facebook_page: '', instagram_handle: '', deviantart_profile: ''};
 
-var _user$project$Config$decodeSiteInformation = A3(
-	_elm_lang$core$Json_Decode$map2,
-	_user$project$Models$SiteInformation,
-	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
 var _user$project$Config$getSiteInformation = function (model) {
 	var url = A2(_elm_lang$core$Basics_ops['++'], model.backendConfig.backendURL, _user$project$Models$siteInformationEndpoint);
 	return A2(
 		_elm_lang$http$Http$send,
 		_user$project$Msgs$UpdateSiteInfo,
-		A2(_elm_lang$http$Http$get, url, _user$project$Config$decodeSiteInformation));
+		A2(_elm_lang$http$Http$get, url, _user$project$Resources$decodeSiteInformation));
 };
 var _user$project$Config$getChapterFromId = F2(
 	function (chapters, id) {

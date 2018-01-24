@@ -6,6 +6,9 @@ siteInformation : SiteInformation
 siteInformation = 
     { title = "Nvel - Digital Graphic Novel"
     , description = ""
+    , facebook_page = ""
+    , instagram_handle = ""
+    , deviantart_profile = ""
     }
 
 homeData : PageData

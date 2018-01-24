@@ -66,3 +66,13 @@ decodeFullWidthSingleImageSection =
   decode Section
       |> hardcoded FullWidthSingleImage
       |> required "image" imageDecoder
+
+decodeSiteInformation : Decode.Decoder SiteInformation
+decodeSiteInformation = 
+   decode SiteInformation
+      |> required "title" Decode.string
+      |> required "description" Decode.string
+      |> optional "facebook_page" Decode.string ""
+      |> optional "instagram_handle" Decode.string ""
+      |> optional "deviantart_profile" Decode.string ""
+

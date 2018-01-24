@@ -39,6 +39,9 @@ type alias BackendConfig =
 type alias SiteInformation = 
     { title : String 
     , description : String
+    , facebook_page : String
+    , instagram_handle : String
+    , deviantart_profile : String
     }
 
 type alias PageData = 
