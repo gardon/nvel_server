@@ -1,3 +1,110 @@
 img.u-full-width {
 	height: auto;
+	max-width: 1200px;
+	display: block;
+	margin: 0 auto;
+}
+
+.navbar-container {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 0.5em;
+}
+
+ul.navbar-list,
+ul.social-links {
+	list-style: none;
+	margin: 0;
+}
+
+ul.navbar-list li,
+ul.social-links li {
+	display: inline;
+	margin: 0 2em 0 0;
+}
+
+ul.navbar-list li a {
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #777;
+	font-size:1.2em;
+}
+
+@media (min-width: 750px) {
+	ul.navbar-list li a {
+		font-size:1em;
+	}
+}
+
+
+ul.navbar-list li a:active,
+ul.navbar-list li a:focus,
+ul.navbar-list li a:hover {
+	color: #333;
+}
+
+ul.social-links {
+	position: absolute;
+	right: 0;
+	top: 0.5em;
+}
+
+.navbar-container ul.social-links {
+	display: none;
+}
+@media (min-width: 550px) {
+	.navbar-container ul.social-links {
+		display: block;
+	}
+}
+
+.footer-container ul.social-links {
+	position: static;
+}
+
+.footer-container ul.social-links li {
+	margin-right: 1em;
+}
+
+.navbar-container ul.social-links li {
+	font-size: 0;
+	margin-left: 10px;
+}
+
+@media (min-width: 750px) {
+	.navbar-container ul.social-links li {
+		font-size: 1em;
+		margin-left: 0;
+	}
+}
+
+
+ul.social-links li a {
+	color: #777;
+	text-decoration: none;
+	font-size: 0.9em;
+}
+
+.footer-container ul.social-links li a {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	line-height: 5em;
+}
+
+ul.social-links li a:active,
+ul.social-links li a:focus,
+ul.social-links li a:hover {
+	color: #333;
+}
+ul.social-links li a:active svg,
+ul.social-links li a:focus svg,
+ul.social-links li a:hover svg {
+	fill: #333;
+}
+
+ul.social-links li a svg {
+	margin-bottom: -3px;
+	margin-right: 5px;
+	fill: #777;
 }

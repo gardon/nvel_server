@@ -59,6 +59,11 @@ type Route
     | AboutRoute
     | NotFoundRoute
 
+type SocialIconType
+    = FacebookIcon
+    | InstagramIcon
+    | DeviantArtIcon
+
 siteInformationEndpoint = "nvel_base?_format=json"
 chapterListEndpoint = "chapters?_format=json"
 chapterContentEndpoint = "chapters"

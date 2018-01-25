@@ -31,7 +31,7 @@ parseLocation location =
 routeContent : Model -> List (Html Msg)
 routeContent model = case model.route of 
       HomeRoute ->
-        let content = viewHome model.chapters
+        let content = viewHome model
         in templateHome model content
 
       ChaptersRoute ->
