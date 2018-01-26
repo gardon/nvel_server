@@ -23,6 +23,7 @@ type alias Chapter =
   , thumbnail: Image
   , authors: List String
   , date: Date
+  , featured_image: Image
   }
 
 type SectionType

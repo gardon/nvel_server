@@ -42,6 +42,7 @@ chapterDecoder =
       |> required "thumbnail" imageDecoder
       |> required "authors" (Decode.list Decode.string)
       |> required "publication_date" dateDecoder
+      |> required "featured_image" imageDecoder
 
 decodeChapters : Decode.Decoder (Dict String Chapter)
 decodeChapters =

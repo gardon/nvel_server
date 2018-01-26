@@ -11226,9 +11226,9 @@ var _user$project$Models$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f};
 	});
-var _user$project$Models$Chapter = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {title: a, field_description: b, nid: c, content: d, index: e, thumbnail: f, authors: g, date: h};
+var _user$project$Models$Chapter = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {title: a, field_description: b, nid: c, content: d, index: e, thumbnail: f, authors: g, date: h, featured_image: i};
 	});
 var _user$project$Models$Section = F2(
 	function (a, b) {
@@ -11392,37 +11392,41 @@ var _user$project$Resources$getAuth = F2(
 var _user$project$Chapters$decodeChapterContent = _elm_lang$core$Json_Decode$list(_user$project$Resources$sectionDecoder);
 var _user$project$Chapters$chapterDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'publication_date',
-	_user$project$Resources$dateDecoder,
+	'featured_image',
+	_user$project$Resources$imageDecoder,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'authors',
-		_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string),
+		'publication_date',
+		_user$project$Resources$dateDecoder,
 		A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'thumbnail',
-			_user$project$Resources$imageDecoder,
+			'authors',
+			_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string),
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				'index',
-				_elm_lang$core$Json_Decode$int,
+				'thumbnail',
+				_user$project$Resources$imageDecoder,
 				A3(
 					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-					'content',
-					_user$project$Chapters$decodeChapterContent,
+					'index',
+					_elm_lang$core$Json_Decode$int,
 					A3(
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-						'nid',
-						_elm_lang$core$Json_Decode$string,
+						'content',
+						_user$project$Chapters$decodeChapterContent,
 						A3(
 							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-							'field_description',
+							'nid',
 							_elm_lang$core$Json_Decode$string,
 							A3(
 								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-								'title',
+								'field_description',
 								_elm_lang$core$Json_Decode$string,
-								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Chapter)))))))));
+								A3(
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+									'title',
+									_elm_lang$core$Json_Decode$string,
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Chapter))))))))));
 var _user$project$Chapters$decodeChapters = _elm_lang$core$Json_Decode$dict(_user$project$Chapters$chapterDecoder);
 var _user$project$Chapters$getChapterContent = F2(
 	function (model, chapter) {
@@ -12242,46 +12246,68 @@ var _user$project$View$viewChapterFeatured = F3(
 				_0: A2(
 					_user$project$View$viewImage,
 					{ctor: '[]'},
-					chapter.thumbnail),
+					chapter.featured_image),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$h3,
-						{ctor: '[]'},
+						_elm_lang$html$Html$div,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text(caption),
+							_0: _elm_lang$html$Html_Attributes$class('image-overlay'),
 							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h2,
-							{ctor: '[]'},
-							{
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$h3,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(caption),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$a,
+									_elm_lang$html$Html$h2,
+									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$href(chapterPath),
-										_1: {
-											ctor: '::',
-											_0: _user$project$View$onLinkClick(
-												_user$project$Msgs$ChangeLocation(chapterPath)),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(chapter.title),
+										_0: A2(
+											_elm_lang$html$Html$a,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$href(chapterPath),
+												_1: {
+													ctor: '::',
+													_0: _user$project$View$onLinkClick(
+														_user$project$Msgs$ChangeLocation(chapterPath)),
+													_1: {ctor: '[]'}
+												}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(chapter.title),
+												_1: {ctor: '[]'}
+											}),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
-							}),
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$View$linkButtonPrimary, chapterPath, 'Read it'),
 						_1: {
 							ctor: '::',
-							_0: A2(_user$project$View$linkButtonPrimary, chapterPath, 'Read it'),
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(chapter.field_description),
+									_1: {ctor: '[]'}
+								}),
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -12289,7 +12315,8 @@ var _user$project$View$viewChapterFeatured = F3(
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text(chapter.field_description),
+										_0: _elm_lang$html$Html$text(
+											_elm_lang$core$String$concat(chapter.authors)),
 										_1: {ctor: '[]'}
 									}),
 								_1: {
@@ -12300,22 +12327,10 @@ var _user$project$View$viewChapterFeatured = F3(
 										{
 											ctor: '::',
 											_0: _elm_lang$html$Html$text(
-												_elm_lang$core$String$concat(chapter.authors)),
+												A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
 											_1: {ctor: '[]'}
 										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(
-													A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
+									_1: {ctor: '[]'}
 								}
 							}
 						}

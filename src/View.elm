@@ -134,9 +134,11 @@ viewChapterFeatured caption featured_class chapter =
       chapterPath = "/chapters/" ++ chapter.nid
   in
       div ([ class ("chapter-featured " ++ featured_class) ] ++ skeletonGridSize SixColumns)
-        [ viewImage [] chapter.thumbnail
-        , h3 [] [ text caption ] 
-        , h2 [] [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ] [ text chapter.title ] ]
+        [ viewImage [] chapter.featured_image
+        , div [ class "image-overlay" ] 
+          [ h3 [] [ text caption ] 
+          , h2 [] [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ] [ text chapter.title ] ]
+        ]
         , linkButtonPrimary chapterPath "Read it"
         , div [] [ text chapter.field_description ]
         , div [] [ text (String.concat chapter.authors) ]
