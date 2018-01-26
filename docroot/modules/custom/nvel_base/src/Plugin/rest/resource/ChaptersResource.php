@@ -9,6 +9,7 @@ use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Component\Render\PlainTextOutput;
 use Drupal\views\Views;
+use Drupal\image\Entity\ImageStyle;
 //use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 //use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -52,7 +53,10 @@ class ChaptersResource extends ResourceBase {
       $description = $node->get('field_description')->view(array('label' => 'hidden'));
       $image_file = $node->get('field_thumbnail')->referencedEntities()[0];
       $image = $node->get('field_thumbnail')->first()->getValue();
-      $image = $this->buildImage($image, $image_file->url());
+      $image = $this->buildImage($image, $image_file, array('thumbnail' => '100w', 'medium' => '200w', '_original' => '300w'), 100, 100);
+      $featured_image_file = $node->get('field_featured_image')->referencedEntities()[0];
+      $featured_image = $node->get('field_featured_image')->first()->getValue();
+      $featured_image = $this->buildImage($featured_image, $featured_image_file, array('featured' => '460w', '_original' => '920w'), '460', '300');
       $pub_date = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'c')));
       $authors = array();
       foreach ($node->get('field_authors') as $author) {
@@ -69,6 +73,7 @@ class ChaptersResource extends ResourceBase {
         'thumbnail' => $image,
         'authors' => $authors,
         'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
+        'featured_image' => $featured_image,
       );
       $chapters[$id] = $chapter;
     }
@@ -95,7 +100,7 @@ class ChaptersResource extends ResourceBase {
         case 'full_width_single_panel':
           $image_file = $entity->get('field_panel_image')->referencedEntities()[0];
           $image = $entity->get('field_panel_image')->first()->getValue();
-          $section['image'] = $this->buildImage($image, $image_file->url());
+          $section['image'] = $this->buildImage($image, $image_file);
           break;
       }
       $sections[] = $section;
@@ -103,11 +108,26 @@ class ChaptersResource extends ResourceBase {
     return $sections;
   }
 
-  private function buildImage($image, $uri) {
-    $image['uri'] = $uri;
-    $image['width'] = (int) $image['width'];
-    $image['height'] = (int) $image['height'];
+  private function buildImage($image, $image_file, array $sizes = [], int $width = NULL, int $height = NULL) {
+    $image['width'] = empty($width) ? (int) $image['width'] : $width;
+    $image['height'] = empty($height) ? (int) $image['height'] : $height;
 
+    foreach ($sizes as $style => $size) {
+      if ($style == '_original') {
+        $image['derivatives'][] = array(
+          'uri' => $image_file->url(),
+          'size' => $size,
+        );
+      }
+      else {
+        $style_object = ImageStyle::load($style);
+        $image['derivatives'][] = array(
+          'uri' => $style_object->buildUrl($image_file->getFileUri()),
+          'size' => $size,
+        );
+      }
+    }
+    $image['uri'] = empty($sizes) ? $image_file->url() : reset($image['derivatives'])['uri'];
     return $image;
   }
 }
