@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+name: featured
+label: 'Featured Image'
+effects:
+  806780b1-a90f-4486-a7da-ee4bf48c9634:
+    uuid: 806780b1-a90f-4486-a7da-ee4bf48c9634
+    id: image_scale
+    weight: 1
+    data:
+      width: 460
+      height: 300
+      upscale: false

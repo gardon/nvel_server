@@ -5,6 +5,7 @@ dependencies:
     - field.field.node.chapter.field_authors
     - field.field.node.chapter.field_chapter_number
     - field.field.node.chapter.field_description
+    - field.field.node.chapter.field_featured_image
     - field.field.node.chapter.field_original_publication_date
     - field.field.node.chapter.field_sections
     - field.field.node.chapter.field_thumbnail
@@ -42,6 +43,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_featured_image:
+    weight: 107
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
     region: content
   field_original_publication_date:
     weight: 105
