@@ -56,7 +56,7 @@ class ChaptersResource extends ResourceBase {
       $image = $this->buildImage($image, $image_file, array('thumbnail' => '100w', 'medium' => '200w', '_original' => '300w'), 100, 100);
       $featured_image_file = $node->get('field_featured_image')->referencedEntities()[0];
       $featured_image = $node->get('field_featured_image')->first()->getValue();
-      $featured_image = $this->buildImage($featured_image, $featured_image_file, array('featured' => '460w', '_original' => '920w'), '460', '300');
+      $featured_image = $this->buildImage($featured_image, $featured_image_file, array('featured' => '460w', '_original' => '920w'), 460, 300);
       $pub_date = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'c')));
       $authors = array();
       foreach ($node->get('field_authors') as $author) {
@@ -108,7 +108,7 @@ class ChaptersResource extends ResourceBase {
     return $sections;
   }
 
-  private function buildImage($image, $image_file, array $sizes = [], int $width = NULL, int $height = NULL) {
+  private function buildImage($image, $image_file, array $sizes = [], $width = NULL, $height = NULL) {
     $image['width'] = empty($width) ? (int) $image['width'] : $width;
     $image['height'] = empty($height) ? (int) $image['height'] : $height;
 
