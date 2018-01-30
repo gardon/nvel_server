@@ -132,12 +132,14 @@ viewChapterFeatured : String -> String -> Chapter -> Html Msg
 viewChapterFeatured caption featured_class chapter = 
   let 
       chapterPath = "/chapters/" ++ chapter.nid
+      chapterNumber = "#" ++ (toString chapter.index) ++ " "
+
   in
       div ([ class ("chapter-featured " ++ featured_class) ] ++ skeletonGridSize SixColumns)
         [ viewImage [] chapter.featured_image
         , div [ class "image-overlay" ] 
           [ h3 [] [ text caption ] 
-          , h2 [] [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ] [ text chapter.title ] ]
+          , h2 [] [ span [] [ text chapterNumber ], text chapter.title ]
         ]
         , linkButtonPrimary chapterPath "Read it"
         , div [] [ text chapter.field_description ]

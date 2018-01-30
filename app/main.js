@@ -12229,6 +12229,13 @@ var _user$project$View$viewImage = F2(
 	});
 var _user$project$View$viewChapterFeatured = F3(
 	function (caption, featured_class, chapter) {
+		var chapterNumber = A2(
+			_elm_lang$core$Basics_ops['++'],
+			'#',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(chapter.index),
+				' '));
 		var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
 		return A2(
 			_elm_lang$html$Html$div,
@@ -12274,23 +12281,18 @@ var _user$project$View$viewChapterFeatured = F3(
 									{
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$a,
+											_elm_lang$html$Html$span,
+											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$href(chapterPath),
-												_1: {
-													ctor: '::',
-													_0: _user$project$View$onLinkClick(
-														_user$project$Msgs$ChangeLocation(chapterPath)),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(chapter.title),
+												_0: _elm_lang$html$Html$text(chapterNumber),
 												_1: {ctor: '[]'}
 											}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(chapter.title),
+											_1: {ctor: '[]'}
+										}
 									}),
 								_1: {ctor: '[]'}
 							}
