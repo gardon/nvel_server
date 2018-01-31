@@ -11908,6 +11908,187 @@ var _user$project$View$sortChapterList = function (chapters) {
 		},
 		_elm_lang$core$Dict$values(chapters));
 };
+var _user$project$View$mailchimpBlock = function (model) {
+	var mailchimp_action = '//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040';
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$id('mc_embed_signup'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$form,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$action(mailchimp_action),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$method('post'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$id('mc-embedded-subscribe-form'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$name('mc-embedded-subscribe-form'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('validate'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$target('_blank'),
+										_1: {
+											ctor: '::',
+											_0: A2(_elm_lang$html$Html_Attributes$attribute, 'novalidate', ''),
+											_1: {
+												ctor: '::',
+												_0: A2(_elm_lang$html$Html_Attributes$attribute, '_lpchecked', '1'),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$id('mc_embed_signup_scroll'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value(''),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$name('EMAIL'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('email'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$id('mce-EMAIL'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$placeholder('E-mail'),
+													_1: {
+														ctor: '::',
+														_0: A2(_elm_lang$html$Html_Attributes$attribute, 'required', ''),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('email'),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$style(
+											{
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+												_1: {
+													ctor: '::',
+													_0: {ctor: '_Tuple2', _0: 'left', _1: '-5000px'},
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-hidden', 'true'),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$input,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$name('b_3d03ee122031fb9d8b086b942_35a44ac040'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$tabindex(-1),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(''),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('text'),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('clear'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value('Assinar'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$name('subscribe'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$id('mc-embedded-subscribe'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('button'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$type_('submit'),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$View$onLinkClick = function (message) {
 	var options = {stopPropagation: false, preventDefault: true};
 	return A3(
@@ -12109,24 +12290,20 @@ var _user$project$View$facebookFeed = function (model) {
 								A2(_elm_lang$core$Basics_ops['++'], page, '/'))),
 						_1: {
 							ctor: '::',
-							_0: A2(_user$project$View$dataAttr, 'tabs', 'timeline'),
+							_0: A2(_user$project$View$dataAttr, 'small-header', 'false'),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$View$dataAttr, 'small-header', 'true'),
+								_0: A2(_user$project$View$dataAttr, 'adapt-container-width', 'true'),
 								_1: {
 									ctor: '::',
-									_0: A2(_user$project$View$dataAttr, 'adapt-container-width', 'true'),
+									_0: A2(_user$project$View$dataAttr, 'hide-cover', 'false'),
 									_1: {
 										ctor: '::',
-										_0: A2(_user$project$View$dataAttr, 'hide-cover', 'false'),
+										_0: A2(_user$project$View$dataAttr, 'show-facepile', 'false'),
 										_1: {
 											ctor: '::',
-											_0: A2(_user$project$View$dataAttr, 'show-facepile', 'false'),
-											_1: {
-												ctor: '::',
-												_0: A2(_user$project$View$dataAttr, 'width', '500'),
-												_1: {ctor: '[]'}
-											}
+											_0: A2(_user$project$View$dataAttr, 'width', '300'),
+											_1: {ctor: '[]'}
 										}
 									}
 								}
@@ -12245,7 +12422,12 @@ var _user$project$View$viewChapterFeatured = F3(
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class(
 						A2(_elm_lang$core$Basics_ops['++'], 'chapter-featured ', featured_class)),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$onLinkClick(
+							_user$project$Msgs$ChangeLocation(chapterPath)),
+						_1: {ctor: '[]'}
+					}
 				},
 				_user$project$Skeleton$skeletonGridSize(_user$project$Skeleton$SixColumns)),
 			{
@@ -12299,43 +12481,66 @@ var _user$project$View$viewChapterFeatured = F3(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A2(_user$project$View$linkButtonPrimary, chapterPath, 'Read it'),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(chapter.field_description),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
 								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(
-											_elm_lang$core$String$concat(chapter.authors)),
-										_1: {ctor: '[]'}
-									}),
+								_0: _elm_lang$html$Html_Attributes$class('inner'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(_user$project$View$linkButtonPrimary, chapterPath, 'Read it'),
 								_1: {
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$div,
-										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text(
-												A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
+											_0: _elm_lang$html$Html_Attributes$class('description'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(chapter.field_description),
 											_1: {ctor: '[]'}
 										}),
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('author'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													_elm_lang$core$String$concat(chapter.authors)),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('date'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(
+														A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
 								}
-							}
-						}
+							}),
+						_1: {ctor: '[]'}
 					}
 				}
 			});
@@ -12358,7 +12563,15 @@ var _user$project$View$viewHome = function (model) {
 		var thirdrow = A2(
 			_user$project$Skeleton$skeletonRow,
 			{ctor: '[]'},
-			{ctor: '[]'});
+			{
+				ctor: '::',
+				_0: _user$project$View$mailchimpBlock(model),
+				_1: {
+					ctor: '::',
+					_0: _user$project$View$facebookFeed(model),
+					_1: {ctor: '[]'}
+				}
+			});
 		var secondrow = A2(
 			_user$project$Skeleton$skeletonRow,
 			{ctor: '[]'},
@@ -12923,7 +13136,12 @@ var _user$project$Main$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{pageData: _p1}),
-					_1: _user$project$Main$updatePageData(_p1)
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: _user$project$Main$updatePageData(_p1),
+							_1: {ctor: '[]'}
+						})
 				};
 		}
 	});
@@ -12931,6 +13149,11 @@ var _user$project$Main$main = A2(
 	_elm_lang$navigation$Navigation$program,
 	_user$project$Msgs$OnLocationChange,
 	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();
+var _user$project$Main$renderSocialMedia = _elm_lang$core$Native_Platform.outgoingPort(
+	'renderSocialMedia',
+	function (v) {
+		return v;
+	});
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

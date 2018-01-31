@@ -140,19 +140,32 @@ h1,h2,h3 {
 	box-shadow: 0px 0px 2px #666;
 	max-width: 460px;
 	position: relative;
+	margin-bottom: 2em;
 }
 
 .chapter-featured img {
 	display: block;
 	max-width: 100%;
 	height: auto;
+	clip: rect(30px,460px,180px,0px);
+	position: absolute;
+	top: -30px;
 }
+
+@media (min-width: 550px) {
+	.chapter-featured img {
+		clip: auto;
+		position: relative;
+		top: 0;
+	}
+}
+
 
 .chapter-featured .image-overlay {
 	position: absolute;
 	top: 0;
 	width: 100%;
-	padding: 1em 2em;
+	padding: 1em;
 	background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0));
 	box-sizing: border-box;
 }
@@ -162,7 +175,7 @@ h1,h2,h3 {
 }
 
 .chapter-featured .image-overlay h3 {
-	font-size: 1em;
+	font-size: 0.8em;
 	text-transform: uppercase;
 	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #FDC;
@@ -175,7 +188,7 @@ h1,h2,h3 {
 	line-height: 1.3;
 	color: #FFF;
 	text-shadow: 0 0 2px #000;
-	font-size: 3em;
+	font-size: 2em;
 	text-transform: uppercase;
 }
 
@@ -185,4 +198,73 @@ h1,h2,h3 {
 	letter-spacing: 2px;
 	color: #DDD;
 	text-shadow: 0 0 1px #000;
+}
+
+@media (min-width: 1000px) {
+	.chapter-featured .image-overlay {
+		padding: 1em 2em;
+	}
+	.chapter-featured .image-overlay h3 {
+		font-size: 1em;
+	}
+	.chapter-featured .image-overlay h2 {
+		font-size: 3em;
+	}
+}
+
+.chapter-featured .inner {
+	margin-top: 150px;
+}
+
+@media (min-width: 550px) {
+	.chapter-featured .inner {
+		margin-top: 0;
+	}
+}
+
+@media (min-width: 750px) {
+	.chapter-featured .inner {
+		padding: 1em;
+	}
+}
+
+.chapter-featured .button-primary {
+	width: 100%;
+	font-size: 1.1em;
+	line-height: 50px;
+	height: 50px;
+}
+@media (min-width: 750px) {
+	.chapter-featured .button-primary {
+		float: right;
+		width: auto;
+		font-size: 11px;
+		line-height: 38px;
+		height: 38px;
+	}
+}
+
+.chapter-featured .description {
+	padding: 0 1em;
+}
+
+.chapter-featured .author {
+	color: #E3876E;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	margin-top: 1.2em;
+	padding: 0 1.2em;
+}
+
+.chapter-featured .date {
+	color: #BBB;
+	padding: 0 1em 1em;
+}
+
+@media (min-width: 750px) {
+	.chapter-featured .description,
+	.chapter-featured .author,
+	.chapter-featured .date {
+		padding: 0;
+	}
 }

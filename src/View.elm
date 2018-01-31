@@ -77,7 +77,8 @@ viewHome model =
               ]
 
           thirdrow = skeletonRow []
-              [ -- facebookFeed model
+              [ mailchimpBlock model
+              , facebookFeed model
               --, instagramFeed model
               ]
 
@@ -100,12 +101,11 @@ facebookFeed model =
       [ div 
         [ class "fb-page"
         , dataAttr "href" ("https://www.facebook.com/" ++ page ++ "/")
-        , dataAttr "tabs" "timeline" 
-        , dataAttr "small-header" "true" 
+        , dataAttr "small-header" "false" 
         , dataAttr "adapt-container-width" "true" 
         , dataAttr "hide-cover" "false" 
         , dataAttr "show-facepile" "false"
-        , dataAttr "width" "500"
+        , dataAttr "width" "300"
         ]
         [ blockquote 
           [ Html.Attributes.cite "https://www.facebook.com/abismos.oficial/" 
@@ -115,6 +115,43 @@ facebookFeed model =
         ]
       ]
 
+mailchimpBlock : Model -> Html msg
+mailchimpBlock model = 
+  let 
+    mailchimp_action = "//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040"
+  in 
+    div [ id "mc_embed_signup" ]
+      [ Html.form 
+        [ action mailchimp_action
+        , method "post"
+        , id "mc-embedded-subscribe-form"
+        , name "mc-embedded-subscribe-form"
+        , class "validate"
+        , target "_blank"
+        , attribute "novalidate" ""
+        , attribute "_lpchecked" "1"
+        ]
+        [ div [ id "mc_embed_signup_scroll" ]
+          [ input 
+            [ value ""
+            , name "EMAIL"
+            , class "email"
+            , id "mce-EMAIL"
+            , placeholder "E-mail"
+            , attribute "required" ""
+            , type_ "email"
+            ] []
+          , div [ style [ ("position", "absolute"), ("left", "-5000px") ], attribute "aria-hidden" "true" ]
+              [ input [ name "b_3d03ee122031fb9d8b086b942_35a44ac040", tabindex -1, value "", type_ "text" ] []
+              ]
+          , div [ class "clear" ]
+              [ input [ value "Assinar", name "subscribe", id "mc-embedded-subscribe", class "button", type_ "submit" ] []
+              ]
+          ]
+        ]
+      ]
+    
+            
 viewChapterList : Maybe (Dict String Chapter) -> List (Html Msg)
 viewChapterList chapters = 
   case chapters of 
@@ -135,16 +172,18 @@ viewChapterFeatured caption featured_class chapter =
       chapterNumber = "#" ++ (toString chapter.index) ++ " "
 
   in
-      div ([ class ("chapter-featured " ++ featured_class) ] ++ skeletonGridSize SixColumns)
+      div ([ class ("chapter-featured " ++ featured_class), onLinkClick (ChangeLocation chapterPath)] ++ skeletonGridSize SixColumns)
         [ viewImage [] chapter.featured_image
         , div [ class "image-overlay" ] 
           [ h3 [] [ text caption ] 
           , h2 [] [ span [] [ text chapterNumber ], text chapter.title ]
         ]
-        , linkButtonPrimary chapterPath "Read it"
-        , div [] [ text chapter.field_description ]
-        , div [] [ text (String.concat chapter.authors) ]
-        , div [] [ text (Date.Format.format "%Y %b %e" chapter.date)]
+        , div [ class "inner" ]
+          [ linkButtonPrimary chapterPath "Read it"
+          , div [ class "description"] [ text chapter.field_description ]
+          , div [ class "author" ] [ text (String.concat chapter.authors) ]
+          , div [ class "date" ] [ text (Date.Format.format "%Y %b %e" chapter.date)]
+          ]
         ]
 
 viewChapterFeaturedCurrent : Chapter -> Html Msg
