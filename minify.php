@@ -6,8 +6,14 @@ use MatthiasMullie\Minify;
 $source = "app/main.js";
 $minifier = new Minify\JS($source);
 $minifier->gzip("app/main.js.gz");
-//$sourcePath = '/path/to/source/css/file.css';
-//$minifier = new Minify\CSS($sourcePath);
+
+$sourcePath = 'app/css/nvel.css';
+$minifier = new Minify\CSS($sourcePath);
+$minifier->gzip("app/css/nvel.css.gz");
+
+$sourcePath = 'app/css/skeleton.css';
+$minifier = new Minify\CSS($sourcePath);
+$minifier->gzip("app/css/skeleton.css.gz");
 
 // we can even add another file, they'll then be
 // // joined in 1 output file
