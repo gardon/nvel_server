@@ -72,8 +72,8 @@ viewHome model =
                         skeletonRow [] [ viewChapterFeaturedCurrent current, viewChapterFeaturedFirst first ]
 
 
-          secondrow = skeletonRow [] 
-              [ linkButton "chapters" "List all chapters"
+          secondrow = skeletonRow [ class "center chapters-button" ] 
+              [ linkButtonBig "chapters" "List all chapters"
               ]
 
           thirdrow = skeletonRow []
@@ -97,7 +97,7 @@ facebookFeed model =
     title = model.siteInformation.title
       
   in
-    div (skeletonGridSize TwelveColumns)
+    div (skeletonGridSize SixColumns)
       [ div 
         [ class "fb-page"
         , dataAttr "href" ("https://www.facebook.com/" ++ page ++ "/")
@@ -120,33 +120,35 @@ mailchimpBlock model =
   let 
     mailchimp_action = "//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040"
   in 
-    div [ id "mc_embed_signup" ]
-      [ Html.form 
-        [ action mailchimp_action
-        , method "post"
-        , id "mc-embedded-subscribe-form"
-        , name "mc-embedded-subscribe-form"
-        , class "validate"
-        , target "_blank"
-        , attribute "novalidate" ""
-        , attribute "_lpchecked" "1"
-        ]
-        [ div [ id "mc_embed_signup_scroll" ]
-          [ input 
-            [ value ""
-            , name "EMAIL"
-            , class "email"
-            , id "mce-EMAIL"
-            , placeholder "E-mail"
-            , attribute "required" ""
-            , type_ "email"
-            ] []
-          , div [ style [ ("position", "absolute"), ("left", "-5000px") ], attribute "aria-hidden" "true" ]
-              [ input [ name "b_3d03ee122031fb9d8b086b942_35a44ac040", tabindex -1, value "", type_ "text" ] []
-              ]
-          , div [ class "clear" ]
-              [ input [ value "Assinar", name "subscribe", id "mc-embedded-subscribe", class "button", type_ "submit" ] []
-              ]
+    div (skeletonGridSize SixColumns)
+      [ div [ id "mc_embed_signup" ]
+        [ Html.form 
+          [ action mailchimp_action
+          , method "post"
+          , id "mc-embedded-subscribe-form"
+          , name "mc-embedded-subscribe-form"
+          , class "validate"
+          , target "_blank"
+          , attribute "novalidate" ""
+          , attribute "_lpchecked" "1"
+          ]
+          [ div [ id "mc_embed_signup_scroll" ]
+            [ input 
+              [ value ""
+              , name "EMAIL"
+              , class "email"
+              , id "mce-EMAIL"
+              , placeholder "E-mail"
+              , attribute "required" ""
+              , type_ "email"
+              ] []
+            , div [ style [ ("position", "absolute"), ("left", "-5000px") ], attribute "aria-hidden" "true" ]
+                [ input [ name "b_3d03ee122031fb9d8b086b942_35a44ac040", tabindex -1, value "", type_ "text" ] []
+                ]
+            , div [ class "clear" ]
+                [ input [ value "Assinar", name "subscribe", id "mc-embedded-subscribe", class "button", type_ "submit" ] []
+                ]
+            ]
           ]
         ]
       ]
@@ -196,12 +198,15 @@ viewChapterFeaturedFirst chapter =
 
 linkButtonPrimary : String -> String -> Html Msg
 linkButtonPrimary path title = 
-  a [ href path, onLinkClick (ChangeLocation path), class "button button-primary" ] [ text title ]
+  linkButton [ class "button-primary" ] path title
 
-linkButton : String -> String -> Html Msg
-linkButton path title = 
-  a [ href path, onLinkClick (ChangeLocation path), class "button" ] [ text title ]
+linkButton : List (Attribute Msg) -> String -> String -> Html Msg
+linkButton attr path title = 
+  a ([ href path, onLinkClick (ChangeLocation path), class "button" ] ++ attr) [ text title ]
 
+linkButtonBig : String -> String -> Html Msg 
+linkButtonBig path title = 
+  linkButton [ class "big" ] path title
 
 viewChapterListItem : Chapter -> Html Msg
 viewChapterListItem chapter =

@@ -87,7 +87,7 @@ update msg model =
           ( newmodel, updatePageData (pageData newmodel))
 
     UpdatePageData data ->
-      ( { model | pageData = data } , Cmd.batch [ updatePageData data ])
+      ( { model | pageData = data } , updatePageData data)
 
 
 

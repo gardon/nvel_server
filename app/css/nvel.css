@@ -13,6 +13,16 @@ img.u-full-width {
 	margin: 0 auto;
 }
 
+.button.big {
+	font-size: 1.1em;
+	height: 50px;
+	line-height: 50px;
+}
+
+.row.center {
+	text-align: center;
+}
+
 .navbar-container {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
@@ -268,4 +278,10 @@ h1,h2,h3 {
 	.chapter-featured .date {
 		padding: 0;
 	}
+}
+
+.chapters-button .button {
+	width: 400px;
+	max-width: 100%;
+	margin: 1em 0 3em;
 }
