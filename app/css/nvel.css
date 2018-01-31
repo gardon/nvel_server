@@ -178,8 +178,8 @@ h1,h2,h3 {
 	font-size: 0.8em;
 	text-transform: uppercase;
 	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #FDC;
-	text-shadow: 0 0 8px #000;
+	color: #E9BEB3;
+	font-weight: bold;
 	margin: 0;
 	letter-spacing: 2px;
 }
@@ -197,7 +197,7 @@ h1,h2,h3 {
 	font-size: 0.9em;
 	letter-spacing: 2px;
 	color: #DDD;
-	text-shadow: 0 0 1px #000;
+	text-shadow: 0 0 2px #000;
 }
 
 @media (min-width: 1000px) {
