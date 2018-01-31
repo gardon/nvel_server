@@ -243,6 +243,7 @@ h1,h2,h3 {
 	font-size: 1.1em;
 	line-height: 50px;
 	height: 50px;
+	border-radius: 0px;
 }
 @media (min-width: 750px) {
 	.chapter-featured .button-primary {
@@ -252,6 +253,7 @@ h1,h2,h3 {
 		line-height: 38px;
 		height: 38px;
 		margin-left: 1em;
+		border-radius: 2px;
 	}
 }
 
