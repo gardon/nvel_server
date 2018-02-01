@@ -8,42 +8,12 @@ import Html.Events exposing (..)
 import Models exposing (..)
 import Msgs exposing (..)
 import Menu exposing (..)
-import Json.Decode as Decode
-import Json.Encode as Encode
 import Dict exposing (Dict)
 import Image exposing (Image, Derivative)
 import Skeleton exposing (..)
 import Date.Format
 
--- Needs a recursive elaboration
-srcset : List Derivative -> Attribute msg
-srcset derivatives =
-  derivatives
-    |> List.map (\derivative -> derivative.uri ++ " " ++ derivative.size)
-    |> List.intersperse ", "
-    |> String.concat 
-    |> attribute "srcset"
-
-sizes : List String -> Attribute msg
-sizes sizes =
-  sizes
-    |> List.intersperse ", "
-    |> String.concat
-    |> attribute "sizes"
-
-dataAttr : String -> String -> Attribute msg
-dataAttr attr value = 
-  attribute ("data-" ++ attr) value
-
-onLinkClick : msg -> Attribute msg
-onLinkClick message =
-    let
-        options =
-            { stopPropagation = False
-            , preventDefault = True
-            }
-    in
-      onWithOptions "click" options (Decode.succeed message)
+import View.Attributes exposing (..)
 
 viewHome : Model -> List (Html Msg)
 viewHome model =

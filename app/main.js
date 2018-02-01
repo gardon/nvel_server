@@ -11689,6 +11689,47 @@ var _user$project$Skeleton$ThreeColumns = {ctor: 'ThreeColumns'};
 var _user$project$Skeleton$TwoColumns = {ctor: 'TwoColumns'};
 var _user$project$Skeleton$OneColumn = {ctor: 'OneColumn'};
 
+var _user$project$View_Attributes$onLinkClick = function (message) {
+	var options = {stopPropagation: false, preventDefault: true};
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'click',
+		options,
+		_elm_lang$core$Json_Decode$succeed(message));
+};
+var _user$project$View_Attributes$dataAttr = F2(
+	function (attr, value) {
+		return A2(
+			_elm_lang$html$Html_Attributes$attribute,
+			A2(_elm_lang$core$Basics_ops['++'], 'data-', attr),
+			value);
+	});
+var _user$project$View_Attributes$sizes = function (sizes) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'sizes',
+		_elm_lang$core$String$concat(
+			A2(_elm_lang$core$List$intersperse, ', ', sizes)));
+};
+var _user$project$View_Attributes$srcset = function (derivatives) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'srcset',
+		_elm_lang$core$String$concat(
+			A2(
+				_elm_lang$core$List$intersperse,
+				', ',
+				A2(
+					_elm_lang$core$List$map,
+					function (derivative) {
+						return A2(
+							_elm_lang$core$Basics_ops['++'],
+							derivative.uri,
+							A2(_elm_lang$core$Basics_ops['++'], ' ', derivative.size));
+					},
+					derivatives))));
+};
+
 var _user$project$View$loading = function (message) {
 	return A2(
 		_elm_lang$html$Html$span,
@@ -11900,6 +11941,514 @@ var _user$project$View$viewSocialLinks = function (model) {
 			}
 		});
 };
+var _user$project$View$viewMenuItem = function (item) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('navbar-item'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(item.path),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View_Attributes$onLinkClick(
+							_user$project$Msgs$ChangeLocation(item.path)),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('navbar-link'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(item.title),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$viewMenu = function (menu) {
+	return A2(
+		_elm_lang$html$Html$nav,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('navbar'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$ul,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('navbar-list'),
+					_1: {ctor: '[]'}
+				},
+				A2(_elm_lang$core$List$map, _user$project$View$viewMenuItem, menu)),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$templateHome = F2(
+	function (model, content) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('container navbar-container'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _user$project$View$viewMenu(model.menu),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$viewSocialLinks(model),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('container title-container'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _user$project$View$viewTitle(model),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			},
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				content,
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('container footer-container'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _user$project$View$viewSocialLinks(model),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}));
+	});
+var _user$project$View$viewImage = F2(
+	function (attributes, image) {
+		return A2(
+			_elm_lang$html$Html$img,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				attributes,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$src(image.uri),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$width(image.width),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$height(image.height),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$alt(image.alt),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$title(image.title),
+									_1: {
+										ctor: '::',
+										_0: _user$project$View_Attributes$srcset(image.derivatives),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}),
+			{ctor: '[]'});
+	});
+var _user$project$View$viewSection = function (model) {
+	var _p1 = model.sectionType;
+	if (_p1.ctor === 'SingleImage') {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'});
+	} else {
+		return A2(
+			_user$project$Skeleton$skeletonRowFullWidth,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$View$viewImage,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View_Attributes$sizes(
+								{
+									ctor: '::',
+									_0: '100w',
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					},
+					model.image),
+				_1: {ctor: '[]'}
+			});
+	}
+};
+var _user$project$View$viewChapterContent = function (model) {
+	return A2(_elm_lang$core$List$map, _user$project$View$viewSection, model);
+};
+var _user$project$View$viewChapter = function (chapter) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$Skeleton$skeletonRowOneCol,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h1,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(chapter.title),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			_user$project$View$viewChapterContent(chapter.content)));
+};
+var _user$project$View$viewChapterListItem = function (chapter) {
+	var chapterNumber = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'#',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(chapter.index),
+			': '));
+	var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('chapter-list-item'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h3,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(chapterNumber),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$href(chapterPath),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View_Attributes$onLinkClick(
+										_user$project$Msgs$ChangeLocation(chapterPath)),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(chapter.title),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(chapter.field_description),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_user$project$View$viewImage,
+							{ctor: '[]'},
+							chapter.thumbnail),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_elm_lang$core$String$concat(chapter.authors)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(
+											A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$View$linkButton = F3(
+	function (attr, path, title) {
+		return A2(
+			_elm_lang$html$Html$a,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(path),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View_Attributes$onLinkClick(
+							_user$project$Msgs$ChangeLocation(path)),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('button'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				attr),
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(title),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$View$linkButtonBig = F2(
+	function (path, title) {
+		return A3(
+			_user$project$View$linkButton,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('big'),
+				_1: {ctor: '[]'}
+			},
+			path,
+			title);
+	});
+var _user$project$View$linkButtonPrimary = F2(
+	function (path, title) {
+		return A3(
+			_user$project$View$linkButton,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('button-primary'),
+				_1: {ctor: '[]'}
+			},
+			path,
+			title);
+	});
+var _user$project$View$viewChapterFeatured = F3(
+	function (caption, featured_class, chapter) {
+		var chapterNumber = A2(
+			_elm_lang$core$Basics_ops['++'],
+			'#',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(chapter.index),
+				' '));
+		var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
+		return A2(
+			_elm_lang$html$Html$div,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(
+						A2(_elm_lang$core$Basics_ops['++'], 'chapter-featured ', featured_class)),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View_Attributes$onLinkClick(
+							_user$project$Msgs$ChangeLocation(chapterPath)),
+						_1: {ctor: '[]'}
+					}
+				},
+				_user$project$Skeleton$skeletonGridSize(_user$project$Skeleton$SixColumns)),
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$View$viewImage,
+					{ctor: '[]'},
+					chapter.featured_image),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('image-overlay'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$h3,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(caption),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$h2,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$span,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(chapterNumber),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(chapter.title),
+											_1: {ctor: '[]'}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('inner'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(_user$project$View$linkButtonPrimary, chapterPath, 'Read it'),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('description'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(chapter.field_description),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('author'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													_elm_lang$core$String$concat(chapter.authors)),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('date'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(
+														A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+var _user$project$View$viewChapterFeaturedCurrent = function (chapter) {
+	return A3(_user$project$View$viewChapterFeatured, 'Current chapter', 'current-chapter', chapter);
+};
+var _user$project$View$viewChapterFeaturedFirst = function (chapter) {
+	return A3(_user$project$View$viewChapterFeatured, 'Start from the beginning', 'first-chapter', chapter);
+};
 var _user$project$View$sortChapterList = function (chapters) {
 	return A2(
 		_elm_lang$core$List$sortBy,
@@ -11907,6 +12456,32 @@ var _user$project$View$sortChapterList = function (chapters) {
 			return _.index;
 		},
 		_elm_lang$core$Dict$values(chapters));
+};
+var _user$project$View$viewChapterList = function (chapters) {
+	var _p2 = chapters;
+	if (_p2.ctor === 'Nothing') {
+		return {
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Loading chapters...'),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('container'),
+					_1: {ctor: '[]'}
+				},
+				A2(
+					_elm_lang$core$List$map,
+					_user$project$View$viewChapterListItem,
+					_user$project$View$sortChapterList(_p2._0))),
+			_1: {ctor: '[]'}
+		};
+	}
 };
 var _user$project$View$mailchimpBlock = function (model) {
 	var mailchimp_action = '//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040';
@@ -12096,186 +12671,6 @@ var _user$project$View$mailchimpBlock = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View$onLinkClick = function (message) {
-	var options = {stopPropagation: false, preventDefault: true};
-	return A3(
-		_elm_lang$html$Html_Events$onWithOptions,
-		'click',
-		options,
-		_elm_lang$core$Json_Decode$succeed(message));
-};
-var _user$project$View$linkButton = F3(
-	function (attr, path, title) {
-		return A2(
-			_elm_lang$html$Html$a,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(path),
-					_1: {
-						ctor: '::',
-						_0: _user$project$View$onLinkClick(
-							_user$project$Msgs$ChangeLocation(path)),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('button'),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				attr),
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(title),
-				_1: {ctor: '[]'}
-			});
-	});
-var _user$project$View$linkButtonPrimary = F2(
-	function (path, title) {
-		return A3(
-			_user$project$View$linkButton,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('button-primary'),
-				_1: {ctor: '[]'}
-			},
-			path,
-			title);
-	});
-var _user$project$View$linkButtonBig = F2(
-	function (path, title) {
-		return A3(
-			_user$project$View$linkButton,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('big'),
-				_1: {ctor: '[]'}
-			},
-			path,
-			title);
-	});
-var _user$project$View$viewMenuItem = function (item) {
-	return A2(
-		_elm_lang$html$Html$li,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('navbar-item'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(item.path),
-					_1: {
-						ctor: '::',
-						_0: _user$project$View$onLinkClick(
-							_user$project$Msgs$ChangeLocation(item.path)),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navbar-link'),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(item.title),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$View$viewMenu = function (menu) {
-	return A2(
-		_elm_lang$html$Html$nav,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('navbar'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$ul,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('navbar-list'),
-					_1: {ctor: '[]'}
-				},
-				A2(_elm_lang$core$List$map, _user$project$View$viewMenuItem, menu)),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$View$templateHome = F2(
-	function (model, content) {
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('container navbar-container'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _user$project$View$viewMenu(model.menu),
-						_1: {
-							ctor: '::',
-							_0: _user$project$View$viewSocialLinks(model),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('container title-container'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _user$project$View$viewTitle(model),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			},
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				content,
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('container footer-container'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _user$project$View$viewSocialLinks(model),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}));
-	});
-var _user$project$View$dataAttr = F2(
-	function (attr, value) {
-		return A2(
-			_elm_lang$html$Html_Attributes$attribute,
-			A2(_elm_lang$core$Basics_ops['++'], 'data-', attr),
-			value);
-	});
 var _user$project$View$facebookFeed = function (model) {
 	var title = model.siteInformation.title;
 	var page = model.siteInformation.facebook_page;
@@ -12292,7 +12687,7 @@ var _user$project$View$facebookFeed = function (model) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_user$project$View$dataAttr,
+							_user$project$View_Attributes$dataAttr,
 							'href',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
@@ -12300,19 +12695,19 @@ var _user$project$View$facebookFeed = function (model) {
 								A2(_elm_lang$core$Basics_ops['++'], page, '/'))),
 						_1: {
 							ctor: '::',
-							_0: A2(_user$project$View$dataAttr, 'small-header', 'false'),
+							_0: A2(_user$project$View_Attributes$dataAttr, 'small-header', 'false'),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$View$dataAttr, 'adapt-container-width', 'true'),
+								_0: A2(_user$project$View_Attributes$dataAttr, 'adapt-container-width', 'true'),
 								_1: {
 									ctor: '::',
-									_0: A2(_user$project$View$dataAttr, 'hide-cover', 'false'),
+									_0: A2(_user$project$View_Attributes$dataAttr, 'hide-cover', 'false'),
 									_1: {
 										ctor: '::',
-										_0: A2(_user$project$View$dataAttr, 'show-facepile', 'false'),
+										_0: A2(_user$project$View_Attributes$dataAttr, 'show-facepile', 'false'),
 										_1: {
 											ctor: '::',
-											_0: A2(_user$project$View$dataAttr, 'width', '300'),
+											_0: A2(_user$project$View_Attributes$dataAttr, 'width', '300'),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -12355,215 +12750,9 @@ var _user$project$View$facebookFeed = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View$sizes = function (sizes) {
-	return A2(
-		_elm_lang$html$Html_Attributes$attribute,
-		'sizes',
-		_elm_lang$core$String$concat(
-			A2(_elm_lang$core$List$intersperse, ', ', sizes)));
-};
-var _user$project$View$srcset = function (derivatives) {
-	return A2(
-		_elm_lang$html$Html_Attributes$attribute,
-		'srcset',
-		_elm_lang$core$String$concat(
-			A2(
-				_elm_lang$core$List$intersperse,
-				', ',
-				A2(
-					_elm_lang$core$List$map,
-					function (derivative) {
-						return A2(
-							_elm_lang$core$Basics_ops['++'],
-							derivative.uri,
-							A2(_elm_lang$core$Basics_ops['++'], ' ', derivative.size));
-					},
-					derivatives))));
-};
-var _user$project$View$viewImage = F2(
-	function (attributes, image) {
-		return A2(
-			_elm_lang$html$Html$img,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				attributes,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(image.uri),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$width(image.width),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$height(image.height),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$alt(image.alt),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$title(image.title),
-									_1: {
-										ctor: '::',
-										_0: _user$project$View$srcset(image.derivatives),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}
-					}
-				}),
-			{ctor: '[]'});
-	});
-var _user$project$View$viewChapterFeatured = F3(
-	function (caption, featured_class, chapter) {
-		var chapterNumber = A2(
-			_elm_lang$core$Basics_ops['++'],
-			'#',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(chapter.index),
-				' '));
-		var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
-		return A2(
-			_elm_lang$html$Html$div,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(
-						A2(_elm_lang$core$Basics_ops['++'], 'chapter-featured ', featured_class)),
-					_1: {
-						ctor: '::',
-						_0: _user$project$View$onLinkClick(
-							_user$project$Msgs$ChangeLocation(chapterPath)),
-						_1: {ctor: '[]'}
-					}
-				},
-				_user$project$Skeleton$skeletonGridSize(_user$project$Skeleton$SixColumns)),
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$View$viewImage,
-					{ctor: '[]'},
-					chapter.featured_image),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('image-overlay'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$h3,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(caption),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$h2,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$span,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(chapterNumber),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(chapter.title),
-											_1: {ctor: '[]'}
-										}
-									}),
-								_1: {ctor: '[]'}
-							}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('inner'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: A2(_user$project$View$linkButtonPrimary, chapterPath, 'Read it'),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('description'),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(chapter.field_description),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('author'),
-												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(
-													_elm_lang$core$String$concat(chapter.authors)),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$div,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('date'),
-													_1: {ctor: '[]'}
-												},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-	});
-var _user$project$View$viewChapterFeaturedCurrent = function (chapter) {
-	return A3(_user$project$View$viewChapterFeatured, 'Current chapter', 'current-chapter', chapter);
-};
-var _user$project$View$viewChapterFeaturedFirst = function (chapter) {
-	return A3(_user$project$View$viewChapterFeatured, 'Start from the beginning', 'first-chapter', chapter);
-};
 var _user$project$View$viewHome = function (model) {
-	var _p1 = model.chapters;
-	if (_p1.ctor === 'Nothing') {
+	var _p3 = model.chapters;
+	if (_p3.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: _elm_lang$html$Html$text('Loading chapters...'),
@@ -12594,45 +12783,45 @@ var _user$project$View$viewHome = function (model) {
 				_0: A2(_user$project$View$linkButtonBig, 'chapters', 'List all chapters'),
 				_1: {ctor: '[]'}
 			});
-		var list = _user$project$View$sortChapterList(_p1._0);
+		var list = _user$project$View$sortChapterList(_p3._0);
 		var firstrow = function () {
-			var _p2 = _elm_lang$core$List$head(
+			var _p4 = _elm_lang$core$List$head(
 				_elm_lang$core$List$reverse(list));
-			if (_p2.ctor === 'Nothing') {
+			if (_p4.ctor === 'Nothing') {
 				return A2(
 					_user$project$Skeleton$skeletonRow,
 					{ctor: '[]'},
 					{ctor: '[]'});
 			} else {
-				var _p5 = _p2._0;
-				var _p3 = _elm_lang$core$List$head(list);
-				if (_p3.ctor === 'Nothing') {
+				var _p7 = _p4._0;
+				var _p5 = _elm_lang$core$List$head(list);
+				if (_p5.ctor === 'Nothing') {
 					return A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _user$project$View$viewChapterFeaturedCurrent(_p5),
+							_0: _user$project$View$viewChapterFeaturedCurrent(_p7),
 							_1: {ctor: '[]'}
 						});
 				} else {
-					var _p4 = _p3._0;
-					return _elm_lang$core$Native_Utils.eq(_p5, _p4) ? A2(
+					var _p6 = _p5._0;
+					return _elm_lang$core$Native_Utils.eq(_p7, _p6) ? A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _user$project$View$viewChapterFeaturedCurrent(_p5),
+							_0: _user$project$View$viewChapterFeaturedCurrent(_p7),
 							_1: {ctor: '[]'}
 						}) : A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _user$project$View$viewChapterFeaturedCurrent(_p5),
+							_0: _user$project$View$viewChapterFeaturedCurrent(_p7),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$viewChapterFeaturedFirst(_p4),
+								_0: _user$project$View$viewChapterFeaturedFirst(_p6),
 								_1: {ctor: '[]'}
 							}
 						});
@@ -12660,194 +12849,6 @@ var _user$project$View$viewHome = function (model) {
 			_1: {ctor: '[]'}
 		};
 	}
-};
-var _user$project$View$viewChapterListItem = function (chapter) {
-	var chapterNumber = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'#',
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			_elm_lang$core$Basics$toString(chapter.index),
-			': '));
-	var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('chapter-list-item'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h3,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(chapterNumber),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$h2,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$a,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href(chapterPath),
-								_1: {
-									ctor: '::',
-									_0: _user$project$View$onLinkClick(
-										_user$project$Msgs$ChangeLocation(chapterPath)),
-									_1: {ctor: '[]'}
-								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(chapter.title),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(chapter.field_description),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_user$project$View$viewImage,
-							{ctor: '[]'},
-							chapter.thumbnail),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(
-										_elm_lang$core$String$concat(chapter.authors)),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(
-											A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}
-			}
-		});
-};
-var _user$project$View$viewChapterList = function (chapters) {
-	var _p6 = chapters;
-	if (_p6.ctor === 'Nothing') {
-		return {
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Loading chapters...'),
-			_1: {ctor: '[]'}
-		};
-	} else {
-		return {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('container'),
-					_1: {ctor: '[]'}
-				},
-				A2(
-					_elm_lang$core$List$map,
-					_user$project$View$viewChapterListItem,
-					_user$project$View$sortChapterList(_p6._0))),
-			_1: {ctor: '[]'}
-		};
-	}
-};
-var _user$project$View$viewSection = function (model) {
-	var _p7 = model.sectionType;
-	if (_p7.ctor === 'SingleImage') {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'});
-	} else {
-		return A2(
-			_user$project$Skeleton$skeletonRowFullWidth,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$View$viewImage,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
-						_1: {
-							ctor: '::',
-							_0: _user$project$View$sizes(
-								{
-									ctor: '::',
-									_0: '100w',
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					},
-					model.image),
-				_1: {ctor: '[]'}
-			});
-	}
-};
-var _user$project$View$viewChapterContent = function (model) {
-	return A2(_elm_lang$core$List$map, _user$project$View$viewSection, model);
-};
-var _user$project$View$viewChapter = function (chapter) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$Skeleton$skeletonRowOneCol,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h1,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(chapter.title),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			_user$project$View$viewChapterContent(chapter.content)));
 };
 
 var _user$project$Chapters_Chapter$replaceChapter = F2(
