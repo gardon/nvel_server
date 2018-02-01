@@ -1,20 +1,18 @@
 module Menu exposing (..)
 
-type alias MenuItem = 
-  { title : String
-  , path : String
-}
+import Language exposing (..)
+import Models exposing (MenuItem,Phrase)
 
 menu : List MenuItem
 menu = 
     [ 
-      { title = "Home"
+      { title = Models.MenuHome
       , path = "/"
       }
-      ,{ title = "Archive"
+      ,{ title = Models.MenuArchive
       , path = "/chapters"
       }
-      ,{ title = "About"
+      ,{ title = Models.MenuAbout
       , path = "/about"
       }
     ]

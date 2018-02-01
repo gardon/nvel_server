@@ -1,6 +1,5 @@
 module Models exposing (..)
 
-import Menu exposing (..)
 import Dict exposing (Dict)
 import Image exposing (Image)
 import Date exposing (Date)
@@ -12,6 +11,12 @@ type alias Model =
   , backendConfig : BackendConfig
   , menu : List MenuItem
   , route : Route
+  , language : Language
+  }
+
+type alias MenuItem = 
+  { title : Phrase
+  , path : String
   }
 
 type alias Chapter =
@@ -64,6 +69,23 @@ type SocialIconType
     = FacebookIcon
     | InstagramIcon
     | DeviantArtIcon
+
+type Language
+    = En
+    | Pt_Br
+
+type Phrase
+    = MenuHome
+    | MenuArchive
+    | MenuAbout
+    | CurrentChapter
+    | StartFromBeginning
+    | ReadIt
+    | ListAllChapters
+    | MailchimpText 
+    | MailchimpSmall 
+    | MailchimpButton
+    | Loading
 
 siteInformationEndpoint = "nvel_base?_format=json"
 chapterListEndpoint = "chapters?_format=json"

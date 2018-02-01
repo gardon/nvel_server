@@ -14,6 +14,10 @@ switchBackend : BackendConfig
 switchBackend =
     backend
 
+getLanguage : Language
+getLanguage = 
+    language
+
 siteInformation : SiteInformation
 siteInformation = 
     Config.Site.siteInformation

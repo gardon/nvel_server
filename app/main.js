@@ -11192,24 +11192,6 @@ var _mgold$elm_date_format$Date_Format$format = F2(
 	});
 var _mgold$elm_date_format$Date_Format$formatISO8601 = _mgold$elm_date_format$Date_Format$format('%Y-%m-%dT%H:%M:%SZ');
 
-var _user$project$Menu$menu = {
-	ctor: '::',
-	_0: {title: 'Home', path: '/'},
-	_1: {
-		ctor: '::',
-		_0: {title: 'Archive', path: '/chapters'},
-		_1: {
-			ctor: '::',
-			_0: {title: 'About', path: '/about'},
-			_1: {ctor: '[]'}
-		}
-	}
-};
-var _user$project$Menu$MenuItem = F2(
-	function (a, b) {
-		return {title: a, path: b};
-	});
-
 var _user$project$Image$Image = F6(
 	function (a, b, c, d, e, f) {
 		return {uri: a, width: b, height: c, alt: d, title: e, derivatives: f};
@@ -11222,9 +11204,13 @@ var _user$project$Image$Derivative = F2(
 var _user$project$Models$chapterContentEndpoint = 'chapters';
 var _user$project$Models$chapterListEndpoint = 'chapters?_format=json';
 var _user$project$Models$siteInformationEndpoint = 'nvel_base?_format=json';
-var _user$project$Models$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f};
+var _user$project$Models$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f, language: g};
+	});
+var _user$project$Models$MenuItem = F2(
+	function (a, b) {
+		return {title: a, path: b};
 	});
 var _user$project$Models$Chapter = F9(
 	function (a, b, c, d, e, f, g, h, i) {
@@ -11257,6 +11243,19 @@ var _user$project$Models$HomeRoute = {ctor: 'HomeRoute'};
 var _user$project$Models$DeviantArtIcon = {ctor: 'DeviantArtIcon'};
 var _user$project$Models$InstagramIcon = {ctor: 'InstagramIcon'};
 var _user$project$Models$FacebookIcon = {ctor: 'FacebookIcon'};
+var _user$project$Models$Pt_Br = {ctor: 'Pt_Br'};
+var _user$project$Models$En = {ctor: 'En'};
+var _user$project$Models$Loading = {ctor: 'Loading'};
+var _user$project$Models$MailchimpButton = {ctor: 'MailchimpButton'};
+var _user$project$Models$MailchimpSmall = {ctor: 'MailchimpSmall'};
+var _user$project$Models$MailchimpText = {ctor: 'MailchimpText'};
+var _user$project$Models$ListAllChapters = {ctor: 'ListAllChapters'};
+var _user$project$Models$ReadIt = {ctor: 'ReadIt'};
+var _user$project$Models$StartFromBeginning = {ctor: 'StartFromBeginning'};
+var _user$project$Models$CurrentChapter = {ctor: 'CurrentChapter'};
+var _user$project$Models$MenuAbout = {ctor: 'MenuAbout'};
+var _user$project$Models$MenuArchive = {ctor: 'MenuArchive'};
+var _user$project$Models$MenuHome = {ctor: 'MenuHome'};
 
 var _user$project$Msgs$UpdatePageData = function (a) {
 	return {ctor: 'UpdatePageData', _0: a};
@@ -11451,6 +11450,83 @@ var _user$project$Chapters$getChapters = function (model) {
 		_elm_lang$http$Http$send,
 		_user$project$Msgs$ChaptersLoad,
 		A2(_elm_lang$http$Http$get, url, _user$project$Chapters$decodeChapters));
+};
+
+var _user$project$Language$translateEn = function (phrase) {
+	var _p0 = phrase;
+	switch (_p0.ctor) {
+		case 'MenuHome':
+			return 'Home';
+		case 'MenuArchive':
+			return 'Index';
+		case 'MenuAbout':
+			return 'About';
+		case 'CurrentChapter':
+			return 'Current Chapter';
+		case 'StartFromBeginning':
+			return 'Start from beginning';
+		case 'ReadIt':
+			return 'Read it';
+		case 'ListAllChapters':
+			return 'List all chapters';
+		case 'MailchimpText':
+			return 'Don\'t miss an update, sign-up to get notified!';
+		case 'MailchimpSmall':
+			return '(It\'s really only used when there are updates)';
+		case 'MailchimpButton':
+			return 'Subscribe';
+		default:
+			return 'Loading...';
+	}
+};
+var _user$project$Language$translatePtBr = function (phrase) {
+	var _p1 = phrase;
+	switch (_p1.ctor) {
+		case 'MenuHome':
+			return 'Capa';
+		case 'MenuArchive':
+			return 'Índice';
+		case 'MenuAbout':
+			return 'Prefácio';
+		case 'CurrentChapter':
+			return 'Último Capítulo';
+		case 'StartFromBeginning':
+			return 'Começo da história';
+		case 'ReadIt':
+			return 'Ler agora';
+		case 'ListAllChapters':
+			return 'Lista de capítulos';
+		case 'MailchimpText':
+			return 'Assine a lista para saber de novos capítulos!';
+		case 'MailchimpSmall':
+			return '(A lista só é usada para avisar de conteúdo novo)';
+		case 'MailchimpButton':
+			return 'Assinar';
+		default:
+			return 'Carregando...';
+	}
+};
+var _user$project$Language$translate = function (lang) {
+	var _p2 = lang;
+	if (_p2.ctor === 'En') {
+		return _user$project$Language$translateEn;
+	} else {
+		return _user$project$Language$translatePtBr;
+	}
+};
+
+var _user$project$Menu$menu = {
+	ctor: '::',
+	_0: {title: _user$project$Models$MenuHome, path: '/'},
+	_1: {
+		ctor: '::',
+		_0: {title: _user$project$Models$MenuArchive, path: '/chapters'},
+		_1: {
+			ctor: '::',
+			_0: {title: _user$project$Models$MenuAbout, path: '/about'},
+			_1: {ctor: '[]'}
+		}
+	}
 };
 
 var _user$project$Skeleton$skeletonRow = F2(
@@ -11731,9 +11807,9 @@ var _user$project$View_Attributes$srcset = function (derivatives) {
 };
 
 var _user$project$View_Mailchimp$mailchimpBlock = function (model) {
-	var button_text = 'Subscribe';
-	var small_message = '(It\'s really only used when there are updates)';
-	var text_message = 'Don\'t miss an update, sign-up to get notified!';
+	var button_text = A2(_user$project$Language$translate, model.language, _user$project$Models$MailchimpButton);
+	var small_message = A2(_user$project$Language$translate, model.language, _user$project$Models$MailchimpSmall);
+	var text_message = A2(_user$project$Language$translate, model.language, _user$project$Models$MailchimpText);
 	var mailchimp_action = '//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040';
 	return A2(
 		_elm_lang$html$Html$div,
@@ -11964,11 +12040,7 @@ var _user$project$View$loading = function (message) {
 			_0: _elm_lang$html$Html_Attributes$class('loading-icon'),
 			_1: {ctor: '[]'}
 		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(message),
-			_1: {ctor: '[]'}
-		});
+		{ctor: '[]'});
 };
 var _user$project$View$viewTitle = function (model) {
 	return A2(
@@ -12167,61 +12239,67 @@ var _user$project$View$viewSocialLinks = function (model) {
 			}
 		});
 };
-var _user$project$View$viewMenuItem = function (item) {
-	return A2(
-		_elm_lang$html$Html$li,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('navbar-item'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(item.path),
-					_1: {
+var _user$project$View$viewMenuItem = F2(
+	function (lang, item) {
+		return A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('navbar-item'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
 						ctor: '::',
-						_0: _user$project$View_Attributes$onLinkClick(
-							_user$project$Msgs$ChangeLocation(item.path)),
+						_0: _elm_lang$html$Html_Attributes$href(item.path),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navbar-link'),
-							_1: {ctor: '[]'}
+							_0: _user$project$View_Attributes$onLinkClick(
+								_user$project$Msgs$ChangeLocation(item.path)),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navbar-link'),
+								_1: {ctor: '[]'}
+							}
 						}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(item.title),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$View$viewMenu = function (menu) {
-	return A2(
-		_elm_lang$html$Html$nav,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('navbar'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$ul,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('navbar-list'),
-					_1: {ctor: '[]'}
-				},
-				A2(_elm_lang$core$List$map, _user$project$View$viewMenuItem, menu)),
-			_1: {ctor: '[]'}
-		});
-};
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							A2(_user$project$Language$translate, lang, item.title)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$View$viewMenu = F2(
+	function (lang, menu) {
+		return A2(
+			_elm_lang$html$Html$nav,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('navbar'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$ul,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('navbar-list'),
+						_1: {ctor: '[]'}
+					},
+					A2(
+						_elm_lang$core$List$map,
+						_user$project$View$viewMenuItem(lang),
+						menu)),
+				_1: {ctor: '[]'}
+			});
+	});
 var _user$project$View$templateHome = F2(
 	function (model, content) {
 		return A2(
@@ -12237,7 +12315,7 @@ var _user$project$View$templateHome = F2(
 					},
 					{
 						ctor: '::',
-						_0: _user$project$View$viewMenu(model.menu),
+						_0: A2(_user$project$View$viewMenu, model.language, model.menu),
 						_1: {
 							ctor: '::',
 							_0: _user$project$View$viewSocialLinks(model),
@@ -12528,8 +12606,9 @@ var _user$project$View$linkButtonPrimary = F2(
 			path,
 			title);
 	});
-var _user$project$View$viewChapterFeatured = F3(
-	function (caption, featured_class, chapter) {
+var _user$project$View$viewChapterFeatured = F4(
+	function (lang, caption_phrase, featured_class, chapter) {
+		var caption = A2(_user$project$Language$translate, lang, caption_phrase);
 		var chapterNumber = A2(
 			_elm_lang$core$Basics_ops['++'],
 			'#',
@@ -12545,7 +12624,7 @@ var _user$project$View$viewChapterFeatured = F3(
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class(
-						A2(_elm_lang$core$Basics_ops['++'], 'chapter-featured ', featured_class)),
+						A2(_elm_lang$core$Basics_ops['++'], 'chapter-featured equal-heights', featured_class)),
 					_1: {
 						ctor: '::',
 						_0: _user$project$View_Attributes$onLinkClick(
@@ -12614,7 +12693,10 @@ var _user$project$View$viewChapterFeatured = F3(
 							},
 							{
 								ctor: '::',
-								_0: A2(_user$project$View$linkButtonPrimary, chapterPath, 'Read it'),
+								_0: A2(
+									_user$project$View$linkButtonPrimary,
+									chapterPath,
+									A2(_user$project$Language$translate, lang, _user$project$Models$ReadIt)),
 								_1: {
 									ctor: '::',
 									_0: A2(
@@ -12669,12 +12751,14 @@ var _user$project$View$viewChapterFeatured = F3(
 				}
 			});
 	});
-var _user$project$View$viewChapterFeaturedCurrent = function (chapter) {
-	return A3(_user$project$View$viewChapterFeatured, 'Current chapter', 'current-chapter', chapter);
-};
-var _user$project$View$viewChapterFeaturedFirst = function (chapter) {
-	return A3(_user$project$View$viewChapterFeatured, 'Start from the beginning', 'first-chapter', chapter);
-};
+var _user$project$View$viewChapterFeaturedCurrent = F2(
+	function (lang, chapter) {
+		return A4(_user$project$View$viewChapterFeatured, lang, _user$project$Models$CurrentChapter, 'current-chapter', chapter);
+	});
+var _user$project$View$viewChapterFeaturedFirst = F2(
+	function (lang, chapter) {
+		return A4(_user$project$View$viewChapterFeatured, lang, _user$project$Models$StartFromBeginning, 'first-chapter', chapter);
+	});
 var _user$project$View$sortChapterList = function (chapters) {
 	return A2(
 		_elm_lang$core$List$sortBy,
@@ -12793,7 +12877,8 @@ var _user$project$View$viewHome = function (model) {
 	if (_p3.ctor === 'Nothing') {
 		return {
 			ctor: '::',
-			_0: _elm_lang$html$Html$text('Loading chapters...'),
+			_0: _user$project$View$loading(
+				A2(_user$project$Language$translate, model.language, _user$project$Models$Loading)),
 			_1: {ctor: '[]'}
 		};
 	} else {
@@ -12809,6 +12894,7 @@ var _user$project$View$viewHome = function (model) {
 					_1: {ctor: '[]'}
 				}
 			});
+		var lang = model.language;
 		var secondrow = A2(
 			_user$project$Skeleton$skeletonRow,
 			{
@@ -12818,7 +12904,10 @@ var _user$project$View$viewHome = function (model) {
 			},
 			{
 				ctor: '::',
-				_0: A2(_user$project$View$linkButtonBig, 'chapters', 'List all chapters'),
+				_0: A2(
+					_user$project$View$linkButtonBig,
+					'chapters',
+					A2(_user$project$Language$translate, lang, _user$project$Models$ListAllChapters)),
 				_1: {ctor: '[]'}
 			});
 		var list = _user$project$View$sortChapterList(_p3._0);
@@ -12839,7 +12928,7 @@ var _user$project$View$viewHome = function (model) {
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _user$project$View$viewChapterFeaturedCurrent(_p7),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p7),
 							_1: {ctor: '[]'}
 						});
 				} else {
@@ -12849,17 +12938,17 @@ var _user$project$View$viewHome = function (model) {
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _user$project$View$viewChapterFeaturedCurrent(_p7),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p7),
 							_1: {ctor: '[]'}
 						}) : A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _user$project$View$viewChapterFeaturedCurrent(_p7),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p7),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$viewChapterFeaturedFirst(_p6),
+								_0: A2(_user$project$View$viewChapterFeaturedFirst, lang, _p6),
 								_1: {ctor: '[]'}
 							}
 						});
@@ -12933,11 +13022,12 @@ var _user$project$Chapters_Chapter$view = function (model) {
 
 var _user$project$Config_Environment$backend = {backendURL: 'http://server.nvel.docksal/'};
 
+var _user$project$Config_Site$language = _user$project$Models$Pt_Br;
 var _user$project$Config_Site$notFoundData = {title: 'Oops, there was a problem!'};
 var _user$project$Config_Site$aboutData = {title: 'About'};
 var _user$project$Config_Site$chaptersListData = {title: 'Chapters'};
 var _user$project$Config_Site$homeData = {title: ''};
-var _user$project$Config_Site$siteInformation = {title: 'Nvel - Digital Graphic Novel', description: '', facebook_page: '', instagram_handle: '', deviantart_profile: ''};
+var _user$project$Config_Site$siteInformation = {title: '', description: '', facebook_page: '', instagram_handle: '', deviantart_profile: ''};
 
 var _user$project$Config$getSiteInformation = function (model) {
 	var url = A2(_elm_lang$core$Basics_ops['++'], model.backendConfig.backendURL, _user$project$Models$siteInformationEndpoint);
@@ -12993,6 +13083,7 @@ var _user$project$Config$pageData = function (model) {
 		{title: title});
 };
 var _user$project$Config$siteInformation = _user$project$Config_Site$siteInformation;
+var _user$project$Config$getLanguage = _user$project$Config_Site$language;
 var _user$project$Config$switchBackend = _user$project$Config_Environment$backend;
 
 var _user$project$Routing$routeContent = function (model) {
@@ -13091,11 +13182,12 @@ var _user$project$Main$updatePageData = _elm_lang$core$Native_Platform.outgoingP
 var _user$project$Main$init = function (location) {
 	var route = _user$project$Routing$parseLocation(location);
 	var menu = _user$project$Menu$menu;
+	var lang = _user$project$Config$getLanguage;
 	var backendConfig = _user$project$Config$switchBackend;
 	var pageData = {title: 'Loading...'};
 	var siteInformation = _user$project$Config$siteInformation;
 	var chapters = _elm_lang$core$Maybe$Nothing;
-	var model = A6(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route);
+	var model = A7(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route, lang);
 	return {
 		ctor: '_Tuple2',
 		_0: model,

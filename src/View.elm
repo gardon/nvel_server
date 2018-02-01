@@ -15,16 +15,19 @@ import Date.Format
 
 import View.Attributes exposing (..)
 import View.Mailchimp exposing (..)
+import Language exposing (translate)
+
 
 viewHome : Model -> List (Html Msg)
 viewHome model =
   case model.chapters of
     Nothing ->
-      [ text "Loading chapters..."]
+      [ loading (translate model.language Loading)]
 
     Just chapters ->
       let 
           list = sortChapterList chapters
+          lang = model.language
 
           firstrow = 
             case List.head (List.reverse list) of
@@ -34,17 +37,18 @@ viewHome model =
               Just current ->
                 case List.head list of
                   Nothing ->
-                    skeletonRow [] [ viewChapterFeaturedCurrent current ]
+                    skeletonRow [] [ viewChapterFeaturedCurrent lang current ]
 
                   Just first ->
                     if current == first then
-                        skeletonRow [] [ viewChapterFeaturedCurrent current ]
+                        skeletonRow [] [ viewChapterFeaturedCurrent lang current ]
                     else 
-                        skeletonRow [] [ viewChapterFeaturedCurrent current, viewChapterFeaturedFirst first ]
+                        skeletonRow [] [ viewChapterFeaturedCurrent lang current, viewChapterFeaturedFirst lang first ]
 
 
           secondrow = skeletonRow [ class "center chapters-button" ] 
-              [ linkButtonBig "chapters" "List all chapters"
+              [ translate lang ListAllChapters
+                  |> linkButtonBig "chapters" 
               ]
 
           thirdrow = skeletonRow []
@@ -99,34 +103,36 @@ sortChapterList : Dict String Chapter -> List Chapter
 sortChapterList chapters = 
   List.sortBy .index (Dict.values chapters)
 
-viewChapterFeatured : String -> String -> Chapter -> Html Msg
-viewChapterFeatured caption featured_class chapter = 
+viewChapterFeatured : Language -> Phrase -> String -> Chapter -> Html Msg
+viewChapterFeatured lang caption_phrase featured_class chapter = 
   let 
       chapterPath = "/chapters/" ++ chapter.nid
       chapterNumber = "#" ++ (toString chapter.index) ++ " "
+      caption = translate lang caption_phrase
 
   in
-      div ([ class ("chapter-featured " ++ featured_class), onLinkClick (ChangeLocation chapterPath)] ++ skeletonGridSize SixColumns)
+      div ([ class ("chapter-featured equal-heights" ++ featured_class), onLinkClick (ChangeLocation chapterPath)] ++ skeletonGridSize SixColumns)
         [ viewImage [] chapter.featured_image
         , div [ class "image-overlay" ] 
           [ h3 [] [ text caption ] 
           , h2 [] [ span [] [ text chapterNumber ], text chapter.title ]
         ]
         , div [ class "inner" ]
-          [ linkButtonPrimary chapterPath "Read it"
+          [ translate lang ReadIt
+              |> linkButtonPrimary chapterPath
           , div [ class "description"] [ text chapter.field_description ]
           , div [ class "author" ] [ text (String.concat chapter.authors) ]
           , div [ class "date" ] [ text (Date.Format.format "%Y %b %e" chapter.date)]
           ]
         ]
 
-viewChapterFeaturedCurrent : Chapter -> Html Msg
-viewChapterFeaturedCurrent chapter =
-  viewChapterFeatured "Current chapter" "current-chapter" chapter
+viewChapterFeaturedCurrent : Language -> Chapter -> Html Msg
+viewChapterFeaturedCurrent lang chapter =
+  viewChapterFeatured lang CurrentChapter "current-chapter" chapter
 
-viewChapterFeaturedFirst : Chapter -> Html Msg
-viewChapterFeaturedFirst chapter =
-  viewChapterFeatured "Start from the beginning" "first-chapter" chapter
+viewChapterFeaturedFirst : Language -> Chapter -> Html Msg
+viewChapterFeaturedFirst lang chapter =
+  viewChapterFeatured lang StartFromBeginning "first-chapter" chapter
 
 linkButtonPrimary : String -> String -> Html Msg
 linkButtonPrimary path title = 
@@ -186,16 +192,16 @@ viewImage attributes image =
     , srcset image.derivatives 
     ]) []
 
-viewMenu : List MenuItem -> Html Msg 
-viewMenu menu =
+viewMenu : Language -> List MenuItem -> Html Msg 
+viewMenu lang menu =
   nav [ class "navbar"] [
-      ul [ class "navbar-list" ] (List.map viewMenuItem menu)
+      ul [ class "navbar-list" ] (List.map (viewMenuItem lang) menu)
   ]
 
-viewMenuItem : MenuItem -> Html Msg
-viewMenuItem item =
+viewMenuItem :  Language -> MenuItem -> Html Msg
+viewMenuItem lang item =
   li [ class "navbar-item" ] [ 
-      a [ href item.path, onLinkClick (ChangeLocation item.path), class "navbar-link" ] [ text item.title ]
+      a [ href item.path, onLinkClick (ChangeLocation item.path), class "navbar-link" ] [ text (translate lang item.title) ]
   ]
 
 viewSocialLinks : Model -> Html Msg
@@ -255,12 +261,12 @@ viewTitle model =
 
 loading : String -> Html msg
 loading message = 
-    span [ class "loading-icon" ] [ text message ]
+    span [ class "loading-icon" ] []
 
 templateHome : Model -> List (Html Msg) -> List (Html Msg)
 templateHome model content =
     [ div [ class "container navbar-container" ] 
-      [ viewMenu model.menu
+      [ viewMenu model.language model.menu
       , viewSocialLinks model 
       ]
     , div [ class "container title-container" ]

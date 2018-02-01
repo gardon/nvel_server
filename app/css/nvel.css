@@ -13,6 +13,17 @@ img.u-full-width {
 	margin: 0 auto;
 }
 
+span.loading-icon {
+	background-image: url(../images/loading.svg);
+	width:97px;
+	height:97px;
+	position:absolute;
+	top: 50vh;
+	left: 50vw;
+	margin-top: -48px;
+	margin-left: -48px;
+}
+
 .button.big {
 	font-size: 1.1em;
 	height: 50px;
@@ -79,7 +90,15 @@ ul.social-links {
 
 .footer-container ul.social-links {
 	position: static;
+	font-size: 0.8em;
 }
+
+@media (min-width: 350px) {
+	.footer-container ul.social-links {
+		font-size: 1em;
+	}
+}
+
 
 .footer-container ul.social-links li {
 	margin-right: 1em;
@@ -259,6 +278,7 @@ h1,h2,h3 {
 
 .chapter-featured .description {
 	padding: 0 1em;
+	white-space: pre-line;
 }
 
 .chapter-featured .author {

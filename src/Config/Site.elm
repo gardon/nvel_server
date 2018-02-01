@@ -4,7 +4,7 @@ import Models exposing (..)
 
 siteInformation : SiteInformation
 siteInformation = 
-    { title = "Nvel - Digital Graphic Novel"
+    { title = ""
     , description = ""
     , facebook_page = ""
     , instagram_handle = ""
@@ -30,3 +30,6 @@ notFoundData : PageData
 notFoundData =
     { title = "Oops, there was a problem!"
     }
+
+language : Language
+language = Pt_Br

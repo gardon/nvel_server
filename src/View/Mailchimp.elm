@@ -6,14 +6,15 @@ import Html.Events exposing (..)
 import Skeleton exposing (..)
 
 import Models exposing (..)
+import Language exposing (translate)
 
 mailchimpBlock : Model -> Html msg
 mailchimpBlock model = 
   let 
     mailchimp_action = "//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040"
-    text_message = "Don't miss an update, sign-up to get notified!"
-    small_message = "(It's really only used when there are updates)"
-    button_text = "Subscribe"
+    text_message = translate model.language MailchimpText
+    small_message = translate model.language MailchimpSmall
+    button_text = translate model.language MailchimpButton
   in 
     div (skeletonGridSize SixColumns)
       [ div [ id "mc_embed_signup" ]

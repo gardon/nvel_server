@@ -40,9 +40,10 @@ init location =
     siteInformation = Config.siteInformation
     pageData = { title = "Loading..." }
     backendConfig = switchBackend
+    lang = Config.getLanguage
     menu = Menu.menu
     route = parseLocation location
-    model = Model chapters siteInformation pageData backendConfig menu route
+    model = Model chapters siteInformation pageData backendConfig menu route lang
   in 
     ( model
     , Cmd.batch [ getSiteInformation model, getChapters model, updatePageData (Config.pageData model) ]
