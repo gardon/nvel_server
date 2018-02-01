@@ -14,6 +14,7 @@ import Skeleton exposing (..)
 import Date.Format
 
 import View.Attributes exposing (..)
+import View.Mailchimp exposing (..)
 
 viewHome : Model -> List (Html Msg)
 viewHome model =
@@ -84,45 +85,6 @@ facebookFeed model =
           [ a [ href "https://www.facebook.com/abismos.oficial/" ] [ text title ] ]
         ]
       ]
-
-mailchimpBlock : Model -> Html msg
-mailchimpBlock model = 
-  let 
-    mailchimp_action = "//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040"
-  in 
-    div (skeletonGridSize SixColumns)
-      [ div [ id "mc_embed_signup" ]
-        [ Html.form 
-          [ action mailchimp_action
-          , method "post"
-          , id "mc-embedded-subscribe-form"
-          , name "mc-embedded-subscribe-form"
-          , class "validate"
-          , target "_blank"
-          , attribute "novalidate" ""
-          , attribute "_lpchecked" "1"
-          ]
-          [ div [ id "mc_embed_signup_scroll" ]
-            [ input 
-              [ value ""
-              , name "EMAIL"
-              , class "email"
-              , id "mce-EMAIL"
-              , placeholder "E-mail"
-              , attribute "required" ""
-              , type_ "email"
-              ] []
-            , div [ style [ ("position", "absolute"), ("left", "-5000px") ], attribute "aria-hidden" "true" ]
-                [ input [ name "b_3d03ee122031fb9d8b086b942_35a44ac040", tabindex -1, value "", type_ "text" ] []
-                ]
-            , div [ class "clear" ]
-                [ input [ value "Assinar", name "subscribe", id "mc-embedded-subscribe", class "button", type_ "submit" ] []
-                ]
-            ]
-          ]
-        ]
-      ]
-    
             
 viewChapterList : Maybe (Dict String Chapter) -> List (Html Msg)
 viewChapterList chapters = 

@@ -287,3 +287,27 @@ h1,h2,h3 {
 	max-width: 100%;
 	margin: 1em 0 3em;
 }
+
+#mc_embed_signup {
+	margin-bottom: 1em;
+}
+#mc_embed_signup form {
+	position: relative;
+	margin-bottom: 0;
+}
+
+#mc_embed_signup .email {
+	width: 150px;
+	border-radius: 4px 0 0 4px;
+	margin-bottom: 0.5rem;
+}
+
+#mc_embed_signup .button {
+	position: absolute;
+	top: 0;
+	margin-left: 149px;
+	border-radius: 0 4px 4px 0;
+}
+#mc_embed_signup #mailchimp-small {
+	font-size: 0.8em;
+}

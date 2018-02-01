@@ -11730,6 +11730,232 @@ var _user$project$View_Attributes$srcset = function (derivatives) {
 					derivatives))));
 };
 
+var _user$project$View_Mailchimp$mailchimpBlock = function (model) {
+	var button_text = 'Subscribe';
+	var small_message = '(It\'s really only used when there are updates)';
+	var text_message = 'Don\'t miss an update, sign-up to get notified!';
+	var mailchimp_action = '//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040';
+	return A2(
+		_elm_lang$html$Html$div,
+		_user$project$Skeleton$skeletonGridSize(_user$project$Skeleton$SixColumns),
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$id('mc_embed_signup'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$for('mce-EMAIL'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(text_message),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$form,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$action(mailchimp_action),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$method('post'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$id('mc-embedded-subscribe-form'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$name('mc-embedded-subscribe-form'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('validate'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$target('_blank'),
+													_1: {
+														ctor: '::',
+														_0: A2(_elm_lang$html$Html_Attributes$attribute, 'novalidate', ''),
+														_1: {
+															ctor: '::',
+															_0: A2(_elm_lang$html$Html_Attributes$attribute, '_lpchecked', '1'),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$id('mc_embed_signup_scroll'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$input,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(''),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$name('EMAIL'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('email'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$id('mce-EMAIL'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$placeholder('E-mail'),
+																_1: {
+																	ctor: '::',
+																	_0: A2(_elm_lang$html$Html_Attributes$attribute, 'required', ''),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$type_('email'),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-describedby', 'mailchimp-small'),
+																			_1: {ctor: '[]'}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$style(
+														{
+															ctor: '::',
+															_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+															_1: {
+																ctor: '::',
+																_0: {ctor: '_Tuple2', _0: 'left', _1: '-5000px'},
+																_1: {ctor: '[]'}
+															}
+														}),
+													_1: {
+														ctor: '::',
+														_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-hidden', 'true'),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$input,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$name('b_3d03ee122031fb9d8b086b942_35a44ac040'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$tabindex(-1),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$value(''),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$type_('text'),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														},
+														{ctor: '[]'}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$div,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('clear'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$input,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value(button_text),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$name('subscribe'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$id('mc-embedded-subscribe'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('button buton-primary'),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$type_('submit'),
+																				_1: {ctor: '[]'}
+																			}
+																		}
+																	}
+																}
+															},
+															{ctor: '[]'}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$span,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$id('mailchimp-small'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(small_message),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+
 var _user$project$View$loading = function (message) {
 	return A2(
 		_elm_lang$html$Html$span,
@@ -12483,194 +12709,6 @@ var _user$project$View$viewChapterList = function (chapters) {
 		};
 	}
 };
-var _user$project$View$mailchimpBlock = function (model) {
-	var mailchimp_action = '//abismos.us12.list-manage.com/subscribe/post?u=3d03ee122031fb9d8b086b942&amp;id=35a44ac040';
-	return A2(
-		_elm_lang$html$Html$div,
-		_user$project$Skeleton$skeletonGridSize(_user$project$Skeleton$SixColumns),
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$id('mc_embed_signup'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$form,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$action(mailchimp_action),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$method('post'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$id('mc-embedded-subscribe-form'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$name('mc-embedded-subscribe-form'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('validate'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$target('_blank'),
-												_1: {
-													ctor: '::',
-													_0: A2(_elm_lang$html$Html_Attributes$attribute, 'novalidate', ''),
-													_1: {
-														ctor: '::',
-														_0: A2(_elm_lang$html$Html_Attributes$attribute, '_lpchecked', '1'),
-														_1: {ctor: '[]'}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$id('mc_embed_signup_scroll'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$input,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(''),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$name('EMAIL'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('email'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$id('mce-EMAIL'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$placeholder('E-mail'),
-															_1: {
-																ctor: '::',
-																_0: A2(_elm_lang$html$Html_Attributes$attribute, 'required', ''),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$type_('email'),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$style(
-													{
-														ctor: '::',
-														_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
-														_1: {
-															ctor: '::',
-															_0: {ctor: '_Tuple2', _0: 'left', _1: '-5000px'},
-															_1: {ctor: '[]'}
-														}
-													}),
-												_1: {
-													ctor: '::',
-													_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-hidden', 'true'),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$input,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$name('b_3d03ee122031fb9d8b086b942_35a44ac040'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$tabindex(-1),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value(''),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$type_('text'),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													},
-													{ctor: '[]'}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$div,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('clear'),
-													_1: {ctor: '[]'}
-												},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$input,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$value('Assinar'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$name('subscribe'),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$id('mc-embedded-subscribe'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class('button'),
-																		_1: {
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$type_('submit'),
-																			_1: {ctor: '[]'}
-																		}
-																	}
-																}
-															}
-														},
-														{ctor: '[]'}),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}
-									}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
 var _user$project$View$facebookFeed = function (model) {
 	var title = model.siteInformation.title;
 	var page = model.siteInformation.facebook_page;
@@ -12764,7 +12802,7 @@ var _user$project$View$viewHome = function (model) {
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: _user$project$View$mailchimpBlock(model),
+				_0: _user$project$View_Mailchimp$mailchimpBlock(model),
 				_1: {
 					ctor: '::',
 					_0: _user$project$View$facebookFeed(model),
