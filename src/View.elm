@@ -12,6 +12,7 @@ import Dict exposing (Dict)
 import Image exposing (Image, Derivative)
 import Skeleton exposing (..)
 import Date.Format
+import Markdown
 
 import View.Attributes exposing (..)
 import View.Mailchimp exposing (..)
@@ -94,7 +95,7 @@ viewChapterList : Maybe (Dict String Chapter) -> List (Html Msg)
 viewChapterList chapters = 
   case chapters of 
     Nothing -> 
-        [ text "Loading chapters..."]
+        [ loading "Loading chapters..." ]
 
     Just chapters -> 
         [ div [ class "container" ] (List.map viewChapterListItem (sortChapterList chapters)) ]
@@ -263,6 +264,18 @@ loading : String -> Html msg
 loading message = 
     span [ class "loading-icon" ] []
 
+viewAbout : Model -> Html msg
+viewAbout model =
+  let
+    content = model.siteInformation.aboutContent
+      
+  in
+    if content == "" then
+      loading ""
+    else 
+      Markdown.toHtml [ class "container about-container" ] content
+      
+
 templateHome : Model -> List (Html Msg) -> List (Html Msg)
 templateHome model content =
     [ div [ class "container navbar-container" ] 
@@ -278,4 +291,17 @@ templateHome model content =
     div [ class "container footer-container"]
       [ viewSocialLinks model
       ]
+    ]
+
+templatePages : Model -> List (Html Msg) -> List (Html Msg)
+templatePages model content = 
+  [ div [ class "container navbar-container" ] 
+    [ viewMenu model.language model.menu
+    , viewSocialLinks model 
+    ]
+  ] 
+  ++ content
+  ++ [ div [ class "container footer-container"]
+       [ viewSocialLinks model
+       ]
     ]

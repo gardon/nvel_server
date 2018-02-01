@@ -7,6 +7,7 @@ import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
 import Image exposing (Image)
 import Date
+--import Markdown
 
 getAuth : String -> Decode.Decoder a -> Request a
 getAuth url decoder =
@@ -67,6 +68,11 @@ decodeFullWidthSingleImageSection =
       |> hardcoded FullWidthSingleImage
       |> required "image" imageDecoder
 
+--markdownDecoder : Decode.Decoder (Html msg)
+--markdownDecoder = 
+--  Decode.string
+--      |> Decode.andThen Markdown.toHtml []
+
 decodeSiteInformation : Decode.Decoder SiteInformation
 decodeSiteInformation = 
    decode SiteInformation
@@ -75,4 +81,5 @@ decodeSiteInformation =
       |> optional "facebook_page" Decode.string ""
       |> optional "instagram_handle" Decode.string ""
       |> optional "deviantart_profile" Decode.string ""
+      |> optional "about" Decode.string "# About"
 

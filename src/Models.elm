@@ -48,6 +48,7 @@ type alias SiteInformation =
     , facebook_page : String
     , instagram_handle : String
     , deviantart_profile : String
+    , aboutContent : String
     }
 
 type alias PageData = 

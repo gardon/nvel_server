@@ -9,6 +9,7 @@ siteInformation =
     , facebook_page = ""
     , instagram_handle = ""
     , deviantart_profile = ""
+    , aboutContent = ""
     }
 
 homeData : PageData

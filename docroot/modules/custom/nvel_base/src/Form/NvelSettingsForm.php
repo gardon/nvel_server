@@ -66,6 +66,13 @@ class NvelSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Link your Deviantart profile, typing just your username.'),
     );
 
+    $form['about'] = array(
+      '#type' => 'textarea',
+      '#title' => $this->t('About Content'),
+      '#default_value' => $config->get('nvel_base.about'),
+      '#description' => $this->t('About content. You can use Markdown syntax.')
+    );
+
     return $form;
   }
 
@@ -86,6 +93,7 @@ class NvelSettingsForm extends ConfigFormBase {
     $config->set('nvel_base.facebook_page', $form_state->getValue('facebook_page'));
     $config->set('nvel_base.instagram_handle', $form_state->getValue('instagram_handle'));
     $config->set('nvel_base.deviantart_profile', $form_state->getValue('deviantart_profile'));
+    $config->set('nvel_base.about', $form_state->getValue('about'));
     $config->save();
     return parent::submitForm($form, $form_state);
 
