@@ -11915,7 +11915,7 @@ var _user$project$View_Mailchimp$mailchimpBlock = function (model) {
 																		_0: _elm_lang$html$Html_Attributes$id('mc-embedded-subscribe'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('button buton-primary'),
+																			_0: _elm_lang$html$Html_Attributes$class('button button-primary'),
 																			_1: {
 																				ctor: '::',
 																				_0: _elm_lang$html$Html_Attributes$type_('submit'),

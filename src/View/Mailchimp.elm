@@ -43,7 +43,7 @@ mailchimpBlock model =
                 [ input [ name "b_3d03ee122031fb9d8b086b942_35a44ac040", tabindex -1, value "", type_ "text" ] []
                 ]
             , div [ class "clear" ]
-                [ input [ value button_text, name "subscribe", id "mc-embedded-subscribe", class "button buton-primary", type_ "submit" ] []
+                [ input [ value button_text, name "subscribe", id "mc-embedded-subscribe", class "button button-primary", type_ "submit" ] []
                 ]
             ]
           ]
