@@ -2,6 +2,8 @@ module Config.Site exposing (..)
 
 import Models exposing (..)
 
+-- TODO: make this file repleceable as well.
+
 siteInformation : SiteInformation
 siteInformation = 
     { title = ""

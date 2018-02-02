@@ -12177,6 +12177,15 @@ var _user$project$View_Mailchimp$mailchimpBlock = function (model) {
 		});
 };
 
+var _user$project$View$markdownOptions = function () {
+	var $default = _evancz$elm_markdown$Markdown$defaultOptions;
+	return _elm_lang$core$Native_Utils.update(
+		$default,
+		{
+			githubFlavored: _elm_lang$core$Maybe$Just(
+				{tables: false, breaks: true})
+		});
+}();
 var _user$project$View$loading = function (message) {
 	return A2(
 		_elm_lang$html$Html$span,
@@ -12189,8 +12198,9 @@ var _user$project$View$loading = function (message) {
 };
 var _user$project$View$viewAbout = function (model) {
 	var content = model.siteInformation.aboutContent;
-	return _elm_lang$core$Native_Utils.eq(content, '') ? _user$project$View$loading('') : A2(
-		_evancz$elm_markdown$Markdown$toHtml,
+	return _elm_lang$core$Native_Utils.eq(content, '') ? _user$project$View$loading('') : A3(
+		_evancz$elm_markdown$Markdown$toHtmlWith,
+		_user$project$View$markdownOptions,
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$class('container about-container'),

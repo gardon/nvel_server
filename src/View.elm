@@ -264,16 +264,25 @@ loading : String -> Html msg
 loading message = 
     span [ class "loading-icon" ] []
 
+markdownOptions : Markdown.Options
+markdownOptions =
+  let
+    default = Markdown.defaultOptions
+      
+  in
+      
+  { default | githubFlavored = Just { tables = False, breaks = True } }
+
 viewAbout : Model -> Html msg
 viewAbout model =
   let
     content = model.siteInformation.aboutContent
-      
+
   in
     if content == "" then
       loading ""
     else 
-      Markdown.toHtml [ class "container about-container" ] content
+      Markdown.toHtmlWith markdownOptions [ class "container about-container" ] content
       
 
 templateHome : Model -> List (Html Msg) -> List (Html Msg)
