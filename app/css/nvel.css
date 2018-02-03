@@ -40,6 +40,31 @@ span.loading-icon {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 0.5em;
 }
+.navbar-container.sticky {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	opacity: 0;
+	width: 100%;
+	background-color: #FAFAFA;
+	-webkit-transform: translate(0,-60px);
+	-webkit-transition: -webkit-transform .2s,background .3s,color .3s,opacity 0 .3s;
+}
+.navbar-container.sticky.show {
+    opacity: 1;
+    -webkit-transform: translate(0,0);
+    -webkit-transition: -webkit-transform .2s,background .3s,color .3s;
+}
+
+.empty-spacer {
+	height: 60px;
+}
+
+.content {
+  min-height: 1200px; 
+}
 
 ul.navbar-list,
 ul.social-links {
@@ -330,4 +355,93 @@ h1,h2,h3 {
 }
 #mc_embed_signup #mailchimp-small {
 	font-size: 0.8em;
+}
+
+.navbar-container.chapternav {
+	padding: 0;
+	margin-bottom: 0;
+}
+
+.chapternav .index-icon,
+.chapternav .share-icon {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 40px;
+	width: 40px;
+}
+.chapternav .share-icon {
+	right: 0;
+	left: auto;
+	display: none;
+}
+
+.chapternav .index-icon a {
+	font-size: 0;
+	height: 40px;
+	width: 40px;
+	overflow: hidden;
+	display: block;
+}
+
+.chapternav .index-icon svg {
+	margin: 5px;
+}
+
+.chapter-navigation {
+	height: 40px;
+	margin: 0 40px;
+	text-align: center;
+}
+.chapter-navigation ul {
+	display: inline-block;
+	margin: 0;
+}
+.chapter-navigation ul li {
+	display: inline-block;
+	height: 40px;
+	padding: 0;
+	margin: 0;
+	background-size: cover;
+	background-position: center;
+	border-right: 1px solid #bbb;
+}
+
+.chapter-navigation ul:first-child li {
+	border-left: 1px solid #bbb;
+}
+
+.chapter-navigation ul li a {
+	display: inline-block;
+	padding: 0 1em;
+	background-color: rgba(255,255,255,0.8);
+	color: #AAA;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 16px;
+	line-height: 40px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 100px;
+	overflow: hidden;
+}
+
+.chapter-navigation ul.current li {
+	border-color: #000;
+}
+
+.chapter-navigation ul.current li a {
+	background-color: rgba(0,0,0,0.5);
+	color: #FFF;
+}
+
+.chapter-navigation ul.previous .chapter-title,
+.chapter-navigation ul.next .chapter-title {
+	display: none;
+}
+
+.chapter-navigation ul.previous li:last-child .chapter-title,
+.chapter-navigation ul.next li:first-child .chapter-title {
+	display: inline;
 }

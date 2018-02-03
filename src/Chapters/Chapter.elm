@@ -1,11 +1,13 @@
 module Chapters.Chapter exposing (..)
 
 import Html exposing (..)
-import Models exposing (Model, Chapter)
-import View exposing (loading, viewChapter)
+import Html.Attributes exposing (..)
+import Models exposing (..)
+import View exposing (..)
+import View.Attributes exposing (..)
 import Dict exposing (Dict)
 import Msgs exposing (Msg)
-
+import Skeleton exposing (..)
 
 view :  Maybe Chapter -> Html Msg
 view model =
@@ -26,3 +28,21 @@ replaceChapter model newchapter =
 
         Just chapters ->
             { model | chapters = Just (Dict.insert newchapter.nid newchapter chapters) } 
+
+viewChapter : Chapter -> Html Msg
+viewChapter chapter = 
+    div []
+      (viewChapterContent chapter.content)
+
+viewChapterContent : List Section -> List (Html msg)
+viewChapterContent model =
+   (List.map viewSection model)
+
+viewSection : Section -> Html msg
+viewSection model =
+    case model.sectionType of 
+      SingleImage ->
+        div [] []  
+
+      FullWidthSingleImage ->
+        skeletonRowFullWidth [] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]

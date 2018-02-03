@@ -13,3 +13,4 @@ type Msg
   | OnLocationChange Location
   | ChangeLocation String
   | UpdatePageData PageData
+  | Navbar NavbarAction

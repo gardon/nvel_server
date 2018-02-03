@@ -41,8 +41,7 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div id="main">
-    <div class="row container">
-      <div class="one-half column" style="margin-top: 25%">
+    <div class="row ">
         <span class="loading-icon"></span>
       </div>
     </div>
@@ -53,6 +52,35 @@
       app.ports.updatePageData.subscribe(function(pagedata) {
         document.title = pagedata.title;
       });
+
+      var scroll = window.pageYOffset || document.body.scrollTop;
+      var toggle = true;
+
+      window.onscroll = function() {
+        var newScroll = window.pageYOffset || document.body.scrollTop;
+        if (newScroll > scroll && newScroll > 60) {
+          if (toggle) {
+            hideNav();
+          }
+          toggle = false;
+        }
+        else {
+          if (toggle === false) {
+            showNav();
+          }
+          toggle = true;
+        }
+        scroll = newScroll;
+      };
+      
+
+      function hideNav() {
+        app.ports.navBar.send(false);
+      }
+      function showNav() {
+        app.ports.navBar.send(true);
+      }
+
     </script>
   </div>
 

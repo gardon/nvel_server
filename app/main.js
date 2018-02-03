@@ -11344,9 +11344,9 @@ var _user$project$Image$Derivative = F2(
 var _user$project$Models$chapterContentEndpoint = 'chapters';
 var _user$project$Models$chapterListEndpoint = 'chapters?_format=json';
 var _user$project$Models$siteInformationEndpoint = 'nvel_base?_format=json';
-var _user$project$Models$Model = F7(
-	function (a, b, c, d, e, f, g) {
-		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f, language: g};
+var _user$project$Models$Model = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f, language: g, navbar: h};
 	});
 var _user$project$Models$MenuItem = F2(
 	function (a, b) {
@@ -11396,7 +11396,12 @@ var _user$project$Models$CurrentChapter = {ctor: 'CurrentChapter'};
 var _user$project$Models$MenuAbout = {ctor: 'MenuAbout'};
 var _user$project$Models$MenuArchive = {ctor: 'MenuArchive'};
 var _user$project$Models$MenuHome = {ctor: 'MenuHome'};
+var _user$project$Models$Hide = {ctor: 'Hide'};
+var _user$project$Models$Show = {ctor: 'Show'};
 
+var _user$project$Msgs$Navbar = function (a) {
+	return {ctor: 'Navbar', _0: a};
+};
 var _user$project$Msgs$UpdatePageData = function (a) {
 	return {ctor: 'UpdatePageData', _0: a};
 };
@@ -12222,6 +12227,151 @@ var _user$project$View$viewTitle = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$View$viewIndexIcon = function () {
+	var svgpath = 'M4 22h-4v-4h4v4zm0-12h-4v4h4v-4zm0-8h-4v4h4v-4zm3 0v4h17v-4h-17zm0 12h17v-4h-17v4zm0 8h17v-4h-17v4z';
+	return A2(
+		_elm_lang$svg$Svg$svg,
+		{
+			ctor: '::',
+			_0: _elm_lang$svg$Svg_Attributes$xmlSpace('http://www.w3.org/2000/svg'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Attributes$width('30'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$height('30'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$viewBox('0 0 24 24'),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$svg$Svg$path,
+				{
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$d(svgpath),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+}();
+var _user$project$View$viewChapterNavItem = function (chapter) {
+	var chapterText = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'#',
+		_elm_lang$core$Basics$toString(chapter.index));
+	var chapterPath = A2(_elm_lang$core$Basics_ops['++'], '/chapters/', chapter.nid);
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'background-image',
+						_1: A2(
+							_elm_lang$core$Basics_ops['++'],
+							'url(',
+							A2(_elm_lang$core$Basics_ops['++'], chapter.featured_image.uri, ')'))
+					},
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(chapterPath),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View_Attributes$onLinkClick(
+							_user$project$Msgs$ChangeLocation(chapterPath)),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(chapterText),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$span,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('chapter-title'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(_elm_lang$core$Basics_ops['++'], ': ', chapter.title)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$viewChapterNavigation = F3(
+	function (previous, current, next) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('chapter-navigation'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$ul,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('previous'),
+						_1: {ctor: '[]'}
+					},
+					A2(_elm_lang$core$List$map, _user$project$View$viewChapterNavItem, previous)),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$ul,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('current'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _user$project$View$viewChapterNavItem(current),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$ul,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('next'),
+								_1: {ctor: '[]'}
+							},
+							A2(_elm_lang$core$List$map, _user$project$View$viewChapterNavItem, next)),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
 var _user$project$View$viewSocialIcon = function (social) {
 	var svgpath = function () {
 		var _p0 = social;
@@ -12603,70 +12753,6 @@ var _user$project$View$viewImage = F2(
 				}),
 			{ctor: '[]'});
 	});
-var _user$project$View$viewSection = function (model) {
-	var _p1 = model.sectionType;
-	if (_p1.ctor === 'SingleImage') {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'});
-	} else {
-		return A2(
-			_user$project$Skeleton$skeletonRowFullWidth,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$View$viewImage,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
-						_1: {
-							ctor: '::',
-							_0: _user$project$View_Attributes$sizes(
-								{
-									ctor: '::',
-									_0: '100w',
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					},
-					model.image),
-				_1: {ctor: '[]'}
-			});
-	}
-};
-var _user$project$View$viewChapterContent = function (model) {
-	return A2(_elm_lang$core$List$map, _user$project$View$viewSection, model);
-};
-var _user$project$View$viewChapter = function (chapter) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$Skeleton$skeletonRowOneCol,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h1,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(chapter.title),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			_user$project$View$viewChapterContent(chapter.content)));
-};
 var _user$project$View$viewChapterListItem = function (chapter) {
 	var chapterNumber = A2(
 		_elm_lang$core$Basics_ops['++'],
@@ -12977,9 +13063,178 @@ var _user$project$View$sortChapterList = function (chapters) {
 		},
 		_elm_lang$core$Dict$values(chapters));
 };
+var _user$project$View$viewChapterNavbar = F2(
+	function (model, chapter) {
+		var chapterNavigation = function () {
+			var _p1 = model.chapters;
+			if (_p1.ctor === 'Nothing') {
+				return A2(
+					_elm_lang$html$Html$ul,
+					{ctor: '[]'},
+					{ctor: '[]'});
+			} else {
+				var index = chapter.index;
+				var list = _user$project$View$sortChapterList(_p1._0);
+				var previous = A2(_elm_lang$core$List$take, index - 1, list);
+				var previous_crop = (_elm_lang$core$Native_Utils.cmp(
+					_elm_lang$core$List$length(previous),
+					2) > 0) ? A2(
+					_elm_lang$core$List$drop,
+					_elm_lang$core$List$length(previous) - 2,
+					previous) : previous;
+				var next = A2(_elm_lang$core$List$drop, index, list);
+				var next_crop = (_elm_lang$core$Native_Utils.cmp(
+					_elm_lang$core$List$length(next),
+					2) > 0) ? A2(_elm_lang$core$List$take, 2, next) : next;
+				return A3(_user$project$View$viewChapterNavigation, previous_crop, chapter, next_crop);
+			}
+		}();
+		var lang = model.language;
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('index-icon'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href('/chapters'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View_Attributes$onLinkClick(
+									_user$project$Msgs$ChangeLocation('/chapters')),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _user$project$View$viewIndexIcon,
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Index'),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: chapterNavigation,
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('share-icon'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('share'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		};
+	});
+var _user$project$View$templateChapter = F3(
+	function (model, chapter, content) {
+		var navbar = function () {
+			var _p2 = chapter;
+			if (_p2.ctor === 'Nothing') {
+				return {ctor: '[]'};
+			} else {
+				return A2(_user$project$View$viewChapterNavbar, model, _p2._0);
+			}
+		}();
+		var sticky_class = function () {
+			var _p3 = model.navbar;
+			if (_p3 === true) {
+				return 'sticky show';
+			} else {
+				return 'sticky';
+			}
+		}();
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class(
+							A2(_elm_lang$core$Basics_ops['++'], 'navbar-container chapternav ', sticky_class)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('container'),
+								_1: {ctor: '[]'}
+							},
+							navbar),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('navbar-container chapternav'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('container'),
+									_1: {ctor: '[]'}
+								},
+								navbar),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			},
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				content,
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('container footer-container'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _user$project$View$viewSocialLinks(model),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}));
+	});
 var _user$project$View$viewChapterList = function (chapters) {
-	var _p2 = chapters;
-	if (_p2.ctor === 'Nothing') {
+	var _p4 = chapters;
+	if (_p4.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: _user$project$View$loading('Loading chapters...'),
@@ -12998,7 +13253,7 @@ var _user$project$View$viewChapterList = function (chapters) {
 				A2(
 					_elm_lang$core$List$map,
 					_user$project$View$viewChapterListItem,
-					_user$project$View$sortChapterList(_p2._0))),
+					_user$project$View$sortChapterList(_p4._0))),
 			_1: {ctor: '[]'}
 		};
 	}
@@ -13083,8 +13338,8 @@ var _user$project$View$facebookFeed = function (model) {
 		});
 };
 var _user$project$View$viewHome = function (model) {
-	var _p3 = model.chapters;
-	if (_p3.ctor === 'Nothing') {
+	var _p5 = model.chapters;
+	if (_p5.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: _user$project$View$loading(
@@ -13120,45 +13375,45 @@ var _user$project$View$viewHome = function (model) {
 					A2(_user$project$Language$translate, lang, _user$project$Models$ListAllChapters)),
 				_1: {ctor: '[]'}
 			});
-		var list = _user$project$View$sortChapterList(_p3._0);
+		var list = _user$project$View$sortChapterList(_p5._0);
 		var firstrow = function () {
-			var _p4 = _elm_lang$core$List$head(
+			var _p6 = _elm_lang$core$List$head(
 				_elm_lang$core$List$reverse(list));
-			if (_p4.ctor === 'Nothing') {
+			if (_p6.ctor === 'Nothing') {
 				return A2(
 					_user$project$Skeleton$skeletonRow,
 					{ctor: '[]'},
 					{ctor: '[]'});
 			} else {
-				var _p7 = _p4._0;
-				var _p5 = _elm_lang$core$List$head(list);
-				if (_p5.ctor === 'Nothing') {
+				var _p9 = _p6._0;
+				var _p7 = _elm_lang$core$List$head(list);
+				if (_p7.ctor === 'Nothing') {
 					return A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p7),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p9),
 							_1: {ctor: '[]'}
 						});
 				} else {
-					var _p6 = _p5._0;
-					return _elm_lang$core$Native_Utils.eq(_p7, _p6) ? A2(
+					var _p8 = _p7._0;
+					return _elm_lang$core$Native_Utils.eq(_p9, _p8) ? A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p7),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p9),
 							_1: {ctor: '[]'}
 						}) : A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p7),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p9),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$View$viewChapterFeaturedFirst, lang, _p6),
+								_0: A2(_user$project$View$viewChapterFeaturedFirst, lang, _p8),
 								_1: {ctor: '[]'}
 							}
 						});
@@ -13188,10 +13443,53 @@ var _user$project$View$viewHome = function (model) {
 	}
 };
 
+var _user$project$Chapters_Chapter$viewSection = function (model) {
+	var _p0 = model.sectionType;
+	if (_p0.ctor === 'SingleImage') {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'});
+	} else {
+		return A2(
+			_user$project$Skeleton$skeletonRowFullWidth,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$View$viewImage,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View_Attributes$sizes(
+								{
+									ctor: '::',
+									_0: '100w',
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					},
+					model.image),
+				_1: {ctor: '[]'}
+			});
+	}
+};
+var _user$project$Chapters_Chapter$viewChapterContent = function (model) {
+	return A2(_elm_lang$core$List$map, _user$project$Chapters_Chapter$viewSection, model);
+};
+var _user$project$Chapters_Chapter$viewChapter = function (chapter) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		_user$project$Chapters_Chapter$viewChapterContent(chapter.content));
+};
 var _user$project$Chapters_Chapter$replaceChapter = F2(
 	function (model, newchapter) {
-		var _p0 = model.chapters;
-		if (_p0.ctor === 'Nothing') {
+		var _p1 = model.chapters;
+		if (_p1.ctor === 'Nothing') {
 			return _elm_lang$core$Native_Utils.update(
 				model,
 				{
@@ -13203,13 +13501,13 @@ var _user$project$Chapters_Chapter$replaceChapter = F2(
 				model,
 				{
 					chapters: _elm_lang$core$Maybe$Just(
-						A3(_elm_lang$core$Dict$insert, newchapter.nid, newchapter, _p0._0))
+						A3(_elm_lang$core$Dict$insert, newchapter.nid, newchapter, _p1._0))
 				});
 		}
 	});
 var _user$project$Chapters_Chapter$view = function (model) {
-	var _p1 = model;
-	if (_p1.ctor === 'Nothing') {
+	var _p2 = model;
+	if (_p2.ctor === 'Nothing') {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -13226,7 +13524,7 @@ var _user$project$Chapters_Chapter$view = function (model) {
 				_1: {ctor: '[]'}
 			});
 	} else {
-		return _user$project$View$viewChapter(_p1._0);
+		return _user$project$Chapters_Chapter$viewChapter(_p2._0);
 	}
 };
 
@@ -13314,11 +13612,12 @@ var _user$project$Routing$routeContent = function (model) {
 					return A2(_elm_lang$core$Dict$get, _p0._0, _p1._0);
 				}
 			}();
-			return {
+			var content = {
 				ctor: '::',
 				_0: _user$project$Chapters_Chapter$view(chapter),
 				_1: {ctor: '[]'}
 			};
+			return A3(_user$project$View$templateChapter, model, chapter, content);
 		case 'AboutRoute':
 			var content = {
 				ctor: '::',
@@ -13374,8 +13673,8 @@ var _user$project$Routing$parseLocation = function (location) {
 	}
 };
 
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
+var _user$project$Main$toggleNavbar = function (flag) {
+	return _elm_lang$core$Native_Utils.eq(flag, true) ? _user$project$Msgs$Navbar(_user$project$Models$Show) : _user$project$Msgs$Navbar(_user$project$Models$Hide);
 };
 var _user$project$Main$view = function (model) {
 	var content = _user$project$Routing$routeContent(model);
@@ -13397,7 +13696,7 @@ var _user$project$Main$init = function (location) {
 	var pageData = {title: 'Loading...'};
 	var siteInformation = _user$project$Config$siteInformation;
 	var chapters = _elm_lang$core$Maybe$Nothing;
-	var model = A7(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route, lang);
+	var model = A8(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route, lang, true);
 	return {
 		ctor: '_Tuple2',
 		_0: model,
@@ -13436,14 +13735,7 @@ var _user$project$Main$update = F2(
 							_user$project$Config$pageData(newmodel))
 					};
 				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: A2(
-							_elm_lang$core$Debug$log,
-							_elm_lang$core$Basics$toString(_p0._0._0),
-							model),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'ChapterContentLoad':
 				if (_p0._0.ctor === 'Ok') {
@@ -13484,7 +13776,7 @@ var _user$project$Main$update = F2(
 					_1: _user$project$Main$updatePageData(
 						_user$project$Config$pageData(newmodel))
 				};
-			default:
+			case 'UpdatePageData':
 				var _p1 = _p0._0;
 				return {
 					ctor: '_Tuple2',
@@ -13493,17 +13785,37 @@ var _user$project$Main$update = F2(
 						{pageData: _p1}),
 					_1: _user$project$Main$updatePageData(_p1)
 				};
+			default:
+				var navbar = function () {
+					var _p2 = _p0._0;
+					if (_p2.ctor === 'Show') {
+						return true;
+					} else {
+						return false;
+					}
+				}();
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{navbar: navbar}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
-var _user$project$Main$main = A2(
-	_elm_lang$navigation$Navigation$program,
-	_user$project$Msgs$OnLocationChange,
-	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();
 var _user$project$Main$renderSocialMedia = _elm_lang$core$Native_Platform.outgoingPort(
 	'renderSocialMedia',
 	function (v) {
 		return v;
 	});
+var _user$project$Main$navBar = _elm_lang$core$Native_Platform.incomingPort('navBar', _elm_lang$core$Json_Decode$bool);
+var _user$project$Main$subscriptions = function (model) {
+	return _user$project$Main$navBar(_user$project$Main$toggleNavbar);
+};
+var _user$project$Main$main = A2(
+	_elm_lang$navigation$Navigation$program,
+	_user$project$Msgs$OnLocationChange,
+	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

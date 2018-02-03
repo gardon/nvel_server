@@ -163,24 +163,6 @@ viewChapterListItem chapter =
         , div [] [ text (Date.Format.format "%Y %b %e" chapter.date)]
         ]
 
-viewChapter : Chapter -> Html Msg
-viewChapter chapter = 
-    div []
-        ( [ skeletonRowOneCol [] [ h1 [] [ text chapter.title ] ]
-        ] ++ viewChapterContent chapter.content )
-
-viewChapterContent : List Section -> List (Html msg)
-viewChapterContent model =
-   (List.map viewSection model)
-
-viewSection : Section -> Html msg
-viewSection model =
-    case model.sectionType of 
-      SingleImage ->
-        div [] []  
-
-      FullWidthSingleImage ->
-        skeletonRowFullWidth [] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]
 
 viewImage : List (Attribute msg) -> Image -> Html msg
 viewImage attributes image =
@@ -256,6 +238,80 @@ viewSocialIcon social =
         [] 
       ]
 
+viewChapterNavbar : Model -> Chapter -> List (Html Msg)
+viewChapterNavbar model chapter =
+  let
+    lang = model.language
+    chapterNavigation = 
+      case model.chapters of
+        Nothing ->
+          ul [] []
+        Just chapters ->
+          let
+            list = sortChapterList chapters
+            index = chapter.index
+            previous = List.take (index - 1) list
+            next = List.drop index list
+            previous_crop = 
+              if (List.length previous) > 2 then
+                List.drop ((List.length previous) - 2) previous
+              else
+                previous
+            next_crop =
+              if (List.length next) > 2 then
+                List.take 2 next
+              else
+                next
+                          
+          in
+            viewChapterNavigation previous_crop chapter next_crop
+      
+  in
+    [ div [ class "index-icon"] 
+      [ a [ href "/chapters", onLinkClick (ChangeLocation "/chapters") ] [ viewIndexIcon, text "Index"]
+      ]
+    , chapterNavigation
+    , div [ class "share-icon"] [ text "share"]
+    ]
+
+viewChapterNavigation : List Chapter -> Chapter -> List Chapter -> Html Msg
+viewChapterNavigation previous current next =
+  div [ class "chapter-navigation" ] 
+    [ ul [ class "previous" ] (List.map viewChapterNavItem previous)
+    , ul [ class "current" ] [ viewChapterNavItem current ]
+    , ul [ class "next" ] (List.map viewChapterNavItem next)
+  ]
+
+viewChapterNavItem : Chapter -> Html Msg
+viewChapterNavItem chapter =
+  let
+    chapterPath = "/chapters/" ++ chapter.nid
+    chapterText = "#" ++ (toString chapter.index)
+      
+  in  
+    li [ style [ ("background-image", "url(" ++ chapter.featured_image.uri ++ ")" )] ] 
+      [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ]
+        [ text chapterText
+        , span [ class "chapter-title" ] [ text (": " ++ chapter.title) ]
+        ]
+      ]
+
+viewIndexIcon : Html msg
+viewIndexIcon =
+   let svgpath = 
+      "M4 22h-4v-4h4v4zm0-12h-4v4h4v-4zm0-8h-4v4h4v-4zm3 0v4h17v-4h-17zm0 12h17v-4h-17v4zm0 8h17v-4h-17v4z"
+  in
+    svg 
+      [ xmlSpace "http://www.w3.org/2000/svg" 
+      , Svg.Attributes.width "30" 
+      , Svg.Attributes.height "30" 
+      , viewBox "0 0 24 24"
+      ]
+      [ path 
+        [ d svgpath ] 
+        [] 
+      ]
+
 viewTitle: Model -> Html Msg
 viewTitle model =
   h1 [ class "site-title" ] [ text model.siteInformation.title ]
@@ -303,7 +359,7 @@ templateHome model content =
     ]
 
 templatePages : Model -> List (Html Msg) -> List (Html Msg)
-templatePages model content = 
+templatePages model content =   
   [ div [ class "container navbar-container" ] 
     [ viewMenu model.language model.menu
     , viewSocialLinks model 
@@ -314,3 +370,32 @@ templatePages model content =
        [ viewSocialLinks model
        ]
     ]
+
+templateChapter : Model -> Maybe Chapter -> List (Html Msg) -> List (Html Msg)
+templateChapter model chapter content =   
+  let
+    sticky_class =
+      case model.navbar of
+        True -> "sticky show"
+        False -> "sticky"
+
+    navbar =
+      case chapter of 
+        Nothing ->
+          []
+        Just current ->
+          viewChapterNavbar model current
+      
+  in
+    [ div [ class ("navbar-container chapternav " ++ sticky_class) ] 
+      [ div [ class "container" ] navbar
+      ]
+    , div [ class ("navbar-container chapternav") ] 
+      [ div [ class "container" ] navbar
+      ]
+    ] 
+    ++ content
+    ++ [ div [ class "container footer-container"]
+         [ viewSocialLinks model
+         ]
+      ]

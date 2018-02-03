@@ -12,6 +12,7 @@ type alias Model =
   , menu : List MenuItem
   , route : Route
   , language : Language
+  , navbar : Bool
   }
 
 type alias MenuItem = 
@@ -87,6 +88,10 @@ type Phrase
     | MailchimpSmall 
     | MailchimpButton
     | Loading
+
+type NavbarAction
+    = Show
+    | Hide
 
 siteInformationEndpoint = "nvel_base?_format=json"
 chapterListEndpoint = "chapters?_format=json"

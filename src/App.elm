@@ -19,8 +19,6 @@ import Chapters exposing (..)
 import Chapters.Chapter
 import Menu exposing (..)
 import Msgs exposing (..)
-import Debug exposing (..)
-
 
 main =
   Navigation.program OnLocationChange
@@ -43,7 +41,7 @@ init location =
     lang = Config.getLanguage
     menu = Menu.menu
     route = parseLocation location
-    model = Model chapters siteInformation pageData backendConfig menu route lang
+    model = Model chapters siteInformation pageData backendConfig menu route lang True
   in 
     ( model
     , Cmd.batch [ getSiteInformation model, getChapters model, updatePageData (Config.pageData model) ]
@@ -52,6 +50,7 @@ init location =
 
 port updatePageData : PageData -> Cmd msg
 port renderSocialMedia : String -> Cmd msg
+port navBar : (Bool -> msg) -> Sub msg
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -62,7 +61,7 @@ update msg model =
         ( newmodel , updatePageData (Config.pageData newmodel))
 
     ChaptersLoad (Err error) ->
-      ( log (toString error) model, Cmd.none)
+      (model, Cmd.none)
 
     ChapterContentLoad (Ok chapter) ->
       (Chapters.Chapter.replaceChapter model chapter, Cmd.none)
@@ -90,6 +89,14 @@ update msg model =
     UpdatePageData data ->
       ( { model | pageData = data } , updatePageData data)
 
+    Navbar action ->
+      let
+        navbar = 
+          case action of
+            Show -> True
+            Hide -> False
+      in 
+        ( { model | navbar = navbar }, Cmd.none)
 
 
 -- VIEW
@@ -109,8 +116,14 @@ view model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Sub.none
+  navBar toggleNavbar
 
+toggleNavbar : Bool -> Msg
+toggleNavbar flag =
+  if flag == True then
+    Navbar Show
+  else
+    Navbar Hide
 
 -- HTTP
 

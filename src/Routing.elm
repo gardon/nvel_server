@@ -5,7 +5,7 @@ import Models exposing (ChapterId, Route(..), Model)
 import Msgs exposing (Msg)
 import UrlParser exposing (..)
 import Html exposing (text, Html)
-import View exposing (viewChapterList, viewHome, viewAbout, templateHome, templatePages)
+import View exposing (viewChapterList, viewHome, viewAbout, templateHome, templatePages, templateChapter)
 import Chapters.Chapter exposing (view)
 import Dict exposing (Dict)
 
@@ -39,15 +39,18 @@ routeContent model = case model.route of
         in templatePages model content
 
       ChapterRoute id ->
-        let chapter = 
-          case model.chapters of 
-            Nothing -> 
-              Nothing
-            Just chapters ->
-              Dict.get id chapters
+        let 
+          chapter = 
+            case model.chapters of 
+              Nothing -> 
+                Nothing
+              Just chapters ->
+                Dict.get id chapters
+
+          content = [ Chapters.Chapter.view chapter ]
           
         in
-          [ Chapters.Chapter.view chapter ]
+          templateChapter model chapter content
 
       AboutRoute ->
         let content = [ viewAbout model ]
