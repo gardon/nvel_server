@@ -42,10 +42,13 @@ init location =
     menu = Menu.menu
     route = parseLocation location
     model = Model chapters siteInformation pageData backendConfig menu route lang True
+    commands = Cmd.batch
+      [ getSiteInformation model
+      , getChapters model
+      , updatePageData (Config.pageData model)
+      ]
   in 
-    ( model
-    , Cmd.batch [ getSiteInformation model, getChapters model, updatePageData (Config.pageData model) ]
-    )
+    ( model, commands )
 
 
 port updatePageData : PageData -> Cmd msg

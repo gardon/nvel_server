@@ -13697,25 +13697,22 @@ var _user$project$Main$init = function (location) {
 	var siteInformation = _user$project$Config$siteInformation;
 	var chapters = _elm_lang$core$Maybe$Nothing;
 	var model = A8(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route, lang, true);
-	return {
-		ctor: '_Tuple2',
-		_0: model,
-		_1: _elm_lang$core$Platform_Cmd$batch(
-			{
+	var commands = _elm_lang$core$Platform_Cmd$batch(
+		{
+			ctor: '::',
+			_0: _user$project$Config$getSiteInformation(model),
+			_1: {
 				ctor: '::',
-				_0: _user$project$Config$getSiteInformation(model),
+				_0: _user$project$Chapters$getChapters(model),
 				_1: {
 					ctor: '::',
-					_0: _user$project$Chapters$getChapters(model),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Main$updatePageData(
-							_user$project$Config$pageData(model)),
-						_1: {ctor: '[]'}
-					}
+					_0: _user$project$Main$updatePageData(
+						_user$project$Config$pageData(model)),
+					_1: {ctor: '[]'}
 				}
-			})
-	};
+			}
+		});
+	return {ctor: '_Tuple2', _0: model, _1: commands};
 };
 var _user$project$Main$update = F2(
 	function (msg, model) {
