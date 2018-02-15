@@ -360,6 +360,7 @@ h1,h2,h3 {
 .navbar-container.chapternav {
 	padding: 0;
 	margin-bottom: 0;
+	border-color: #bbb;
 }
 
 .chapternav .index-icon,
@@ -373,10 +374,10 @@ h1,h2,h3 {
 .chapternav .share-icon {
 	right: 0;
 	left: auto;
-	display: none;
 }
 
-.chapternav .index-icon a {
+.chapternav .index-icon a,
+.chapternav .share-icon a {
 	font-size: 0;
 	height: 40px;
 	width: 40px;
@@ -384,8 +385,10 @@ h1,h2,h3 {
 	display: block;
 }
 
-.chapternav .index-icon svg {
+.chapternav .index-icon svg,
+.chapternav .share-icon svg {
 	margin: 5px;
+	fill: #777;
 }
 
 .chapter-navigation {
@@ -428,7 +431,10 @@ h1,h2,h3 {
 }
 
 .chapter-navigation ul.current li {
-	border-color: #000;
+	border-color: #333;
+	border-style: solid;
+	border-width: 1px;
+	border-top: 0;
 }
 
 .chapter-navigation ul.current li a {
@@ -437,11 +443,18 @@ h1,h2,h3 {
 }
 
 .chapter-navigation ul.previous .chapter-title,
+.chapter-navigation ul.current .chapter-title,
 .chapter-navigation ul.next .chapter-title {
 	display: none;
 }
+@media (min-width: 750px) {
+	.chapter-navigation ul.current .chapter-title {
+		display: inline;
+	}
+}
 
-.chapter-navigation ul.previous li:last-child .chapter-title,
+
+/**.chapter-navigation ul.previous li:last-child .chapter-title,
 .chapter-navigation ul.next li:first-child .chapter-title {
 	display: inline;
-}
+}**/

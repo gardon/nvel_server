@@ -41,7 +41,7 @@ init location =
     lang = Config.getLanguage
     menu = Menu.menu
     route = parseLocation location
-    model = Model chapters siteInformation pageData backendConfig menu route lang True
+    model = Model chapters siteInformation pageData backendConfig menu route lang True location
     commands = Cmd.batch
       [ getSiteInformation model
       , getChapters model
@@ -85,7 +85,7 @@ update msg model =
       let
           newRoute =
               parseLocation location
-          newmodel = { model | route = newRoute }
+          newmodel = { model | route = newRoute, location = location }
       in
           ( newmodel, updatePageData (pageData newmodel))
 

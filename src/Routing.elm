@@ -1,7 +1,7 @@
 module Routing exposing (..)
 
 import Navigation exposing (Location)
-import Models exposing (ChapterId, Route(..), Model)
+import Models exposing (ChapterId, Route(..), Model, MaybeAsset(..))
 import Msgs exposing (Msg)
 import UrlParser exposing (..)
 import Html exposing (text, Html)
@@ -13,6 +13,7 @@ matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map HomeRoute top
+        , map ChaptersRoute (s "chapters" </> top)
         , map ChapterRoute (s "chapters" </> string)
         , map ChaptersRoute (s "chapters")
         , map AboutRoute (s "about")
@@ -43,9 +44,16 @@ routeContent model = case model.route of
           chapter = 
             case model.chapters of 
               Nothing -> 
-                Nothing
+                AssetLoading
               Just chapters ->
-                Dict.get id chapters
+                let c = Dict.get id chapters
+                in 
+                  case c of 
+                    Nothing ->
+                      AssetNotFound
+                    Just chapter ->
+                      Asset chapter
+
 
           content = [ Chapters.Chapter.view chapter ]
           

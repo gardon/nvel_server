@@ -3,6 +3,7 @@ module Models exposing (..)
 import Dict exposing (Dict)
 import Image exposing (Image)
 import Date exposing (Date)
+import Navigation exposing (Location)
 
 type alias Model =
   { chapters : Maybe (Dict String Chapter)
@@ -13,6 +14,7 @@ type alias Model =
   , route : Route
   , language : Language
   , navbar : Bool
+  , location : Location
   }
 
 type alias MenuItem = 
@@ -31,6 +33,10 @@ type alias Chapter =
   , date: Date
   , featured_image: Image
   }
+type MaybeAsset a
+  = AssetNotFound
+  | AssetLoading
+  | Asset a
 
 type SectionType
   = SingleImage

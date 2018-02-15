@@ -253,13 +253,13 @@ viewChapterNavbar model chapter =
             previous = List.take (index - 1) list
             next = List.drop index list
             previous_crop = 
-              if (List.length previous) > 2 then
-                List.drop ((List.length previous) - 2) previous
+              if (List.length previous) > 1 then
+                List.drop ((List.length previous) - 1) previous
               else
                 previous
             next_crop =
-              if (List.length next) > 2 then
-                List.take 2 next
+              if (List.length next) > 1 then
+                List.take 1 next
               else
                 next
                           
@@ -271,7 +271,8 @@ viewChapterNavbar model chapter =
       [ a [ href "/chapters", onLinkClick (ChangeLocation "/chapters") ] [ viewIndexIcon, text "Index"]
       ]
     , chapterNavigation
-    , div [ class "share-icon"] [ text "share"]
+    , div [ class "share-icon" ] 
+      [ a [ href ( shareLink model.location.href ), target "_blank"] [ viewShareIcon, text "Share" ] ]
     ]
 
 viewChapterNavigation : List Chapter -> Chapter -> List Chapter -> Html Msg
@@ -311,6 +312,30 @@ viewIndexIcon =
         [ d svgpath ] 
         [] 
       ]
+
+viewShareIcon : Html msg
+viewShareIcon = 
+  let svgpath = 
+      "M6 17c2.269-9.881 11-11.667 11-11.667v-3.333l7 6.637-7 6.696v-3.333s-6.17-.171-11 5zm12 .145v2.855h-16v-12h6.598c.768-.787 1.561-1.449 2.339-2h-10.937v16h20v-6.769l-2 1.914z"
+  in
+    svg 
+      [ xmlSpace "http://www.w3.org/2000/svg" 
+      , Svg.Attributes.width "30" 
+      , Svg.Attributes.height "30" 
+      , viewBox "0 0 24 24"
+      ]
+      [ path 
+        [ d svgpath ] 
+        [] 
+      ]
+
+-- Fix FB App ID
+shareLink : String -> String
+shareLink href =
+  "https://www.facebook.com/dialog/share?"
+  ++ "app_id=" ++ "145634995501895"
+  ++ "&display=popup"
+  ++ "&href=" ++ href
 
 viewTitle: Model -> Html Msg
 viewTitle model =
@@ -371,7 +396,7 @@ templatePages model content =
        ]
     ]
 
-templateChapter : Model -> Maybe Chapter -> List (Html Msg) -> List (Html Msg)
+templateChapter : Model -> MaybeAsset Chapter -> List (Html Msg) -> List (Html Msg)
 templateChapter model chapter content =   
   let
     sticky_class =
@@ -381,9 +406,11 @@ templateChapter model chapter content =
 
     navbar =
       case chapter of 
-        Nothing ->
+        AssetNotFound ->
           []
-        Just current ->
+        AssetLoading ->
+          []
+        Asset current ->
           viewChapterNavbar model current
       
   in

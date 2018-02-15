@@ -11344,9 +11344,9 @@ var _user$project$Image$Derivative = F2(
 var _user$project$Models$chapterContentEndpoint = 'chapters';
 var _user$project$Models$chapterListEndpoint = 'chapters?_format=json';
 var _user$project$Models$siteInformationEndpoint = 'nvel_base?_format=json';
-var _user$project$Models$Model = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f, language: g, navbar: h};
+var _user$project$Models$Model = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f, language: g, navbar: h, location: i};
 	});
 var _user$project$Models$MenuItem = F2(
 	function (a, b) {
@@ -11370,6 +11370,11 @@ var _user$project$Models$SiteInformation = F6(
 var _user$project$Models$PageData = function (a) {
 	return {title: a};
 };
+var _user$project$Models$Asset = function (a) {
+	return {ctor: 'Asset', _0: a};
+};
+var _user$project$Models$AssetLoading = {ctor: 'AssetLoading'};
+var _user$project$Models$AssetNotFound = {ctor: 'AssetNotFound'};
 var _user$project$Models$FullWidthSingleImage = {ctor: 'FullWidthSingleImage'};
 var _user$project$Models$SingleImage = {ctor: 'SingleImage'};
 var _user$project$Models$Local = {ctor: 'Local'};
@@ -12227,6 +12232,55 @@ var _user$project$View$viewTitle = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$View$shareLink = function (href) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'https://www.facebook.com/dialog/share?',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'app_id=',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'145634995501895',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'&display=popup',
+					A2(_elm_lang$core$Basics_ops['++'], '&href=', href)))));
+};
+var _user$project$View$viewShareIcon = function () {
+	var svgpath = 'M6 17c2.269-9.881 11-11.667 11-11.667v-3.333l7 6.637-7 6.696v-3.333s-6.17-.171-11 5zm12 .145v2.855h-16v-12h6.598c.768-.787 1.561-1.449 2.339-2h-10.937v16h20v-6.769l-2 1.914z';
+	return A2(
+		_elm_lang$svg$Svg$svg,
+		{
+			ctor: '::',
+			_0: _elm_lang$svg$Svg_Attributes$xmlSpace('http://www.w3.org/2000/svg'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Attributes$width('30'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$height('30'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$viewBox('0 0 24 24'),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$svg$Svg$path,
+				{
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$d(svgpath),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+}();
 var _user$project$View$viewIndexIcon = function () {
 	var svgpath = 'M4 22h-4v-4h4v4zm0-12h-4v4h4v-4zm0-8h-4v4h4v-4zm3 0v4h17v-4h-17zm0 12h17v-4h-17v4zm0 8h17v-4h-17v4z';
 	return A2(
@@ -13078,14 +13132,14 @@ var _user$project$View$viewChapterNavbar = F2(
 				var previous = A2(_elm_lang$core$List$take, index - 1, list);
 				var previous_crop = (_elm_lang$core$Native_Utils.cmp(
 					_elm_lang$core$List$length(previous),
-					2) > 0) ? A2(
+					1) > 0) ? A2(
 					_elm_lang$core$List$drop,
-					_elm_lang$core$List$length(previous) - 2,
+					_elm_lang$core$List$length(previous) - 1,
 					previous) : previous;
 				var next = A2(_elm_lang$core$List$drop, index, list);
 				var next_crop = (_elm_lang$core$Native_Utils.cmp(
 					_elm_lang$core$List$length(next),
-					2) > 0) ? A2(_elm_lang$core$List$take, 2, next) : next;
+					1) > 0) ? A2(_elm_lang$core$List$take, 1, next) : next;
 				return A3(_user$project$View$viewChapterNavigation, previous_crop, chapter, next_crop);
 			}
 		}();
@@ -13138,7 +13192,27 @@ var _user$project$View$viewChapterNavbar = F2(
 						},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text('share'),
+							_0: A2(
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href(
+										_user$project$View$shareLink(model.location.href)),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$target('_blank'),
+										_1: {ctor: '[]'}
+									}
+								},
+								{
+									ctor: '::',
+									_0: _user$project$View$viewShareIcon,
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Share'),
+										_1: {ctor: '[]'}
+									}
+								}),
 							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
@@ -13150,10 +13224,13 @@ var _user$project$View$templateChapter = F3(
 	function (model, chapter, content) {
 		var navbar = function () {
 			var _p2 = chapter;
-			if (_p2.ctor === 'Nothing') {
-				return {ctor: '[]'};
-			} else {
-				return A2(_user$project$View$viewChapterNavbar, model, _p2._0);
+			switch (_p2.ctor) {
+				case 'AssetNotFound':
+					return {ctor: '[]'};
+				case 'AssetLoading':
+					return {ctor: '[]'};
+				default:
+					return A2(_user$project$View$viewChapterNavbar, model, _p2._0);
 			}
 		}();
 		var sticky_class = function () {
@@ -13507,24 +13584,45 @@ var _user$project$Chapters_Chapter$replaceChapter = F2(
 	});
 var _user$project$Chapters_Chapter$view = function (model) {
 	var _p2 = model;
-	if (_p2.ctor === 'Nothing') {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$h1,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _user$project$View$loading('Loading'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			});
-	} else {
-		return _user$project$Chapters_Chapter$viewChapter(_p2._0);
+	switch (_p2.ctor) {
+		case 'AssetLoading':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _user$project$View$loading('Loading'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				});
+		case 'AssetNotFound':
+			return A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('container'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Chapter not Found'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				});
+		default:
+			return _user$project$Chapters_Chapter$viewChapter(_p2._0);
 	}
 };
 
@@ -13607,9 +13705,15 @@ var _user$project$Routing$routeContent = function (model) {
 			var chapter = function () {
 				var _p1 = model.chapters;
 				if (_p1.ctor === 'Nothing') {
-					return _elm_lang$core$Maybe$Nothing;
+					return _user$project$Models$AssetLoading;
 				} else {
-					return A2(_elm_lang$core$Dict$get, _p0._0, _p1._0);
+					var c = A2(_elm_lang$core$Dict$get, _p0._0, _p1._0);
+					var _p2 = c;
+					if (_p2.ctor === 'Nothing') {
+						return _user$project$Models$AssetNotFound;
+					} else {
+						return _user$project$Models$Asset(_p2._0);
+					}
 				}
 			}();
 			var content = {
@@ -13642,32 +13746,42 @@ var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 			ctor: '::',
 			_0: A2(
 				_evancz$url_parser$UrlParser$map,
-				_user$project$Models$ChapterRoute,
+				_user$project$Models$ChaptersRoute,
 				A2(
 					_evancz$url_parser$UrlParser_ops['</>'],
 					_evancz$url_parser$UrlParser$s('chapters'),
-					_evancz$url_parser$UrlParser$string)),
+					_evancz$url_parser$UrlParser$top)),
 			_1: {
 				ctor: '::',
 				_0: A2(
 					_evancz$url_parser$UrlParser$map,
-					_user$project$Models$ChaptersRoute,
-					_evancz$url_parser$UrlParser$s('chapters')),
+					_user$project$Models$ChapterRoute,
+					A2(
+						_evancz$url_parser$UrlParser_ops['</>'],
+						_evancz$url_parser$UrlParser$s('chapters'),
+						_evancz$url_parser$UrlParser$string)),
 				_1: {
 					ctor: '::',
 					_0: A2(
 						_evancz$url_parser$UrlParser$map,
-						_user$project$Models$AboutRoute,
-						_evancz$url_parser$UrlParser$s('about')),
-					_1: {ctor: '[]'}
+						_user$project$Models$ChaptersRoute,
+						_evancz$url_parser$UrlParser$s('chapters')),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_evancz$url_parser$UrlParser$map,
+							_user$project$Models$AboutRoute,
+							_evancz$url_parser$UrlParser$s('about')),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		}
 	});
 var _user$project$Routing$parseLocation = function (location) {
-	var _p2 = A2(_evancz$url_parser$UrlParser$parsePath, _user$project$Routing$matchers, location);
-	if (_p2.ctor === 'Just') {
-		return _p2._0;
+	var _p3 = A2(_evancz$url_parser$UrlParser$parsePath, _user$project$Routing$matchers, location);
+	if (_p3.ctor === 'Just') {
+		return _p3._0;
 	} else {
 		return _user$project$Models$NotFoundRoute;
 	}
@@ -13696,7 +13810,7 @@ var _user$project$Main$init = function (location) {
 	var pageData = {title: 'Loading...'};
 	var siteInformation = _user$project$Config$siteInformation;
 	var chapters = _elm_lang$core$Maybe$Nothing;
-	var model = A8(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route, lang, true);
+	var model = A9(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route, lang, true, location);
 	var commands = _elm_lang$core$Platform_Cmd$batch(
 		{
 			ctor: '::',
@@ -13763,10 +13877,11 @@ var _user$project$Main$update = F2(
 					_1: _elm_lang$navigation$Navigation$newUrl(_p0._0)
 				};
 			case 'OnLocationChange':
-				var newRoute = _user$project$Routing$parseLocation(_p0._0);
+				var _p1 = _p0._0;
+				var newRoute = _user$project$Routing$parseLocation(_p1);
 				var newmodel = _elm_lang$core$Native_Utils.update(
 					model,
-					{route: newRoute});
+					{route: newRoute, location: _p1});
 				return {
 					ctor: '_Tuple2',
 					_0: newmodel,
@@ -13774,18 +13889,18 @@ var _user$project$Main$update = F2(
 						_user$project$Config$pageData(newmodel))
 				};
 			case 'UpdatePageData':
-				var _p1 = _p0._0;
+				var _p2 = _p0._0;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{pageData: _p1}),
-					_1: _user$project$Main$updatePageData(_p1)
+						{pageData: _p2}),
+					_1: _user$project$Main$updatePageData(_p2)
 				};
 			default:
 				var navbar = function () {
-					var _p2 = _p0._0;
-					if (_p2.ctor === 'Show') {
+					var _p3 = _p0._0;
+					if (_p3.ctor === 'Show') {
 						return true;
 					} else {
 						return false;

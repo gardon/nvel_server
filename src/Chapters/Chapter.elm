@@ -9,15 +9,20 @@ import Dict exposing (Dict)
 import Msgs exposing (Msg)
 import Skeleton exposing (..)
 
-view :  Maybe Chapter -> Html Msg
+view :  MaybeAsset Chapter -> Html Msg
 view model =
     case model of
-        Nothing ->
+        AssetLoading ->
             div []
                 [ h1 [] [ loading "Loading" ]    
             ]
 
-        Just chapter ->
+        AssetNotFound ->
+            div [ class "container" ]
+                [ h1 [] [ text "Chapter not Found" ]
+            ]
+
+        Asset chapter ->
             viewChapter chapter
 
 replaceChapter : Model -> Chapter -> Model
