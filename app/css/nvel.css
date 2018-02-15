@@ -13,6 +13,7 @@ img.u-full-width {
 	margin: 0 auto;
 	width: auto;
 	max-height: 100vh;
+	max-width: 100%;
 }
 
 span.loading-icon {
