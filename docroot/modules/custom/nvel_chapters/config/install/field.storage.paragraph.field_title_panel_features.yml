@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_title_panel_features
+field_name: field_title_panel_features
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: title
+      label: 'Title (in text)'
+    -
+      value: author
+      label: Author
+    -
+      value: copyright
+      label: Copyright
+    -
+      value: extra
+      label: 'Extra Text (bottom)'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
