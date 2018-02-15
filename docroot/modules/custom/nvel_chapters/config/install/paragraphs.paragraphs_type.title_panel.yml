@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: title_panel
+label: 'Title Panel'
+behavior_plugins: {  }
