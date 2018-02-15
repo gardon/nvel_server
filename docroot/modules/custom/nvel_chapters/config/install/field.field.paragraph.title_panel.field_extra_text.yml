@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_extra_text
+    - paragraphs.paragraphs_type.title_panel
+id: paragraph.title_panel.field_extra_text
+field_name: field_extra_text
+entity_type: paragraph
+bundle: title_panel
+label: 'Extra text'
+description: 'Extra text is displayed bellow the panel. You can use Markdown for formatting'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

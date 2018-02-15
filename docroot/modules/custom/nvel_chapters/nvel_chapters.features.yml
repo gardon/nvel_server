@@ -1,2 +1,5 @@
 bundle: nvel
+excluded:
+  - language.content_settings.node.chapter
+  - language.content_settings.paragraph.full_width_single_panel
 required: true

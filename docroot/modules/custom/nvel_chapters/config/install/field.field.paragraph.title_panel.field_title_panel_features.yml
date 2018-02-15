@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title_panel_features
+    - paragraphs.paragraphs_type.title_panel
+  module:
+    - options
+id: paragraph.title_panel.field_title_panel_features
+field_name: field_title_panel_features
+entity_type: paragraph
+bundle: title_panel
+label: Features
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
