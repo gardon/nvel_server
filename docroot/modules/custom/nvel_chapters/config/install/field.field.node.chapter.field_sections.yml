@@ -5,6 +5,7 @@ dependencies:
     - field.storage.node.field_sections
     - node.type.chapter
     - paragraphs.paragraphs_type.full_width_single_panel
+    - paragraphs.paragraphs_type.title_panel
   module:
     - entity_reference_revisions
 id: node.chapter.field_sections
@@ -21,9 +22,13 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
+      title_panel: title_panel
       full_width_single_panel: full_width_single_panel
     target_bundles_drag_drop:
+      title_panel:
+        enabled: true
+        weight: -5
       full_width_single_panel:
         enabled: true
-        weight: 2
+        weight: -4
 field_type: entity_reference_revisions
