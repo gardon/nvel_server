@@ -58,13 +58,19 @@
 
   ErrorDocument 404 /not-found.html
 
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{HTTP_USER_AGENT} (python-requests|Twurly|yandex|browserproxy|Monitoring|crawler|Qwantify|Yahoo\!\ Slurp|pinterest|getprismatic\.com|Apache-HttpClient|outbrain|vkshare|monit|Pingability|Monitoring|WinHttpRequest|quora\ link\ preview|simplepie|yahooseeker|embedly|bot|spider|facebookexternalhit|googlebot) [NC]
+  RewriteRule ^(.*)$ /static_get.php?q=$1 [NC,L,QSA]
+
+  RewriteCond %{HTTP_USER_AGENT} (python-requests|Twurly|yandex|browserproxy|Monitoring|crawler|Qwantify|Yahoo\!\ Slurp|pinterest|getprismatic\.com|Apache-HttpClient|outbrain|vkshare|monit|Pingability|Monitoring|WinHttpRequest|quora\ link\ preview|simplepie|yahooseeker|embedly|bot|spider|facebookexternalhit|googlebot) [NC]
+  RewriteRule ^$ /static_get.php?q=index [NC,L,QSA]
+
   # Pass all requests not referring directly to files in the filesystem to
   # index.php.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !=/favicon.ico
-  RewriteCond %{REQUEST_URI} !=/not-found.html
-
   # This catch-all rule only rewrites requests for existing routes.
   RewriteRule ^(|about|chapters(\/[0-9]*)?)$ index.html [L]
 
