@@ -102,6 +102,14 @@ class ChaptersResource extends ResourceBase {
           $image = $entity->get('field_panel_image')->first()->getValue();
           $section['image'] = $this->buildImage($image, $image_file);
           break;
+        case 'title_panel':
+          $image_file = $entity->get('field_title_image')->referencedEntities()[0];
+          $image = $entity->get('field_title_image')->first()->getValue();
+          $section['image'] = $this->buildImage($image, $image_file);
+          $extra = $node->get('field_extra_text')->view(array('label' => 'hidden'));
+          $section['extra_text'] = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($extra)));
+          
+          break; 
       }
       $sections[] = $section;
     }
