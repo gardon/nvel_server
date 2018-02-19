@@ -1,9 +1,17 @@
-module Language exposing (translate)
+module Language exposing (translate,toString)
 
 import Models exposing (..)
 
 type alias Translator =
     Phrase -> String
+
+toString : Language -> String
+toString lang = 
+    case lang of 
+        En ->
+            "en"
+        Pt_Br ->
+            "pt-br"
 
 translate : Language -> Translator
 translate lang =
@@ -28,6 +36,7 @@ translatePtBr phrase =
         MailchimpSmall -> "(A lista só é usada para avisar de conteúdo novo)"
         MailchimpButton -> "Assinar"
         Loading -> "Carregando..."
+        NotFound -> "Não encontrado"
 
 translateEn : Translator
 translateEn phrase =
@@ -43,3 +52,4 @@ translateEn phrase =
         MailchimpSmall -> "(It's really only used when there are updates)"
         MailchimpButton -> "Subscribe"
         Loading -> "Loading..."
+        NotFound -> "Not Found"

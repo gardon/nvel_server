@@ -51,6 +51,8 @@
       var app = Elm.Main.embed(node);
       app.ports.updatePageData.subscribe(function(pagedata) {
         document.title = pagedata.title;
+        htmlEl = document.documentElement;
+        htmlEl.lang = pagedata.lang;
       });
 
       var scroll = window.pageYOffset || document.body.scrollTop;

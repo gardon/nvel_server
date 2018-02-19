@@ -11367,9 +11367,10 @@ var _user$project$Models$SiteInformation = F6(
 	function (a, b, c, d, e, f) {
 		return {title: a, description: b, facebook_page: c, instagram_handle: d, deviantart_profile: e, aboutContent: f};
 	});
-var _user$project$Models$PageData = function (a) {
-	return {title: a};
-};
+var _user$project$Models$PageData = F2(
+	function (a, b) {
+		return {title: a, lang: b};
+	});
 var _user$project$Models$Asset = function (a) {
 	return {ctor: 'Asset', _0: a};
 };
@@ -11390,6 +11391,7 @@ var _user$project$Models$InstagramIcon = {ctor: 'InstagramIcon'};
 var _user$project$Models$FacebookIcon = {ctor: 'FacebookIcon'};
 var _user$project$Models$Pt_Br = {ctor: 'Pt_Br'};
 var _user$project$Models$En = {ctor: 'En'};
+var _user$project$Models$NotFound = {ctor: 'NotFound'};
 var _user$project$Models$Loading = {ctor: 'Loading'};
 var _user$project$Models$MailchimpButton = {ctor: 'MailchimpButton'};
 var _user$project$Models$MailchimpSmall = {ctor: 'MailchimpSmall'};
@@ -11630,8 +11632,10 @@ var _user$project$Language$translateEn = function (phrase) {
 			return '(It\'s really only used when there are updates)';
 		case 'MailchimpButton':
 			return 'Subscribe';
-		default:
+		case 'Loading':
 			return 'Loading...';
+		default:
+			return 'Not Found';
 	}
 };
 var _user$project$Language$translatePtBr = function (phrase) {
@@ -11657,8 +11661,10 @@ var _user$project$Language$translatePtBr = function (phrase) {
 			return '(A lista só é usada para avisar de conteúdo novo)';
 		case 'MailchimpButton':
 			return 'Assinar';
-		default:
+		case 'Loading':
 			return 'Carregando...';
+		default:
+			return 'Não encontrado';
 	}
 };
 var _user$project$Language$translate = function (lang) {
@@ -11667,6 +11673,14 @@ var _user$project$Language$translate = function (lang) {
 		return _user$project$Language$translateEn;
 	} else {
 		return _user$project$Language$translatePtBr;
+	}
+};
+var _user$project$Language$toString = function (lang) {
+	var _p3 = lang;
+	if (_p3.ctor === 'En') {
+		return 'en';
+	} else {
+		return 'pt-br';
 	}
 };
 
@@ -13629,10 +13643,30 @@ var _user$project$Chapters_Chapter$view = function (model) {
 var _user$project$Config_Environment$backend = {backendURL: 'http://server.nvel.docksal/'};
 
 var _user$project$Config_Site$language = _user$project$Models$Pt_Br;
-var _user$project$Config_Site$notFoundData = {title: 'Oops, there was a problem!'};
-var _user$project$Config_Site$aboutData = {title: 'About'};
-var _user$project$Config_Site$chaptersListData = {title: 'Chapters'};
-var _user$project$Config_Site$homeData = {title: ''};
+var _user$project$Config_Site$notFoundData = function (language) {
+	return {
+		title: 'Oops, there was a problem!',
+		lang: _user$project$Language$toString(language)
+	};
+};
+var _user$project$Config_Site$aboutData = function (language) {
+	return {
+		title: 'About',
+		lang: _user$project$Language$toString(language)
+	};
+};
+var _user$project$Config_Site$chaptersListData = function (language) {
+	return {
+		title: 'Chapters',
+		lang: _user$project$Language$toString(language)
+	};
+};
+var _user$project$Config_Site$homeData = function (language) {
+	return {
+		title: '',
+		lang: _user$project$Language$toString(language)
+	};
+};
 var _user$project$Config_Site$siteInformation = {title: '', description: '', facebook_page: '', instagram_handle: '', deviantart_profile: '', aboutContent: ''};
 
 var _user$project$Config$getSiteInformation = function (model) {
@@ -13657,27 +13691,30 @@ var _user$project$Config$chapterData = F2(
 		var title = function () {
 			var _p1 = chapter;
 			if (_p1.ctor === 'Nothing') {
-				return 'Not Found';
+				return A2(_user$project$Language$translate, model.language, _user$project$Models$NotFound);
 			} else {
 				return _p1._0.title;
 			}
 		}();
-		return {title: title};
+		return {
+			title: title,
+			lang: _user$project$Language$toString(model.language)
+		};
 	});
 var _user$project$Config$pageData = function (model) {
 	var data = function () {
 		var _p2 = model.route;
 		switch (_p2.ctor) {
 			case 'HomeRoute':
-				return _user$project$Config_Site$homeData;
+				return _user$project$Config_Site$homeData(model.language);
 			case 'ChaptersRoute':
-				return _user$project$Config_Site$chaptersListData;
+				return _user$project$Config_Site$chaptersListData(model.language);
 			case 'ChapterRoute':
 				return A2(_user$project$Config$chapterData, model, _p2._0);
 			case 'AboutRoute':
-				return _user$project$Config_Site$aboutData;
+				return _user$project$Config_Site$aboutData(model.language);
 			default:
-				return _user$project$Config_Site$notFoundData;
+				return _user$project$Config_Site$notFoundData(model.language);
 		}
 	}();
 	var title = _elm_lang$core$Native_Utils.eq(data.title, '') ? model.siteInformation.title : A2(
@@ -13800,14 +13837,17 @@ var _user$project$Main$view = function (model) {
 var _user$project$Main$updatePageData = _elm_lang$core$Native_Platform.outgoingPort(
 	'updatePageData',
 	function (v) {
-		return {title: v.title};
+		return {title: v.title, lang: v.lang};
 	});
 var _user$project$Main$init = function (location) {
 	var route = _user$project$Routing$parseLocation(location);
 	var menu = _user$project$Menu$menu;
 	var lang = _user$project$Config$getLanguage;
+	var pageData = {
+		title: A2(_user$project$Language$translate, lang, _user$project$Models$Loading),
+		lang: _user$project$Language$toString(lang)
+	};
 	var backendConfig = _user$project$Config$switchBackend;
-	var pageData = {title: 'Loading...'};
 	var siteInformation = _user$project$Config$siteInformation;
 	var chapters = _elm_lang$core$Maybe$Nothing;
 	var model = A9(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route, lang, true, location);

@@ -60,6 +60,7 @@ type alias SiteInformation =
 
 type alias PageData = 
     { title : String
+    , lang: String
     }
 
 type Environment = Local
@@ -94,6 +95,7 @@ type Phrase
     | MailchimpSmall 
     | MailchimpButton
     | Loading
+    | NotFound
 
 type NavbarAction
     = Show

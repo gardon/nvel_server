@@ -6,6 +6,7 @@ import Models exposing (..)
 import Msgs exposing (..)
 import Resources exposing (..)
 import Dict exposing (Dict)
+import Language exposing (..)
 
 import Config.Environment exposing (..)
 import Config.Site exposing (..)
@@ -38,24 +39,25 @@ chapterData model id =
         title =
             case chapter of 
                 Nothing ->
-                    "Not Found"
+                    translate model.language NotFound
                 Just chapter ->
                     chapter.title
 
     in 
 
         { title = title
+        , lang = Language.toString model.language
         }
 
 pageData : Model -> PageData 
 pageData model = 
     let data = 
         case model.route of
-            HomeRoute -> homeData
-            ChaptersRoute -> chaptersListData
+            HomeRoute -> homeData model.language
+            ChaptersRoute -> chaptersListData model.language
             ChapterRoute id -> chapterData model id
-            AboutRoute -> aboutData
-            NotFoundRoute -> notFoundData
+            AboutRoute -> aboutData model.language
+            NotFoundRoute -> notFoundData model.language
 
         title = 
             if data.title == "" then

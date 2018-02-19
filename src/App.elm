@@ -19,6 +19,7 @@ import Chapters exposing (..)
 import Chapters.Chapter
 import Menu exposing (..)
 import Msgs exposing (..)
+import Language exposing (..)
 
 main =
   Navigation.program OnLocationChange
@@ -36,9 +37,9 @@ init location =
   let
     chapters = Nothing
     siteInformation = Config.siteInformation
-    pageData = { title = "Loading..." }
     backendConfig = switchBackend
     lang = Config.getLanguage
+    pageData = { title = translate lang Loading, lang = Language.toString lang }
     menu = Menu.menu
     route = parseLocation location
     model = Model chapters siteInformation pageData backendConfig menu route lang True location
