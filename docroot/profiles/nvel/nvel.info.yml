@@ -7,13 +7,10 @@ dependencies:
   - basic_auth
   - block
   - block_content
-  - breakpoint
   - ckeditor
   - color
   - comment
   - config
-  - contact
-  - content_translation
   - contextual
   - datetime
   - dblog
@@ -25,11 +22,11 @@ dependencies:
   - help
   - history
   - image
-  - language
   - menu_link_content
   - menu_ui
   - node
   - nvel_base
+  - nvel_chapters
   - options
   - page_cache
   - path
