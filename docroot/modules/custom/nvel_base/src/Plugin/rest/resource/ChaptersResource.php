@@ -107,7 +107,7 @@ class ChaptersResource extends ResourceBase {
           $image = $entity->get('field_title_image')->first()->getValue();
           $section['image'] = $this->buildImage($image, $image_file);
           $extra = $node->get('field_extra_text')->view(array('label' => 'hidden'));
-          $section['extra_text'] => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($extra))),
+          $section['extra_text'] = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($extra)));
           
           break; 
       }
