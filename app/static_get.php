@@ -26,7 +26,7 @@ switch ($path[0]) {
 
 redirect($url);
 
-function redirect($url, $statusCode = 303) {
-  header('Location: ' . $url, true, $statusCode);
+function redirect($url) {
+  readfile($url);
   die();
 }
