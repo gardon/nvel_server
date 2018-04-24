@@ -88,6 +88,7 @@ class ChaptersResource extends ResourceBase {
   }
 
   private function getSections($node) {
+    $renderer = \Drupal::service('renderer');
     $paragraphs = $node->get('field_sections');
     $sections = array();
     foreach ($paragraphs as $paragraph) {
@@ -103,13 +104,31 @@ class ChaptersResource extends ResourceBase {
           $section['image'] = $this->buildImage($image, $image_file);
           break;
         case 'title_panel':
-          $image_file = $entity->get('field_title_image')->referencedEntities()[0];
-          $image = $entity->get('field_title_image')->first()->getValue();
-          $section['image'] = $this->buildImage($image, $image_file);
-          $extra = $node->get('field_extra_text')->view(array('label' => 'hidden'));
-          $section['extra_text'] = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($extra)));
-          
-          break; 
+          $image_file = $entity->get('field_title_image')->referencedEntities();
+          if (!empty($image_file)) {
+            $image = $entity->get('field_title_image')->first()->getValue();
+            $section['image'] = $this->buildImage($image, $image_file[0]);
+          }
+          $extra = $entity->get('field_extra_text')->view(array('label' => 'hidden'));
+          $extra_text = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($extra)));
+          $features = $entity->get('field_title_panel_features')->getValue();
+          $section['features'] = array(
+            'title' => FALSE,
+            'author' => FALSE,
+            'copyright' => FALSE,
+            'extra' => '',
+          );
+          foreach ($features as $feature) {
+            if (isset($section['features'][$feature['value']])) {
+              if ($feature['value'] == 'extra') {
+                $section['features']['extra'] = $extra_text;
+              }
+              else {
+                $section['features'][$feature['value']] = TRUE;
+              }
+            }
+          }
+          break;
       }
       $sections[] = $section;
     }
