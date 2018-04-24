@@ -59,6 +59,8 @@ decodeSection sectionType =
   case sectionType of 
       "full_width_single_panel" ->
           decodeFullWidthSingleImageSection
+      "title_panel" ->
+          decodeTitlePanel
       _ ->
           Decode.fail <| "Unknown section type: " ++ sectionType
 
@@ -67,6 +69,25 @@ decodeFullWidthSingleImageSection =
   decode Section
       |> hardcoded FullWidthSingleImage
       |> required "image" imageDecoder
+
+decodeTitlePanel : Decode.Decoder Section
+decodeTitlePanel =
+  Decode.field "features" decodeTitlePanelFeatures
+      |> Decode.andThen decodeTitlePanelSection
+
+decodeTitlePanelSection : TitlePanelFeatures -> Decode.Decoder Section
+decodeTitlePanelSection features =
+  decode Section
+      |> hardcoded (TitlePanel features)
+      |> optional "image" imageDecoder Image.emptyImage
+
+decodeTitlePanelFeatures : Decode.Decoder TitlePanelFeatures
+decodeTitlePanelFeatures = 
+  decode TitlePanelFeatures
+      |> required "title" Decode.bool
+      |> required "author" Decode.bool
+      |> required "copyright" Decode.bool
+      |> required "extra" Decode.string
 
 --markdownDecoder : Decode.Decoder (Html msg)
 --markdownDecoder = 

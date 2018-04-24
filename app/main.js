@@ -11336,6 +11336,14 @@ var _user$project$Image$Image = F6(
 	function (a, b, c, d, e, f) {
 		return {uri: a, width: b, height: c, alt: d, title: e, derivatives: f};
 	});
+var _user$project$Image$emptyImage = A6(
+	_user$project$Image$Image,
+	'',
+	0,
+	0,
+	'',
+	'',
+	{ctor: '[]'});
 var _user$project$Image$Derivative = F2(
 	function (a, b) {
 		return {uri: a, size: b};
@@ -11360,6 +11368,10 @@ var _user$project$Models$Section = F2(
 	function (a, b) {
 		return {sectionType: a, image: b};
 	});
+var _user$project$Models$TitlePanelFeatures = F4(
+	function (a, b, c, d) {
+		return {title: a, author: b, copyright: c, extra: d};
+	});
 var _user$project$Models$BackendConfig = function (a) {
 	return {backendURL: a};
 };
@@ -11376,6 +11388,9 @@ var _user$project$Models$Asset = function (a) {
 };
 var _user$project$Models$AssetLoading = {ctor: 'AssetLoading'};
 var _user$project$Models$AssetNotFound = {ctor: 'AssetNotFound'};
+var _user$project$Models$TitlePanel = function (a) {
+	return {ctor: 'TitlePanel', _0: a};
+};
 var _user$project$Models$FullWidthSingleImage = {ctor: 'FullWidthSingleImage'};
 var _user$project$Models$SingleImage = {ctor: 'SingleImage'};
 var _user$project$Models$Local = {ctor: 'Local'};
@@ -11457,6 +11472,23 @@ var _user$project$Resources$decodeSiteInformation = A4(
 						'title',
 						_elm_lang$core$Json_Decode$string,
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$SiteInformation)))))));
+var _user$project$Resources$decodeTitlePanelFeatures = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'extra',
+	_elm_lang$core$Json_Decode$string,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'copyright',
+		_elm_lang$core$Json_Decode$bool,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'author',
+			_elm_lang$core$Json_Decode$bool,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'title',
+				_elm_lang$core$Json_Decode$bool,
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$TitlePanelFeatures)))));
 var _user$project$Resources$decodeDerivative = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'size',
@@ -11502,13 +11534,31 @@ var _user$project$Resources$decodeFullWidthSingleImageSection = A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
 		_user$project$Models$FullWidthSingleImage,
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
+var _user$project$Resources$decodeTitlePanelSection = function (features) {
+	return A4(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+		'image',
+		_user$project$Resources$imageDecoder,
+		_user$project$Image$emptyImage,
+		A2(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+			_user$project$Models$TitlePanel(features),
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
+};
+var _user$project$Resources$decodeTitlePanel = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	_user$project$Resources$decodeTitlePanelSection,
+	A2(_elm_lang$core$Json_Decode$field, 'features', _user$project$Resources$decodeTitlePanelFeatures));
 var _user$project$Resources$decodeSection = function (sectionType) {
 	var _p0 = sectionType;
-	if (_p0 === 'full_width_single_panel') {
-		return _user$project$Resources$decodeFullWidthSingleImageSection;
-	} else {
-		return _elm_lang$core$Json_Decode$fail(
-			A2(_elm_lang$core$Basics_ops['++'], 'Unknown section type: ', sectionType));
+	switch (_p0) {
+		case 'full_width_single_panel':
+			return _user$project$Resources$decodeFullWidthSingleImageSection;
+		case 'title_panel':
+			return _user$project$Resources$decodeTitlePanel;
+		default:
+			return _elm_lang$core$Json_Decode$fail(
+				A2(_elm_lang$core$Basics_ops['++'], 'Unknown section type: ', sectionType));
 	}
 };
 var _user$project$Resources$sectionDecoder = A2(
@@ -12789,7 +12839,7 @@ var _user$project$View$templatePages = F2(
 	});
 var _user$project$View$viewImage = F2(
 	function (attributes, image) {
-		return A2(
+		return _elm_lang$core$Native_Utils.eq(image, _user$project$Image$emptyImage) ? _elm_lang$html$Html$text('') : A2(
 			_elm_lang$html$Html$img,
 			A2(
 				_elm_lang$core$Basics_ops['++'],
@@ -13536,36 +13586,61 @@ var _user$project$View$viewHome = function (model) {
 
 var _user$project$Chapters_Chapter$viewSection = function (model) {
 	var _p0 = model.sectionType;
-	if (_p0.ctor === 'SingleImage') {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'});
-	} else {
-		return A2(
-			_user$project$Skeleton$skeletonRowFullWidth,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$View$viewImage,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
-						_1: {
+	switch (_p0.ctor) {
+		case 'SingleImage':
+			return A2(
+				_user$project$Skeleton$skeletonRow,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('section-single-image'),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'});
+		case 'FullWidthSingleImage':
+			return A2(
+				_user$project$Skeleton$skeletonRowFullWidth,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('section-full-width-image'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_user$project$View$viewImage,
+						{
 							ctor: '::',
-							_0: _user$project$View_Attributes$sizes(
-								{
-									ctor: '::',
-									_0: '100w',
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					},
-					model.image),
-				_1: {ctor: '[]'}
-			});
+							_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View_Attributes$sizes(
+									{
+										ctor: '::',
+										_0: '100w',
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						},
+						model.image),
+					_1: {ctor: '[]'}
+				});
+		default:
+			return A2(
+				_user$project$Skeleton$skeletonRow,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('section-title'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_user$project$View$viewImage,
+						{ctor: '[]'},
+						model.image),
+					_1: {ctor: '[]'}
+				});
 	}
 };
 var _user$project$Chapters_Chapter$viewChapterContent = function (model) {

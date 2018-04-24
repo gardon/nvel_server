@@ -9,6 +9,8 @@ type alias Image =
     , derivatives : List Derivative
     }
 
+emptyImage = Image "" 0 0 "" "" []
+
 type alias Derivative =
     { uri : String
     , size : String

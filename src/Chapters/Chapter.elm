@@ -47,7 +47,12 @@ viewSection : Section -> Html msg
 viewSection model =
     case model.sectionType of 
       SingleImage ->
-        div [] []  
+        skeletonRow [ class "section-single-image" ] []  
 
       FullWidthSingleImage ->
-        skeletonRowFullWidth [] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]
+        skeletonRowFullWidth [ class "section-full-width-image" ] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]
+
+      TitlePanel features ->
+        skeletonRow [ class "section-title" ] 
+        [ viewImage [] model.image
+        ]

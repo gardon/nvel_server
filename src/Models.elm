@@ -41,10 +41,18 @@ type MaybeAsset a
 type SectionType
   = SingleImage
   | FullWidthSingleImage
+  | TitlePanel TitlePanelFeatures
 
 type alias Section =
     { sectionType : SectionType
     , image : Image }
+
+type alias TitlePanelFeatures =
+    { title : Bool
+    , author : Bool
+    , copyright : Bool
+    , extra : String
+    }
 
 type alias BackendConfig =
     { backendURL : String }

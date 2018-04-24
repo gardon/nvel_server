@@ -166,14 +166,17 @@ viewChapterListItem chapter =
 
 viewImage : List (Attribute msg) -> Image -> Html msg
 viewImage attributes image =
-  img ( attributes ++ 
-    [ src image.uri
-    , width image.width
-    , height image.height
-    , alt image.alt
-    , title image.title
-    , srcset image.derivatives 
-    ]) []
+  if (image == Image.emptyImage) then
+    text ""
+  else
+    img ( attributes ++ 
+      [ src image.uri
+      , width image.width
+      , height image.height
+      , alt image.alt
+      , title image.title
+      , srcset image.derivatives 
+      ]) []
 
 viewMenu : Language -> List MenuItem -> Html Msg 
 viewMenu lang menu =
