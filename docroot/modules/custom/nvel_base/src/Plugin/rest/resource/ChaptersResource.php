@@ -113,18 +113,24 @@ class ChaptersResource extends ResourceBase {
           $extra_text = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($extra)));
           $features = $entity->get('field_title_panel_features')->getValue();
           $section['features'] = array(
-            'title' => FALSE,
-            'author' => FALSE,
-            'copyright' => FALSE,
+            'title' => '',
+            'author' => '',
+            'copyright' => '',
             'extra' => '',
           );
           foreach ($features as $feature) {
             if (isset($section['features'][$feature['value']])) {
-              if ($feature['value'] == 'extra') {
-                $section['features']['extra'] = $extra_text;
-              }
-              else {
-                $section['features'][$feature['value']] = TRUE;
+              switch ($feature['value']) {
+                case 'extra':
+                  $section['features']['extra'] = $extra_text;
+                  break;
+                case 'author':
+                  $author = $node->get('field_authors');
+                  $view = $author->view();
+                  $section['features']['author'] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
+                  break;
+                default:
+                  $section['features'][$feature['value']] = '';
               }
             }
           }
