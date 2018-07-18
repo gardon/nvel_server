@@ -125,9 +125,19 @@ class ChaptersResource extends ResourceBase {
                   $section['features']['extra'] = $extra_text;
                   break;
                 case 'author':
-                  $author = $node->get('field_authors');
-                  $view = $author->view();
-                  $section['features']['author'] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
+                  $authors = array();
+                  foreach ($node->get('field_authors') as $author) {
+                    $view = $author->view();
+                    $authors[] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
+                  }
+                  $section['features']['author'] = $authors[0];
+                  break;
+                case 'title':
+                  $title = $node->get('title')->view();
+                  $section['features']['title'] = PlainTextOutput::renderFromHtml($renderer->renderRoot($title));
+                  break;
+                case 'copyright':
+                  $section['features']['copyright'] = '© Todos os direitos reservados';
                   break;
                 default:
                   $section['features'][$feature['value']] = '';
