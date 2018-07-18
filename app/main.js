@@ -11479,15 +11479,15 @@ var _user$project$Resources$decodeTitlePanelFeatures = A3(
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 		'copyright',
-		_elm_lang$core$Json_Decode$bool,
+		_elm_lang$core$Json_Decode$string,
 		A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 			'author',
-			_elm_lang$core$Json_Decode$bool,
+			_elm_lang$core$Json_Decode$string,
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 				'title',
-				_elm_lang$core$Json_Decode$bool,
+				_elm_lang$core$Json_Decode$string,
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$TitlePanelFeatures)))));
 var _user$project$Resources$decodeDerivative = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
@@ -13626,6 +13626,7 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 					_1: {ctor: '[]'}
 				});
 		default:
+			var _p1 = _p0._0;
 			return A2(
 				_user$project$Skeleton$skeletonRow,
 				{
@@ -13639,7 +13640,67 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 						_user$project$View$viewImage,
 						{ctor: '[]'},
 						model.image),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('chapter-title'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(_p1.title),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$h3,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('author'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(_p1.author),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('extra'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(_p1.extra),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('copyright'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(_p1.copyright),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
 				});
 	}
 };
@@ -13650,12 +13711,30 @@ var _user$project$Chapters_Chapter$viewChapter = function (chapter) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
-		_user$project$Chapters_Chapter$viewChapterContent(chapter.content));
+		A2(
+			_elm_lang$core$List$append,
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h1,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('chapter-title hidden'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(chapter.title),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			_user$project$Chapters_Chapter$viewChapterContent(chapter.content)));
 };
 var _user$project$Chapters_Chapter$replaceChapter = F2(
 	function (model, newchapter) {
-		var _p1 = model.chapters;
-		if (_p1.ctor === 'Nothing') {
+		var _p2 = model.chapters;
+		if (_p2.ctor === 'Nothing') {
 			return _elm_lang$core$Native_Utils.update(
 				model,
 				{
@@ -13667,13 +13746,13 @@ var _user$project$Chapters_Chapter$replaceChapter = F2(
 				model,
 				{
 					chapters: _elm_lang$core$Maybe$Just(
-						A3(_elm_lang$core$Dict$insert, newchapter.nid, newchapter, _p1._0))
+						A3(_elm_lang$core$Dict$insert, newchapter.nid, newchapter, _p2._0))
 				});
 		}
 	});
 var _user$project$Chapters_Chapter$view = function (model) {
-	var _p2 = model;
-	switch (_p2.ctor) {
+	var _p3 = model;
+	switch (_p3.ctor) {
 		case 'AssetLoading':
 			return A2(
 				_elm_lang$html$Html$div,
@@ -13711,7 +13790,7 @@ var _user$project$Chapters_Chapter$view = function (model) {
 					_1: {ctor: '[]'}
 				});
 		default:
-			return _user$project$Chapters_Chapter$viewChapter(_p2._0);
+			return _user$project$Chapters_Chapter$viewChapter(_p3._0);
 	}
 };
 

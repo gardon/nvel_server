@@ -84,9 +84,9 @@ decodeTitlePanelSection features =
 decodeTitlePanelFeatures : Decode.Decoder TitlePanelFeatures
 decodeTitlePanelFeatures = 
   decode TitlePanelFeatures
-      |> required "title" Decode.bool
-      |> required "author" Decode.bool
-      |> required "copyright" Decode.bool
+      |> required "title" Decode.string
+      |> required "author" Decode.string
+      |> required "copyright" Decode.string
       |> required "extra" Decode.string
 
 --markdownDecoder : Decode.Decoder (Html msg)

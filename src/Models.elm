@@ -48,9 +48,9 @@ type alias Section =
     , image : Image }
 
 type alias TitlePanelFeatures =
-    { title : Bool
-    , author : Bool
-    , copyright : Bool
+    { title : String
+    , author : String
+    , copyright : String
     , extra : String
     }
 

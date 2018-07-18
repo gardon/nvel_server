@@ -36,8 +36,8 @@ replaceChapter model newchapter =
 
 viewChapter : Chapter -> Html Msg
 viewChapter chapter = 
-    div []
-      (viewChapterContent chapter.content)
+    List.append [ h1 [ class "chapter-title hidden"] [ text chapter.title ] ] (viewChapterContent chapter.content)
+    |> div []
 
 viewChapterContent : List Section -> List (Html msg)
 viewChapterContent model =
@@ -55,4 +55,8 @@ viewSection model =
       TitlePanel features ->
         skeletonRow [ class "section-title" ] 
         [ viewImage [] model.image
+        , h2 [ class "chapter-title" ] [ text features.title ]
+        , h3 [ class "author" ] [ text features.author ]
+        , div [ class "extra" ] [ text features.extra ]
+        , div [ class "copyright" ] [ text features.copyright ]
         ]
