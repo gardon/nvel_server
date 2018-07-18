@@ -8,6 +8,7 @@ import View.Attributes exposing (..)
 import Dict exposing (Dict)
 import Msgs exposing (Msg)
 import Skeleton exposing (..)
+import Markdown
 
 view :  MaybeAsset Chapter -> Html Msg
 view model =
@@ -47,16 +48,19 @@ viewSection : Section -> Html msg
 viewSection model =
     case model.sectionType of 
       SingleImage ->
-        skeletonRow [ class "section-single-image" ] []  
+        skeletonRow [ class "section-single-image" ] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]  
 
       FullWidthSingleImage ->
         skeletonRowFullWidth [ class "section-full-width-image" ] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]
+
+      Spacer ->
+        skeletonRowFullWidth [ class "section-spacer" ] []
 
       TitlePanel features ->
         skeletonRow [ class "section-title" ] 
         [ viewImage [] model.image
         , h2 [ class "chapter-title" ] [ text features.title ]
         , h3 [ class "author" ] [ text features.author ]
-        , div [ class "extra" ] [ text features.extra ]
+        , Markdown.toHtmlWith markdownOptions [ class "extra" ] features.extra
         , div [ class "copyright" ] [ text features.copyright ]
         ]

@@ -42,6 +42,7 @@ type SectionType
   = SingleImage
   | FullWidthSingleImage
   | TitlePanel TitlePanelFeatures
+  | Spacer
 
 type alias Section =
     { sectionType : SectionType

@@ -1,0 +1,6 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: spacer
+label: Spacer
+behavior_plugins: {  }

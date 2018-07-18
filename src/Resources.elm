@@ -59,6 +59,10 @@ decodeSection sectionType =
   case sectionType of 
       "full_width_single_panel" ->
           decodeFullWidthSingleImageSection
+      "single_panel" ->
+          decodeSingleImageSection
+      "spacer" ->
+          decodeSpacer
       "title_panel" ->
           decodeTitlePanel
       _ ->
@@ -69,6 +73,18 @@ decodeFullWidthSingleImageSection =
   decode Section
       |> hardcoded FullWidthSingleImage
       |> required "image" imageDecoder
+
+decodeSingleImageSection : Decode.Decoder Section
+decodeSingleImageSection =
+  decode Section
+      |> hardcoded SingleImage
+      |> required "image" imageDecoder
+
+decodeSpacer : Decode.Decoder Section
+decodeSpacer =
+  decode Section
+      |> hardcoded Spacer
+      |> hardcoded Image.emptyImage
 
 decodeTitlePanel : Decode.Decoder Section
 decodeTitlePanel =

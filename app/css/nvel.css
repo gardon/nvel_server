@@ -462,6 +462,10 @@ h3 { font-size: 2.4rem; line-height: 1.3;  letter-spacing: -.08rem; }
 	opacity: 0;
 }
 
+.section-spacer {
+	height: 25vh;
+}
+
 .section-title {
 	min-height: 100vh;
 	text-align: center;
@@ -470,14 +474,13 @@ h3 { font-size: 2.4rem; line-height: 1.3;  letter-spacing: -.08rem; }
 .section-title img {
 	max-height: 60vh;
 	width: auto;
+	max-width: 100%;
 	margin: 0 auto;
 	position: relative;
 	display: block;
+	height: auto;
 }
 
-.section-title {
-
-}
 
 /**.chapter-navigation ul.previous li:last-child .chapter-title,
 .chapter-navigation ul.next li:first-child .chapter-title {

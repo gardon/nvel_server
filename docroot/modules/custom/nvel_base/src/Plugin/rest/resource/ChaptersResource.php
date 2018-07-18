@@ -68,13 +68,13 @@ class ChaptersResource extends ResourceBase {
         'nid' => $id,
         'title' => PlainTextOutput::renderFromHtml($renderer->renderRoot($title)),
         'field_description' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($description))),
-        'content' => $this->getSections($node),
         'index' => (int) trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($index))),
         'thumbnail' => $image,
         'authors' => $authors,
         'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
         'featured_image' => $featured_image,
       );
+      $chapter['content'] = $this->getSections($node, $chapter);
       $chapters[$id] = $chapter;
     }
 
@@ -87,7 +87,7 @@ class ChaptersResource extends ResourceBase {
     return $build;
   }
 
-  private function getSections($node) {
+  private function getSections($node, $chapter) {
     $renderer = \Drupal::service('renderer');
     $paragraphs = $node->get('field_sections');
     $sections = array();
@@ -99,6 +99,7 @@ class ChaptersResource extends ResourceBase {
       );
       switch ($type) {
         case 'full_width_single_panel':
+        case 'single_panel':
           $image_file = $entity->get('field_panel_image')->referencedEntities()[0];
           $image = $entity->get('field_panel_image')->first()->getValue();
           $section['image'] = $this->buildImage($image, $image_file);
@@ -125,16 +126,10 @@ class ChaptersResource extends ResourceBase {
                   $section['features']['extra'] = $extra_text;
                   break;
                 case 'author':
-                  $authors = array();
-                  foreach ($node->get('field_authors') as $author) {
-                    $view = $author->view();
-                    $authors[] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
-                  }
-                  $section['features']['author'] = $authors[0];
+                  $section['features']['author'] = $chapter['authors'][0];
                   break;
                 case 'title':
-                  $title = $node->get('title')->view();
-                  $section['features']['title'] = PlainTextOutput::renderFromHtml($renderer->renderRoot($title));
+                  $section['features']['title'] = '#' . $chapter['index'] . ': ' . $chapter['title'];
                   break;
                 case 'copyright':
                   $section['features']['copyright'] = '© Todos os direitos reservados';

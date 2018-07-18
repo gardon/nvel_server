@@ -1,0 +1,26 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.single_panel.field_panel_image
+    - image.style.large
+    - paragraphs.paragraphs_type.single_panel
+  module:
+    - image
+id: paragraph.single_panel.default
+targetEntityType: paragraph
+bundle: single_panel
+mode: default
+content:
+  field_panel_image:
+    weight: 0
+    settings:
+      preview_image_style: large
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: image_image
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

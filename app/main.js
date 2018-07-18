@@ -11388,6 +11388,7 @@ var _user$project$Models$Asset = function (a) {
 };
 var _user$project$Models$AssetLoading = {ctor: 'AssetLoading'};
 var _user$project$Models$AssetNotFound = {ctor: 'AssetNotFound'};
+var _user$project$Models$Spacer = {ctor: 'Spacer'};
 var _user$project$Models$TitlePanel = function (a) {
 	return {ctor: 'TitlePanel', _0: a};
 };
@@ -11489,6 +11490,13 @@ var _user$project$Resources$decodeTitlePanelFeatures = A3(
 				'title',
 				_elm_lang$core$Json_Decode$string,
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$TitlePanelFeatures)))));
+var _user$project$Resources$decodeSpacer = A2(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+	_user$project$Image$emptyImage,
+	A2(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+		_user$project$Models$Spacer,
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
 var _user$project$Resources$decodeDerivative = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'size',
@@ -11534,6 +11542,14 @@ var _user$project$Resources$decodeFullWidthSingleImageSection = A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
 		_user$project$Models$FullWidthSingleImage,
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
+var _user$project$Resources$decodeSingleImageSection = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'image',
+	_user$project$Resources$imageDecoder,
+	A2(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+		_user$project$Models$SingleImage,
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
 var _user$project$Resources$decodeTitlePanelSection = function (features) {
 	return A4(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
@@ -11554,6 +11570,10 @@ var _user$project$Resources$decodeSection = function (sectionType) {
 	switch (_p0) {
 		case 'full_width_single_panel':
 			return _user$project$Resources$decodeFullWidthSingleImageSection;
+		case 'single_panel':
+			return _user$project$Resources$decodeSingleImageSection;
+		case 'spacer':
+			return _user$project$Resources$decodeSpacer;
 		case 'title_panel':
 			return _user$project$Resources$decodeTitlePanel;
 		default:
@@ -13595,7 +13615,27 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 					_0: _elm_lang$html$Html_Attributes$class('section-single-image'),
 					_1: {ctor: '[]'}
 				},
-				{ctor: '[]'});
+				{
+					ctor: '::',
+					_0: A2(
+						_user$project$View$viewImage,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('u-full-width'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View_Attributes$sizes(
+									{
+										ctor: '::',
+										_0: '100w',
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						},
+						model.image),
+					_1: {ctor: '[]'}
+				});
 		case 'FullWidthSingleImage':
 			return A2(
 				_user$project$Skeleton$skeletonRowFullWidth,
@@ -13625,6 +13665,15 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 						model.image),
 					_1: {ctor: '[]'}
 				});
+		case 'Spacer':
+			return A2(
+				_user$project$Skeleton$skeletonRowFullWidth,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('section-spacer'),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'});
 		default:
 			var _p1 = _p0._0;
 			return A2(
@@ -13670,18 +13719,15 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 								}),
 							_1: {
 								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
+								_0: A3(
+									_evancz$elm_markdown$Markdown$toHtmlWith,
+									_user$project$View$markdownOptions,
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$class('extra'),
 										_1: {ctor: '[]'}
 									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(_p1.extra),
-										_1: {ctor: '[]'}
-									}),
+									_p1.extra),
 								_1: {
 									ctor: '::',
 									_0: A2(

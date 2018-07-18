@@ -1,19 +1,20 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_panel_image
-    - paragraphs.paragraphs_type.full_width_single_panel
+    - paragraphs.paragraphs_type.single_panel
   module:
     - image
-id: paragraph.full_width_single_panel.field_panel_image
+third_party_settings:
+id: paragraph.single_panel.field_panel_image
 field_name: field_panel_image
 entity_type: paragraph
-bundle: full_width_single_panel
+bundle: single_panel
 label: 'Panel image'
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
