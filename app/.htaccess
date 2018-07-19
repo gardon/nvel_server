@@ -60,10 +60,10 @@
 
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{HTTP_USER_AGENT} (python-requests|Twurly|yandex|browserproxy|Monitoring|crawler|Qwantify|Yahoo\!\ Slurp|pinterest|getprismatic\.com|Apache-HttpClient|outbrain|vkshare|monit|Pingability|Monitoring|WinHttpRequest|quora\ link\ preview|simplepie|yahooseeker|embedly|bot|spider|facebookexternalhit|googlebot) [NC]
+  RewriteCond %{HTTP_USER_AGENT} (python-requests|Twurly|yandex|browserproxy|Monitoring|crawler|Qwantify|Yahoo\!\ Slurp|pinterest|getprismatic\.com|Apache-HttpClient|outbrain|vkshare|monit|Pingability|Monitoring|WinHttpRequest|quora\ link\ preview|simplepie|yahooseeker|embedly|bot|spider|facebookexternalhit|googlebot|WhatsApp) [NC]
   RewriteRule ^(.*)$ /static_get.php?q=$1 [NC,L,QSA]
 
-  RewriteCond %{HTTP_USER_AGENT} (python-requests|Twurly|yandex|browserproxy|Monitoring|crawler|Qwantify|Yahoo\!\ Slurp|pinterest|getprismatic\.com|Apache-HttpClient|outbrain|vkshare|monit|Pingability|Monitoring|WinHttpRequest|quora\ link\ preview|simplepie|yahooseeker|embedly|bot|spider|facebookexternalhit|googlebot) [NC]
+  RewriteCond %{HTTP_USER_AGENT} (python-requests|Twurly|yandex|browserproxy|Monitoring|crawler|Qwantify|Yahoo\!\ Slurp|pinterest|getprismatic\.com|Apache-HttpClient|outbrain|vkshare|monit|Pingability|Monitoring|WinHttpRequest|quora\ link\ preview|simplepie|yahooseeker|embedly|bot|spider|facebookexternalhit|googlebot|WhatsApp) [NC]
   RewriteRule ^(index\.html)?$ /static_get.php?q=index [NC,L,QSA]
 
   # Pass all requests not referring directly to files in the filesystem to
