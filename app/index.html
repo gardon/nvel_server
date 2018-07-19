@@ -57,20 +57,23 @@
 
       var scroll = window.pageYOffset || document.body.scrollTop;
       var toggle = true;
+      var scrollup = 0;
 
       window.onscroll = function() {
         var newScroll = window.pageYOffset || document.body.scrollTop;
         if (newScroll > scroll && newScroll > 60) {
           if (toggle) {
             hideNav();
+            toggle = false;
           }
-          toggle = false;
+          scrollup = 0;
         }
         else {
-          if (toggle === false) {
+          scrollup += scroll - newScroll;
+          if (toggle === false && scrollup > 60) {
             showNav();
+            toggle = true;
           }
-          toggle = true;
         }
         scroll = newScroll;
       };
