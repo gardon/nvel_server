@@ -13502,7 +13502,22 @@ var _user$project$View$templateChapter = F3(
 							_0: _user$project$View$viewSocialLinks(model),
 							_1: {ctor: '[]'}
 						}),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('mobile-tips'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Toque nas imagens para aproximar'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}));
 	});
 var _user$project$View$viewChapterList = function (chapters) {
@@ -13769,12 +13784,12 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 					_1: {ctor: '[]'}
 				});
 		case 'FullWidthSingleImage':
-			var newclass = model.zoomed ? 'section-single-image zoomed' : 'section-single-image';
+			var newclass = model.zoomed ? 'section-full-width-image zoomed' : 'section-full-width-image';
 			return A2(
 				_user$project$Skeleton$skeletonRowFullWidth,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('section-full-width-image'),
+					_0: _elm_lang$html$Html_Attributes$class(newclass),
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$id(

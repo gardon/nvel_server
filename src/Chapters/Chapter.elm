@@ -67,11 +67,11 @@ viewSection model =
       FullWidthSingleImage ->
         let 
             newclass = if model.zoomed then
-                "section-single-image zoomed"
+                "section-full-width-image zoomed"
             else
-                "section-single-image"
+                "section-full-width-image"
         in
-            skeletonRowFullWidth [ class "section-full-width-image", "section-" ++ model.chapter ++ "-" ++ (toString model.id) |> id ] 
+            skeletonRowFullWidth [ class newclass, "section-" ++ model.chapter ++ "-" ++ (toString model.id) |> id ] 
                 [ viewImage 
                     [ class "u-full-width"
                     , sizes [ "100w" ] 

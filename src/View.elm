@@ -428,4 +428,7 @@ templateChapter model chapter content =
     ++ [ div [ class "container footer-container"]
          [ viewSocialLinks model
          ]
-      ]
+    ,div [ class "mobile-tips" ]
+         [ text "Toque nas imagens para aproximar"
+         ]
+    ]

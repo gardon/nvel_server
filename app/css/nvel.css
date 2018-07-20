@@ -121,6 +121,10 @@ ul.social-links {
 	}
 }
 
+.footer-container {
+	margin-bottom: 2em;
+}	
+
 .footer-container ul.social-links {
 	position: static;
 	font-size: 0.8em;
@@ -523,7 +527,27 @@ h3 { font-size: 2.4rem; line-height: 1.3;  letter-spacing: -.08rem; }
 	}
 }
 
+.mobile-tips {
+	position: fixed;
+	bottom: 0;
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	color: #EEE;
+	height: 2em;
+	background-color: rgba(0,0,0,0.7);
+	line-height: 2em;
+	font-family: abismosbase;
+	text-transform: uppercase;
+}
 
+@media (min-width: 550px) {
+	.mobile-tips {
+		display: none;
+		visibility: hidden;
+		opacity: 0;
+	}
+}
 
 /**.chapter-navigation ul.previous li:last-child .chapter-title,
 .chapter-navigation ul.next li:first-child .chapter-title {
