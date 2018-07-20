@@ -4,6 +4,7 @@ import Http exposing (Error)
 import Models exposing (..)
 import Navigation exposing (Location)
 import Dict exposing (Dict)
+import Image exposing (Image)
 
 
 type Msg
@@ -14,3 +15,4 @@ type Msg
   | ChangeLocation String
   | UpdatePageData PageData
   | Navbar NavbarAction
+  | ToggleZoomedImage String Int

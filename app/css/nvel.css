@@ -481,6 +481,30 @@ h3 { font-size: 2.4rem; line-height: 1.3;  letter-spacing: -.08rem; }
 	height: auto;
 }
 
+.container.section-full-width-image,
+.container.section-single-image {
+	padding: 0 5px;
+}
+
+.zoomed {
+	overflow-x: hidden;
+}
+
+.zoomed img.u-full-width {
+	width: 200%;
+	max-width: none;
+	max-height: none;
+}
+
+@media (min-width: 550px) {
+	.zoomed img.u-full-width {
+		width: inherit;
+		max-width: inherit;
+		max-height: inherit;
+	}
+}
+
+
 
 /**.chapter-navigation ul.previous li:last-child .chapter-title,
 .chapter-navigation ul.next li:first-child .chapter-title {

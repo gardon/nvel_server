@@ -2,6 +2,7 @@ module Chapters.Chapter exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Models exposing (..)
 import View exposing (..)
 import View.Attributes exposing (..)
@@ -40,18 +41,44 @@ viewChapter chapter =
     List.append [ h1 [ class "chapter-title hidden"] [ text chapter.title ] ] (viewChapterContent chapter.content)
     |> div []
 
-viewChapterContent : List Section -> List (Html msg)
+viewChapterContent : List Section -> List (Html Msg)
 viewChapterContent model =
    (List.map viewSection model)
 
-viewSection : Section -> Html msg
+viewSection : Section -> Html Msg
 viewSection model =
     case model.sectionType of 
       SingleImage ->
-        skeletonRow [ class "section-single-image" ] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]  
+        let 
+            newclass = if model.zoomed then
+                "section-single-image zoomed"
+            else
+                "section-single-image"
+        in
+            skeletonRow [ class newclass, "section-" ++ model.chapter ++ "-" ++ (toString model.id) |> id] 
+                [ viewImage 
+                    [ class "u-full-width"
+                    , sizes [ "100w" ]
+                    , onClick (Msgs.ToggleZoomedImage model.chapter model.id)
+                    ] 
+                    model.image 
+                ]  
 
       FullWidthSingleImage ->
-        skeletonRowFullWidth [ class "section-full-width-image" ] [ viewImage [ class "u-full-width", sizes [ "100w" ] ] model.image ]
+        let 
+            newclass = if model.zoomed then
+                "section-single-image zoomed"
+            else
+                "section-single-image"
+        in
+            skeletonRowFullWidth [ class "section-full-width-image", "section-" ++ model.chapter ++ "-" ++ (toString model.id) |> id ] 
+                [ viewImage 
+                    [ class "u-full-width"
+                    , sizes [ "100w" ] 
+                    , onClick (Msgs.ToggleZoomedImage model.chapter model.id)
+                    ] 
+                    model.image 
+                ]
 
       Spacer ->
         skeletonRowFullWidth [ class "section-spacer" ] []

@@ -73,18 +73,27 @@ decodeFullWidthSingleImageSection =
   decode Section
       |> hardcoded FullWidthSingleImage
       |> required "image" imageDecoder
+      |> required "chapter" Decode.string
+      |> required "id" Decode.int
+      |> hardcoded False
 
 decodeSingleImageSection : Decode.Decoder Section
 decodeSingleImageSection =
   decode Section
       |> hardcoded SingleImage
       |> required "image" imageDecoder
+      |> required "chapter" Decode.string
+      |> required "id" Decode.int
+      |> hardcoded False
 
 decodeSpacer : Decode.Decoder Section
 decodeSpacer =
   decode Section
       |> hardcoded Spacer
       |> hardcoded Image.emptyImage
+      |> required "chapter" Decode.string
+      |> required "id" Decode.int
+      |> hardcoded False
 
 decodeTitlePanel : Decode.Decoder Section
 decodeTitlePanel =
@@ -96,6 +105,9 @@ decodeTitlePanelSection features =
   decode Section
       |> hardcoded (TitlePanel features)
       |> optional "image" imageDecoder Image.emptyImage
+      |> required "chapter" Decode.string
+      |> required "id" Decode.int
+      |> hardcoded False
 
 decodeTitlePanelFeatures : Decode.Decoder TitlePanelFeatures
 decodeTitlePanelFeatures = 

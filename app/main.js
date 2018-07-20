@@ -11364,9 +11364,9 @@ var _user$project$Models$Chapter = F9(
 	function (a, b, c, d, e, f, g, h, i) {
 		return {title: a, field_description: b, nid: c, content: d, index: e, thumbnail: f, authors: g, date: h, featured_image: i};
 	});
-var _user$project$Models$Section = F2(
-	function (a, b) {
-		return {sectionType: a, image: b};
+var _user$project$Models$Section = F5(
+	function (a, b, c, d, e) {
+		return {sectionType: a, image: b, chapter: c, id: d, zoomed: e};
 	});
 var _user$project$Models$TitlePanelFeatures = F4(
 	function (a, b, c, d) {
@@ -11422,6 +11422,10 @@ var _user$project$Models$MenuHome = {ctor: 'MenuHome'};
 var _user$project$Models$Hide = {ctor: 'Hide'};
 var _user$project$Models$Show = {ctor: 'Show'};
 
+var _user$project$Msgs$ToggleZoomedImage = F2(
+	function (a, b) {
+		return {ctor: 'ToggleZoomedImage', _0: a, _1: b};
+	});
 var _user$project$Msgs$Navbar = function (a) {
 	return {ctor: 'Navbar', _0: a};
 };
@@ -11492,11 +11496,22 @@ var _user$project$Resources$decodeTitlePanelFeatures = A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$TitlePanelFeatures)))));
 var _user$project$Resources$decodeSpacer = A2(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
-	_user$project$Image$emptyImage,
-	A2(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
-		_user$project$Models$Spacer,
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
+	false,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'id',
+		_elm_lang$core$Json_Decode$int,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'chapter',
+			_elm_lang$core$Json_Decode$string,
+			A2(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+				_user$project$Image$emptyImage,
+				A2(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+					_user$project$Models$Spacer,
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section))))));
 var _user$project$Resources$decodeDerivative = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'size',
@@ -11534,32 +11549,65 @@ var _user$project$Resources$imageDecoder = A4(
 						'uri',
 						_elm_lang$core$Json_Decode$string,
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Image$Image)))))));
-var _user$project$Resources$decodeFullWidthSingleImageSection = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'image',
-	_user$project$Resources$imageDecoder,
-	A2(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
-		_user$project$Models$FullWidthSingleImage,
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
-var _user$project$Resources$decodeSingleImageSection = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'image',
-	_user$project$Resources$imageDecoder,
-	A2(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
-		_user$project$Models$SingleImage,
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
+var _user$project$Resources$decodeFullWidthSingleImageSection = A2(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+	false,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'id',
+		_elm_lang$core$Json_Decode$int,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'chapter',
+			_elm_lang$core$Json_Decode$string,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'image',
+				_user$project$Resources$imageDecoder,
+				A2(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+					_user$project$Models$FullWidthSingleImage,
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section))))));
+var _user$project$Resources$decodeSingleImageSection = A2(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+	false,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'id',
+		_elm_lang$core$Json_Decode$int,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'chapter',
+			_elm_lang$core$Json_Decode$string,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'image',
+				_user$project$Resources$imageDecoder,
+				A2(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+					_user$project$Models$SingleImage,
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section))))));
 var _user$project$Resources$decodeTitlePanelSection = function (features) {
-	return A4(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
-		'image',
-		_user$project$Resources$imageDecoder,
-		_user$project$Image$emptyImage,
-		A2(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
-			_user$project$Models$TitlePanel(features),
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section)));
+	return A2(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+		false,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'id',
+			_elm_lang$core$Json_Decode$int,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'chapter',
+				_elm_lang$core$Json_Decode$string,
+				A4(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+					'image',
+					_user$project$Resources$imageDecoder,
+					_user$project$Image$emptyImage,
+					A2(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+						_user$project$Models$TitlePanel(features),
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section))))));
 };
 var _user$project$Resources$decodeTitlePanel = A2(
 	_elm_lang$core$Json_Decode$andThen,
@@ -11615,6 +11663,70 @@ var _user$project$Resources$getAuth = F2(
 			});
 	});
 
+var _user$project$Chapters$zoomImageSection = F2(
+	function (index, chapter) {
+		var _p0 = chapter;
+		if (_p0.ctor === 'Nothing') {
+			return _elm_lang$core$Maybe$Nothing;
+		} else {
+			var _p3 = _p0._0;
+			var content = _p3.content;
+			var section = _elm_lang$core$List$head(
+				A2(_elm_lang$core$List$drop, index - 1, content));
+			var _p1 = section;
+			if (_p1.ctor === 'Nothing') {
+				return _elm_lang$core$Maybe$Just(_p3);
+			} else {
+				var _p2 = _p1._0;
+				var newsection = _elm_lang$core$Native_Utils.eq(_p2.zoomed, true) ? _elm_lang$core$Native_Utils.update(
+					_p2,
+					{zoomed: false}) : _elm_lang$core$Native_Utils.update(
+					_p2,
+					{zoomed: true});
+				return _elm_lang$core$Maybe$Just(
+					_elm_lang$core$Native_Utils.update(
+						_p3,
+						{
+							content: _elm_lang$core$List$concat(
+								{
+									ctor: '::',
+									_0: A2(_elm_lang$core$List$take, index - 1, content),
+									_1: {
+										ctor: '::',
+										_0: {
+											ctor: '::',
+											_0: newsection,
+											_1: {ctor: '[]'}
+										},
+										_1: {
+											ctor: '::',
+											_0: A2(_elm_lang$core$List$drop, index, content),
+											_1: {ctor: '[]'}
+										}
+									}
+								})
+						}));
+			}
+		}
+	});
+var _user$project$Chapters$zoomImage = F3(
+	function (model, chapter, section) {
+		var _p4 = model.chapters;
+		if (_p4.ctor === 'Nothing') {
+			return model;
+		} else {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					chapters: _elm_lang$core$Maybe$Just(
+						A3(
+							_elm_lang$core$Dict$update,
+							chapter,
+							_user$project$Chapters$zoomImageSection(section),
+							_p4._0))
+				});
+		}
+	});
 var _user$project$Chapters$decodeChapterContent = _elm_lang$core$Json_Decode$list(_user$project$Resources$sectionDecoder);
 var _user$project$Chapters$chapterDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
@@ -13608,12 +13720,27 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 	var _p0 = model.sectionType;
 	switch (_p0.ctor) {
 		case 'SingleImage':
+			var newclass = model.zoomed ? 'section-single-image zoomed' : 'section-single-image';
 			return A2(
 				_user$project$Skeleton$skeletonRow,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('section-single-image'),
-					_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$class(newclass),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'section-',
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									model.chapter,
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'-',
+										_elm_lang$core$Basics$toString(model.id))))),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
@@ -13630,19 +13757,39 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 										_0: '100w',
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										A2(_user$project$Msgs$ToggleZoomedImage, model.chapter, model.id)),
+									_1: {ctor: '[]'}
+								}
 							}
 						},
 						model.image),
 					_1: {ctor: '[]'}
 				});
 		case 'FullWidthSingleImage':
+			var newclass = model.zoomed ? 'section-single-image zoomed' : 'section-single-image';
 			return A2(
 				_user$project$Skeleton$skeletonRowFullWidth,
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class('section-full-width-image'),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'section-',
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									model.chapter,
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'-',
+										_elm_lang$core$Basics$toString(model.id))))),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
@@ -13659,7 +13806,12 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 										_0: '100w',
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										A2(_user$project$Msgs$ToggleZoomedImage, model.chapter, model.id)),
+									_1: {ctor: '[]'}
+								}
 							}
 						},
 						model.image),
@@ -14137,7 +14289,7 @@ var _user$project$Main$update = F2(
 						{pageData: _p2}),
 					_1: _user$project$Main$updatePageData(_p2)
 				};
-			default:
+			case 'Navbar':
 				var navbar = function () {
 					var _p3 = _p0._0;
 					if (_p3.ctor === 'Show') {
@@ -14151,6 +14303,12 @@ var _user$project$Main$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{navbar: navbar}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: A3(_user$project$Chapters$zoomImage, model, _p0._0, _p0._1),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}

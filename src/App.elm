@@ -20,6 +20,7 @@ import Chapters.Chapter
 import Menu exposing (..)
 import Msgs exposing (..)
 import Language exposing (..)
+import Image
 
 main =
   Navigation.program OnLocationChange
@@ -102,6 +103,8 @@ update msg model =
       in 
         ( { model | navbar = navbar }, Cmd.none)
 
+    ToggleZoomedImage chapter section ->
+      ( zoomImage model chapter section, Cmd.none )
 
 -- VIEW
 

@@ -33,6 +33,7 @@ type alias Chapter =
   , date: Date
   , featured_image: Image
   }
+
 type MaybeAsset a
   = AssetNotFound
   | AssetLoading
@@ -46,7 +47,11 @@ type SectionType
 
 type alias Section =
     { sectionType : SectionType
-    , image : Image }
+    , image : Image 
+    , chapter : String
+    , id : Int 
+    , zoomed: Bool
+    }
 
 type alias TitlePanelFeatures =
     { title : String

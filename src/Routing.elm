@@ -55,7 +55,7 @@ routeContent model = case model.route of
                       Asset chapter
 
 
-          content = [ Chapters.Chapter.view chapter ]
+          content = [ Chapters.Chapter.view chapter]
           
         in
           templateChapter model chapter content
