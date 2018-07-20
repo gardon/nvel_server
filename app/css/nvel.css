@@ -12,8 +12,13 @@ img.u-full-width {
 	display: block;
 	margin: 0 auto;
 	width: auto;
-	max-height: 100vh;
 	max-width: 100%;
+}
+
+@media (min-width: 550px) {
+	img.u-full-width {
+		max-height: 100vh;
+	}
 }
 
 span.loading-icon {
@@ -463,16 +468,21 @@ h3 { font-size: 2.4rem; line-height: 1.3;  letter-spacing: -.08rem; }
 }
 
 .section-spacer {
-	height: 25vh;
+	height: 10em;
+}
+
+@media (min-width: 550px) {
+	.section-spacer {
+		height: 25vh;
+	}
 }
 
 .section-title {
-	min-height: 100vh;
 	text-align: center;
+	padding-bottom: 2em;
 }
 
 .section-title img {
-	max-height: 60vh;
 	width: auto;
 	max-width: 100%;
 	margin: 0 auto;
@@ -481,7 +491,16 @@ h3 { font-size: 2.4rem; line-height: 1.3;  letter-spacing: -.08rem; }
 	height: auto;
 }
 
-.container.section-full-width-image,
+@media (min-width: 550px) {
+	.section-title img {
+		max-height: 60vh;
+	}
+}
+
+.container.section-full-width-image {
+	padding: 0;
+}
+
 .container.section-single-image {
 	padding: 0 5px;
 }
