@@ -91,11 +91,14 @@ class ChaptersResource extends ResourceBase {
     $renderer = \Drupal::service('renderer');
     $paragraphs = $node->get('field_sections');
     $sections = array();
+    $id = 1;
     foreach ($paragraphs as $paragraph) {
       $entity = Paragraph::load($paragraph->target_id);
       $type = $entity->get('type')->first()->getValue()['target_id'];
       $section = array(
-        'type' => $type
+        'type' => $type,
+        'chapter' => $chapter['nid'],
+        'id' => $id,
       );
       switch ($type) {
         case 'full_width_single_panel':
@@ -142,6 +145,7 @@ class ChaptersResource extends ResourceBase {
           break;
       }
       $sections[] = $section;
+      $id++;
     }
     return $sections;
   }
