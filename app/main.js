@@ -14375,6 +14375,20 @@ var _user$project$Main$init = function (location) {
 		});
 	return {ctor: '_Tuple2', _0: model, _1: commands};
 };
+var _user$project$Main$renderSocialMedia = _elm_lang$core$Native_Platform.outgoingPort(
+	'renderSocialMedia',
+	function (v) {
+		return v;
+	});
+var _user$project$Main$navBar = _elm_lang$core$Native_Platform.incomingPort('navBar', _elm_lang$core$Json_Decode$bool);
+var _user$project$Main$subscriptions = function (model) {
+	return _user$project$Main$navBar(_user$project$Main$toggleNavbar);
+};
+var _user$project$Main$facebookRender = _elm_lang$core$Native_Platform.outgoingPort(
+	'facebookRender',
+	function (v) {
+		return null;
+	});
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -14450,8 +14464,18 @@ var _user$project$Main$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: newmodel,
-					_1: _user$project$Main$updatePageData(
-						_user$project$Config$pageData(newmodel))
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: _user$project$Main$updatePageData(
+								_user$project$Config$pageData(newmodel)),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Main$facebookRender(
+									{ctor: '_Tuple0'}),
+								_1: {ctor: '[]'}
+							}
+						})
 				};
 			case 'UpdatePageData':
 				var _p2 = _p0._0;
@@ -14486,15 +14510,6 @@ var _user$project$Main$update = F2(
 				};
 		}
 	});
-var _user$project$Main$renderSocialMedia = _elm_lang$core$Native_Platform.outgoingPort(
-	'renderSocialMedia',
-	function (v) {
-		return v;
-	});
-var _user$project$Main$navBar = _elm_lang$core$Native_Platform.incomingPort('navBar', _elm_lang$core$Json_Decode$bool);
-var _user$project$Main$subscriptions = function (model) {
-	return _user$project$Main$navBar(_user$project$Main$toggleNavbar);
-};
 var _user$project$Main$main = A2(
 	_elm_lang$navigation$Navigation$program,
 	_user$project$Msgs$OnLocationChange,

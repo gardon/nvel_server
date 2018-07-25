@@ -55,6 +55,10 @@
         htmlEl.lang = pagedata.lang;
       });
 
+      app.ports.facebookRender.subscribe(function() {
+        window.setTimeout(FB.XFBML.parse, 500)
+      });
+
       var scroll = window.pageYOffset || document.body.scrollTop;
       var toggle = true;
       var scrollup = 0;

@@ -60,6 +60,7 @@ init location =
 port updatePageData : PageData -> Cmd msg
 port renderSocialMedia : String -> Cmd msg
 port navBar : (Bool -> msg) -> Sub msg
+port facebookRender : () -> Cmd msg
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -99,7 +100,7 @@ update msg model =
               parseLocation location
           newmodel = { model | route = newRoute, location = location }
       in
-          ( newmodel, updatePageData (pageData newmodel))
+          ( newmodel, Cmd.batch [ updatePageData (pageData newmodel), facebookRender ()])
 
     UpdatePageData data ->
       ( { model | pageData = data } , updatePageData data)
