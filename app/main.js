@@ -11907,7 +11907,7 @@ var _user$project$Language$translateEn = function (phrase) {
 		case 'NotFound':
 			return 'Not Found';
 		default:
-			return 'Next Chapter';
+			return 'Keep Reading';
 	}
 };
 var _user$project$Language$translatePtBr = function (phrase) {
@@ -11938,7 +11938,7 @@ var _user$project$Language$translatePtBr = function (phrase) {
 		case 'NotFound':
 			return 'Não encontrado';
 		default:
-			return 'Próximo Capítulo';
+			return 'Continue lendo...';
 	}
 };
 var _user$project$Language$translate = function (lang) {
@@ -13262,7 +13262,7 @@ var _user$project$View$viewChapterFeatured = F4(
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class(
-						A2(_elm_lang$core$Basics_ops['++'], 'chapter-featured equal-heights', featured_class)),
+						A2(_elm_lang$core$Basics_ops['++'], 'chapter-featured equal-heights ', featured_class)),
 					_1: {
 						ctor: '::',
 						_0: _user$project$View_Attributes$onLinkClick(
@@ -13399,7 +13399,7 @@ var _user$project$View$viewChapterFeaturedFirst = F2(
 	});
 var _user$project$View$viewChapterFeaturedNext = F2(
 	function (lang, chapter) {
-		return A4(_user$project$View$viewChapterFeatured, lang, _user$project$Models$NextChapter, 'next-chapter', chapter);
+		return A4(_user$project$View$viewChapterFeatured, lang, _user$project$Models$NextChapter, 'next-chapter offset-by-three', chapter);
 	});
 var _user$project$View$sortChapterList = function (chapters) {
 	return A2(
@@ -13512,157 +13512,9 @@ var _user$project$View$viewChapterNavbar = F2(
 			}
 		};
 	});
-var _user$project$View$templateChapter = F3(
-	function (model, chapter, content) {
-		var nextchapter = function () {
-			var _p2 = chapter;
-			switch (_p2.ctor) {
-				case 'AssetNotFound':
-					return A2(
-						_elm_lang$html$Html$div,
-						{ctor: '[]'},
-						{ctor: '[]'});
-				case 'AssetLoading':
-					return A2(
-						_elm_lang$html$Html$div,
-						{ctor: '[]'},
-						{ctor: '[]'});
-				default:
-					var _p3 = model.chapters;
-					if (_p3.ctor === 'Nothing') {
-						return A2(
-							_elm_lang$html$Html$div,
-							{ctor: '[]'},
-							{ctor: '[]'});
-					} else {
-						var list = _user$project$View$sortChapterList(_p3._0);
-						var next = _elm_lang$core$List$head(
-							A2(_elm_lang$core$List$drop, _p2._0.index, list));
-						var _p4 = next;
-						if (_p4.ctor === 'Nothing') {
-							return A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Soon'),
-									_1: {ctor: '[]'}
-								});
-						} else {
-							return A2(_user$project$View$viewChapterFeaturedNext, model.language, _p4._0);
-						}
-					}
-			}
-		}();
-		var navbar = function () {
-			var _p5 = chapter;
-			switch (_p5.ctor) {
-				case 'AssetNotFound':
-					return {ctor: '[]'};
-				case 'AssetLoading':
-					return {ctor: '[]'};
-				default:
-					return A2(_user$project$View$viewChapterNavbar, model, _p5._0);
-			}
-		}();
-		var sticky_class = function () {
-			var _p6 = model.navbar;
-			if (_p6 === true) {
-				return 'sticky show';
-			} else {
-				return 'sticky';
-			}
-		}();
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class(
-							A2(_elm_lang$core$Basics_ops['++'], 'navbar-container chapternav ', sticky_class)),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('container'),
-								_1: {ctor: '[]'}
-							},
-							navbar),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navbar-container chapternav'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('container'),
-									_1: {ctor: '[]'}
-								},
-								navbar),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			},
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				content,
-				{
-					ctor: '::',
-					_0: nextchapter,
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('container footer-container'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _user$project$View$viewSocialLinks(model),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('mobile-tips'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Toque nas imagens para aproximar'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				}));
-	});
 var _user$project$View$viewChapterList = function (chapters) {
-	var _p7 = chapters;
-	if (_p7.ctor === 'Nothing') {
+	var _p2 = chapters;
+	if (_p2.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: _user$project$View$loading('Loading chapters...'),
@@ -13681,7 +13533,7 @@ var _user$project$View$viewChapterList = function (chapters) {
 				A2(
 					_elm_lang$core$List$map,
 					_user$project$View$viewChapterListItem,
-					_user$project$View$sortChapterList(_p7._0))),
+					_user$project$View$sortChapterList(_p2._0))),
 			_1: {ctor: '[]'}
 		};
 	}
@@ -13765,6 +13617,157 @@ var _user$project$View$facebookFeed = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$View$templateChapter = F3(
+	function (model, chapter, content) {
+		var nextchapter = function () {
+			var _p3 = chapter;
+			switch (_p3.ctor) {
+				case 'AssetNotFound':
+					return {ctor: '[]'};
+				case 'AssetLoading':
+					return {ctor: '[]'};
+				default:
+					var _p4 = model.chapters;
+					if (_p4.ctor === 'Nothing') {
+						return {ctor: '[]'};
+					} else {
+						var list = _user$project$View$sortChapterList(_p4._0);
+						var next = _elm_lang$core$List$head(
+							A2(_elm_lang$core$List$drop, _p3._0.index, list));
+						var _p5 = next;
+						if (_p5.ctor === 'Nothing') {
+							return {
+								ctor: '::',
+								_0: _user$project$View_Mailchimp$mailchimpBlock(model),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$facebookFeed(model),
+									_1: {ctor: '[]'}
+								}
+							};
+						} else {
+							return {
+								ctor: '::',
+								_0: A2(_user$project$View$viewChapterFeaturedNext, model.language, _p5._0),
+								_1: {ctor: '[]'}
+							};
+						}
+					}
+			}
+		}();
+		var navbar = function () {
+			var _p6 = chapter;
+			switch (_p6.ctor) {
+				case 'AssetNotFound':
+					return {ctor: '[]'};
+				case 'AssetLoading':
+					return {ctor: '[]'};
+				default:
+					return A2(_user$project$View$viewChapterNavbar, model, _p6._0);
+			}
+		}();
+		var sticky_class = function () {
+			var _p7 = model.navbar;
+			if (_p7 === true) {
+				return 'sticky show';
+			} else {
+				return 'sticky';
+			}
+		}();
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class(
+							A2(_elm_lang$core$Basics_ops['++'], 'navbar-container chapternav ', sticky_class)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('container'),
+								_1: {ctor: '[]'}
+							},
+							navbar),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('navbar-container chapternav'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('container'),
+									_1: {ctor: '[]'}
+								},
+								navbar),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			},
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				content,
+				{
+					ctor: '::',
+					_0: A2(
+						_user$project$Skeleton$skeletonRow,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('nextchapter'),
+							_1: {ctor: '[]'}
+						},
+						nextchapter),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('container footer-container'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _user$project$View$viewSocialLinks(model),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('mobile-tips'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Toque nas imagens para aproximar'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}));
+	});
 var _user$project$View$viewHome = function (model) {
 	var _p8 = model.chapters;
 	if (_p8.ctor === 'Nothing') {

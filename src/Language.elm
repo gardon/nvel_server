@@ -37,7 +37,7 @@ translatePtBr phrase =
         MailchimpButton -> "Assinar"
         Loading -> "Carregando..."
         NotFound -> "Não encontrado"
-        NextChapter -> "Próximo Capítulo"
+        NextChapter -> "Continue lendo..."
 
 translateEn : Translator
 translateEn phrase =
@@ -54,4 +54,4 @@ translateEn phrase =
         MailchimpButton -> "Subscribe"
         Loading -> "Loading..."
         NotFound -> "Not Found"
-        NextChapter -> "Next Chapter"
+        NextChapter -> "Keep Reading"

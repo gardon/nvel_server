@@ -112,7 +112,7 @@ viewChapterFeatured lang caption_phrase featured_class chapter =
       caption = translate lang caption_phrase
 
   in
-      div ([ class ("chapter-featured equal-heights" ++ featured_class), onLinkClick (ChangeLocation chapterPath)] ++ skeletonGridSize SixColumns)
+      div ([ class ("chapter-featured equal-heights " ++ featured_class), onLinkClick (ChangeLocation chapterPath)] ++ skeletonGridSize SixColumns)
         [ viewImage [] chapter.featured_image
         , div [ class "image-overlay" ] 
           [ h3 [] [ text caption ] 
@@ -137,7 +137,7 @@ viewChapterFeaturedFirst lang chapter =
 
 viewChapterFeaturedNext : Language -> Chapter -> Html Msg
 viewChapterFeaturedNext lang chapter = 
-  viewChapterFeatured lang NextChapter "next-chapter" chapter
+  viewChapterFeatured lang NextChapter "next-chapter offset-by-three" chapter
 
 linkButtonPrimary : String -> String -> Html Msg
 linkButtonPrimary path title = 
@@ -423,13 +423,13 @@ templateChapter model chapter content =
     nextchapter = 
       case chapter of 
         AssetNotFound ->
-          div [] []
+          []
         AssetLoading ->
-          div [] []
+          []
         Asset current ->
           case model.chapters of
             Nothing -> 
-              div [] []
+              []
             Just chapters ->
               let
                 list = sortChapterList chapters
@@ -439,9 +439,11 @@ templateChapter model chapter content =
               in
                 case next of 
                   Nothing ->
-                    div [] [ text "Soon" ]
+                    [ mailchimpBlock model
+                    , facebookFeed model
+                    ]
                   Just nchapter ->
-                    viewChapterFeaturedNext model.language nchapter
+                    [ viewChapterFeaturedNext model.language nchapter ]
       
   in
     [ div [ class ("navbar-container chapternav " ++ sticky_class) ] 
@@ -453,7 +455,7 @@ templateChapter model chapter content =
     ] 
     ++ content
     ++ 
-    [ nextchapter
+    [ skeletonRow [ class "nextchapter" ] nextchapter
     , div [ class "container footer-container"]
          [ viewSocialLinks model
          ]
