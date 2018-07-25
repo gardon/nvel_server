@@ -5759,11 +5759,17 @@ var _elm_lang$core$Platform$Router = {ctor: 'Router'};
 
 var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode = _elm_lang$core$Json_Decode$succeed;
 var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$resolve = _elm_lang$core$Json_Decode$andThen(_elm_lang$core$Basics$identity);
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom = _elm_lang$core$Json_Decode$map2(
-	F2(
-		function (x, y) {
-			return y(x);
-		}));
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom = F2(
+	function (decoder, wrapped) {
+		return A3(
+			_elm_lang$core$Json_Decode$map2,
+			F2(
+				function (x, y) {
+					return x(y);
+				}),
+			wrapped,
+			decoder);
+	});
 var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded = function (_p0) {
 	return _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom(
 		_elm_lang$core$Json_Decode$succeed(_p0));
@@ -5795,7 +5801,15 @@ var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder = F3(
 					return _elm_lang$core$Json_Decode$fail(_p2._0);
 				}
 			} else {
-				return _elm_lang$core$Json_Decode$succeed(fallback);
+				var _p3 = A2(
+					_elm_lang$core$Json_Decode$decodeValue,
+					_elm_lang$core$Json_Decode$keyValuePairs(_elm_lang$core$Json_Decode$value),
+					input);
+				if (_p3.ctor === 'Ok') {
+					return _elm_lang$core$Json_Decode$succeed(fallback);
+				} else {
+					return _elm_lang$core$Json_Decode$fail(_p3._0);
+				}
 			}
 		};
 		return A2(_elm_lang$core$Json_Decode$andThen, handleResult, _elm_lang$core$Json_Decode$value);
@@ -6639,8 +6653,34 @@ return {
 
 }();
 
+var _elm_lang$dom$Dom$blur = _elm_lang$dom$Native_Dom.blur;
+var _elm_lang$dom$Dom$focus = _elm_lang$dom$Native_Dom.focus;
+var _elm_lang$dom$Dom$NotFound = function (a) {
+	return {ctor: 'NotFound', _0: a};
+};
+
 var _elm_lang$dom$Dom_LowLevel$onWindow = _elm_lang$dom$Native_Dom.onWindow;
 var _elm_lang$dom$Dom_LowLevel$onDocument = _elm_lang$dom$Native_Dom.onDocument;
+
+var _elm_lang$dom$Dom_Size$width = _elm_lang$dom$Native_Dom.width;
+var _elm_lang$dom$Dom_Size$height = _elm_lang$dom$Native_Dom.height;
+var _elm_lang$dom$Dom_Size$VisibleContentWithBordersAndMargins = {ctor: 'VisibleContentWithBordersAndMargins'};
+var _elm_lang$dom$Dom_Size$VisibleContentWithBorders = {ctor: 'VisibleContentWithBorders'};
+var _elm_lang$dom$Dom_Size$VisibleContent = {ctor: 'VisibleContent'};
+var _elm_lang$dom$Dom_Size$Content = {ctor: 'Content'};
+
+var _elm_lang$dom$Dom_Scroll$toX = _elm_lang$dom$Native_Dom.setScrollLeft;
+var _elm_lang$dom$Dom_Scroll$x = _elm_lang$dom$Native_Dom.getScrollLeft;
+var _elm_lang$dom$Dom_Scroll$toRight = _elm_lang$dom$Native_Dom.toRight;
+var _elm_lang$dom$Dom_Scroll$toLeft = function (id) {
+	return A2(_elm_lang$dom$Dom_Scroll$toX, id, 0);
+};
+var _elm_lang$dom$Dom_Scroll$toY = _elm_lang$dom$Native_Dom.setScrollTop;
+var _elm_lang$dom$Dom_Scroll$y = _elm_lang$dom$Native_Dom.getScrollTop;
+var _elm_lang$dom$Dom_Scroll$toBottom = _elm_lang$dom$Native_Dom.toBottom;
+var _elm_lang$dom$Dom_Scroll$toTop = function (id) {
+	return A2(_elm_lang$dom$Dom_Scroll$toY, id, 0);
+};
 
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrap;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrapWithFlags;
@@ -10992,6 +11032,50 @@ var _kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationHeader = F2(
 				A2(_kallaspriit$elm_basic_auth$BasicAuth$buildAuthorizationToken, username, password)));
 	});
 
+var _mgold$elm_date_format$Date_Local$dutch = {
+	date: {
+		months: {jan: 'januari', feb: 'februari', mar: 'maart', apr: 'april', may: 'mei', jun: 'juni', jul: 'juli', aug: 'augustus', sep: 'september', oct: 'oktober', nov: 'november', dec: 'december'},
+		monthsAbbrev: {jan: 'jan', feb: 'feb', mar: 'mrt', apr: 'apr', may: 'mei', jun: 'jun', jul: 'jul', aug: 'aug', sep: 'sep', oct: 'okt', nov: 'nov', dec: 'dec'},
+		wdays: {mon: 'maandag', tue: 'dinsdag', wed: 'woensdag', thu: 'donderdag', fri: 'vrijdag', sat: 'zaterdag', sun: 'zondag'},
+		wdaysAbbrev: {mon: 'ma', tue: 'di', wed: 'wo', thu: 'do', fri: 'vr', sat: 'za', sun: 'zo'},
+		defaultFormat: _elm_lang$core$Maybe$Nothing
+	},
+	time: {
+		am: 'am',
+		pm: 'pm',
+		defaultFormat: _elm_lang$core$Maybe$Just('%H:%M')
+	},
+	timeZones: _elm_lang$core$Maybe$Nothing,
+	defaultFormat: _elm_lang$core$Maybe$Nothing
+};
+var _mgold$elm_date_format$Date_Local$greek = {
+	date: {
+		months: {jan: 'Ιανουαρίου', feb: 'Φεβρουαρίου', mar: 'Μαρτίου', apr: 'Απριλίου', may: 'Μαΐου', jun: 'Ιουνίου', jul: 'Ιουλίου', aug: 'Αυγούστου', sep: 'Σεπτεμβρίου', oct: 'Οκτωβρίου', nov: 'Νοεμβρίου', dec: 'Δεκεμβρίου'},
+		monthsAbbrev: {jan: 'Ιαν', feb: 'Φεβ', mar: 'Μαρ', apr: 'Απρ', may: 'Μαϊ', jun: 'Ιουν', jul: 'Ιουλ', aug: 'Αυγ', sep: 'Σεπ', oct: 'Οκτ', nov: 'Νοε', dec: 'Δεκ'},
+		wdays: {mon: 'Δευτέρα', tue: 'Τρίτη', wed: 'Τετάρτη', thu: 'Πέμπτη', fri: 'Παρασκευή', sat: 'Σάββατο', sun: 'Κυριακή'},
+		wdaysAbbrev: {mon: 'Δευ', tue: 'Τρι', wed: 'Τετ', thu: 'Πεμ', fri: 'Παρ', sat: 'Σαβ', sun: 'Κυρ'},
+		defaultFormat: _elm_lang$core$Maybe$Nothing
+	},
+	time: {am: 'πμ', pm: 'μμ', defaultFormat: _elm_lang$core$Maybe$Nothing},
+	timeZones: _elm_lang$core$Maybe$Nothing,
+	defaultFormat: _elm_lang$core$Maybe$Nothing
+};
+var _mgold$elm_date_format$Date_Local$brazilian = {
+	date: {
+		months: {jan: 'Janeiro', feb: 'Fevereiro', mar: 'Março', apr: 'Abril', may: 'Maio', jun: 'Junho', jul: 'Julho', aug: 'Agosto', sep: 'Setembro', oct: 'Outubro', nov: 'Novembro', dec: 'Dezembro'},
+		monthsAbbrev: {jan: 'Jan', feb: 'Fev', mar: 'Mar', apr: 'Abr', may: 'Mai', jun: 'Jun', jul: 'Jul', aug: 'Ago', sep: 'Set', oct: 'Out', nov: 'Nov', dec: 'Dez'},
+		wdays: {mon: 'Segunda-feira', tue: 'Terça-feira', wed: 'Quarta-feira', thu: 'Quinta-feira', fri: 'Sexta-feira', sat: 'Sábado', sun: 'Domingo'},
+		wdaysAbbrev: {mon: 'Seg', tue: 'Ter', wed: 'Qua', thu: 'Qui', fri: 'Sex', sat: 'Sáb', sun: 'Dom'},
+		defaultFormat: _elm_lang$core$Maybe$Just('%e de %B de %Y')
+	},
+	time: {
+		am: 'am',
+		pm: 'pm',
+		defaultFormat: _elm_lang$core$Maybe$Just('%k:%M')
+	},
+	timeZones: _elm_lang$core$Maybe$Nothing,
+	defaultFormat: _elm_lang$core$Maybe$Nothing
+};
 var _mgold$elm_date_format$Date_Local$french = {
 	date: {
 		months: {jan: 'Janvier', feb: 'Février', mar: 'Mars', apr: 'Avril', may: 'Mai', jun: 'Juin', jul: 'Juillet', aug: 'Août', sep: 'Septembre', oct: 'Octobre', nov: 'Novembre', dec: 'Décembre'},
@@ -11407,6 +11491,7 @@ var _user$project$Models$InstagramIcon = {ctor: 'InstagramIcon'};
 var _user$project$Models$FacebookIcon = {ctor: 'FacebookIcon'};
 var _user$project$Models$Pt_Br = {ctor: 'Pt_Br'};
 var _user$project$Models$En = {ctor: 'En'};
+var _user$project$Models$NextChapter = {ctor: 'NextChapter'};
 var _user$project$Models$NotFound = {ctor: 'NotFound'};
 var _user$project$Models$Loading = {ctor: 'Loading'};
 var _user$project$Models$MailchimpButton = {ctor: 'MailchimpButton'};
@@ -11422,6 +11507,9 @@ var _user$project$Models$MenuHome = {ctor: 'MenuHome'};
 var _user$project$Models$Hide = {ctor: 'Hide'};
 var _user$project$Models$Show = {ctor: 'Show'};
 
+var _user$project$Msgs$ScrollTop = function (a) {
+	return {ctor: 'ScrollTop', _0: a};
+};
 var _user$project$Msgs$ToggleZoomedImage = F2(
 	function (a, b) {
 		return {ctor: 'ToggleZoomedImage', _0: a, _1: b};
@@ -11816,8 +11904,10 @@ var _user$project$Language$translateEn = function (phrase) {
 			return 'Subscribe';
 		case 'Loading':
 			return 'Loading...';
-		default:
+		case 'NotFound':
 			return 'Not Found';
+		default:
+			return 'Next Chapter';
 	}
 };
 var _user$project$Language$translatePtBr = function (phrase) {
@@ -11845,8 +11935,10 @@ var _user$project$Language$translatePtBr = function (phrase) {
 			return 'Assinar';
 		case 'Loading':
 			return 'Carregando...';
-		default:
+		case 'NotFound':
 			return 'Não encontrado';
+		default:
+			return 'Próximo Capítulo';
 	}
 };
 var _user$project$Language$translate = function (lang) {
@@ -13305,6 +13397,10 @@ var _user$project$View$viewChapterFeaturedFirst = F2(
 	function (lang, chapter) {
 		return A4(_user$project$View$viewChapterFeatured, lang, _user$project$Models$StartFromBeginning, 'first-chapter', chapter);
 	});
+var _user$project$View$viewChapterFeaturedNext = F2(
+	function (lang, chapter) {
+		return A4(_user$project$View$viewChapterFeatured, lang, _user$project$Models$NextChapter, 'next-chapter', chapter);
+	});
 var _user$project$View$sortChapterList = function (chapters) {
 	return A2(
 		_elm_lang$core$List$sortBy,
@@ -13418,20 +13514,60 @@ var _user$project$View$viewChapterNavbar = F2(
 	});
 var _user$project$View$templateChapter = F3(
 	function (model, chapter, content) {
-		var navbar = function () {
+		var nextchapter = function () {
 			var _p2 = chapter;
 			switch (_p2.ctor) {
+				case 'AssetNotFound':
+					return A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{ctor: '[]'});
+				case 'AssetLoading':
+					return A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{ctor: '[]'});
+				default:
+					var _p3 = model.chapters;
+					if (_p3.ctor === 'Nothing') {
+						return A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{ctor: '[]'});
+					} else {
+						var list = _user$project$View$sortChapterList(_p3._0);
+						var next = _elm_lang$core$List$head(
+							A2(_elm_lang$core$List$drop, _p2._0.index, list));
+						var _p4 = next;
+						if (_p4.ctor === 'Nothing') {
+							return A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Soon'),
+									_1: {ctor: '[]'}
+								});
+						} else {
+							return A2(_user$project$View$viewChapterFeaturedNext, model.language, _p4._0);
+						}
+					}
+			}
+		}();
+		var navbar = function () {
+			var _p5 = chapter;
+			switch (_p5.ctor) {
 				case 'AssetNotFound':
 					return {ctor: '[]'};
 				case 'AssetLoading':
 					return {ctor: '[]'};
 				default:
-					return A2(_user$project$View$viewChapterNavbar, model, _p2._0);
+					return A2(_user$project$View$viewChapterNavbar, model, _p5._0);
 			}
 		}();
 		var sticky_class = function () {
-			var _p3 = model.navbar;
-			if (_p3 === true) {
+			var _p6 = model.navbar;
+			if (_p6 === true) {
 				return 'sticky show';
 			} else {
 				return 'sticky';
@@ -13490,39 +13626,43 @@ var _user$project$View$templateChapter = F3(
 				content,
 				{
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('container footer-container'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _user$project$View$viewSocialLinks(model),
-							_1: {ctor: '[]'}
-						}),
+					_0: nextchapter,
 					_1: {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$div,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('mobile-tips'),
+								_0: _elm_lang$html$Html_Attributes$class('container footer-container'),
 								_1: {ctor: '[]'}
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('Toque nas imagens para aproximar'),
+								_0: _user$project$View$viewSocialLinks(model),
 								_1: {ctor: '[]'}
 							}),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('mobile-tips'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Toque nas imagens para aproximar'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
 					}
 				}));
 	});
 var _user$project$View$viewChapterList = function (chapters) {
-	var _p4 = chapters;
-	if (_p4.ctor === 'Nothing') {
+	var _p7 = chapters;
+	if (_p7.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: _user$project$View$loading('Loading chapters...'),
@@ -13541,7 +13681,7 @@ var _user$project$View$viewChapterList = function (chapters) {
 				A2(
 					_elm_lang$core$List$map,
 					_user$project$View$viewChapterListItem,
-					_user$project$View$sortChapterList(_p4._0))),
+					_user$project$View$sortChapterList(_p7._0))),
 			_1: {ctor: '[]'}
 		};
 	}
@@ -13626,8 +13766,8 @@ var _user$project$View$facebookFeed = function (model) {
 		});
 };
 var _user$project$View$viewHome = function (model) {
-	var _p5 = model.chapters;
-	if (_p5.ctor === 'Nothing') {
+	var _p8 = model.chapters;
+	if (_p8.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: _user$project$View$loading(
@@ -13663,45 +13803,45 @@ var _user$project$View$viewHome = function (model) {
 					A2(_user$project$Language$translate, lang, _user$project$Models$ListAllChapters)),
 				_1: {ctor: '[]'}
 			});
-		var list = _user$project$View$sortChapterList(_p5._0);
+		var list = _user$project$View$sortChapterList(_p8._0);
 		var firstrow = function () {
-			var _p6 = _elm_lang$core$List$head(
+			var _p9 = _elm_lang$core$List$head(
 				_elm_lang$core$List$reverse(list));
-			if (_p6.ctor === 'Nothing') {
+			if (_p9.ctor === 'Nothing') {
 				return A2(
 					_user$project$Skeleton$skeletonRow,
 					{ctor: '[]'},
 					{ctor: '[]'});
 			} else {
-				var _p9 = _p6._0;
-				var _p7 = _elm_lang$core$List$head(list);
-				if (_p7.ctor === 'Nothing') {
+				var _p12 = _p9._0;
+				var _p10 = _elm_lang$core$List$head(list);
+				if (_p10.ctor === 'Nothing') {
 					return A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p9),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p12),
 							_1: {ctor: '[]'}
 						});
 				} else {
-					var _p8 = _p7._0;
-					return _elm_lang$core$Native_Utils.eq(_p9, _p8) ? A2(
+					var _p11 = _p10._0;
+					return _elm_lang$core$Native_Utils.eq(_p12, _p11) ? A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p9),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p12),
 							_1: {ctor: '[]'}
 						}) : A2(
 						_user$project$Skeleton$skeletonRow,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p9),
+							_0: A2(_user$project$View$viewChapterFeaturedCurrent, lang, _p12),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$View$viewChapterFeaturedFirst, lang, _p8),
+								_0: A2(_user$project$View$viewChapterFeaturedFirst, lang, _p11),
 								_1: {ctor: '[]'}
 							}
 						});
@@ -14281,8 +14421,26 @@ var _user$project$Main$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: _elm_lang$navigation$Navigation$newUrl(_p0._0)
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$core$Task$attempt,
+								_user$project$Msgs$ScrollTop,
+								_elm_lang$dom$Dom_Scroll$toTop('scroll-top')),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$navigation$Navigation$newUrl(_p0._0),
+								_1: {ctor: '[]'}
+							}
+						})
 				};
+			case 'ScrollTop':
+				if (_p0._0.ctor === 'Ok') {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
 			case 'OnLocationChange':
 				var _p1 = _p0._0;
 				var newRoute = _user$project$Routing$parseLocation(_p1);

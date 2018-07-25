@@ -110,6 +110,7 @@ type Phrase
     | MailchimpButton
     | Loading
     | NotFound
+    | NextChapter
 
 type NavbarAction
     = Show

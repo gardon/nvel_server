@@ -135,6 +135,10 @@ viewChapterFeaturedFirst : Language -> Chapter -> Html Msg
 viewChapterFeaturedFirst lang chapter =
   viewChapterFeatured lang StartFromBeginning "first-chapter" chapter
 
+viewChapterFeaturedNext : Language -> Chapter -> Html Msg
+viewChapterFeaturedNext lang chapter = 
+  viewChapterFeatured lang NextChapter "next-chapter" chapter
+
 linkButtonPrimary : String -> String -> Html Msg
 linkButtonPrimary path title = 
   linkButton [ class "button-primary" ] path title
@@ -415,6 +419,29 @@ templateChapter model chapter content =
           []
         Asset current ->
           viewChapterNavbar model current
+
+    nextchapter = 
+      case chapter of 
+        AssetNotFound ->
+          div [] []
+        AssetLoading ->
+          div [] []
+        Asset current ->
+          case model.chapters of
+            Nothing -> 
+              div [] []
+            Just chapters ->
+              let
+                list = sortChapterList chapters
+                next =
+                  List.drop current.index list
+                  |> List.head 
+              in
+                case next of 
+                  Nothing ->
+                    div [] [ text "Soon" ]
+                  Just nchapter ->
+                    viewChapterFeaturedNext model.language nchapter
       
   in
     [ div [ class ("navbar-container chapternav " ++ sticky_class) ] 
@@ -425,10 +452,12 @@ templateChapter model chapter content =
       ]
     ] 
     ++ content
-    ++ [ div [ class "container footer-container"]
+    ++ 
+    [ nextchapter
+    , div [ class "container footer-container"]
          [ viewSocialLinks model
          ]
-    ,div [ class "mobile-tips" ]
+    , div [ class "mobile-tips" ]
          [ text "Toque nas imagens para aproximar"
          ]
     ]

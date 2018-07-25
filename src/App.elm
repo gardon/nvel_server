@@ -10,6 +10,10 @@ import Json.Decode as Decode
 import Routing exposing (parseLocation, routeContent)
 import Navigation exposing (Location, newUrl)
 import List exposing (head)
+import Dom exposing (Id)
+import Dom.Scroll
+import Task
+import Debug exposing (..)
 
 import Models exposing (..)
 import View exposing (..)
@@ -81,7 +85,13 @@ update msg model =
       (model, Cmd.none)
 
     ChangeLocation path ->
-      (model, newUrl path)
+      (model, Cmd.batch [ Task.attempt ScrollTop (Dom.Scroll.toTop "scroll-top"), newUrl path])
+
+    ScrollTop (Ok x) ->
+      (model, Cmd.none)
+
+    ScrollTop (Err x) ->
+      (model, Cmd.none)
 
     OnLocationChange location ->
       let

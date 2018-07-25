@@ -5,6 +5,7 @@ import Models exposing (..)
 import Navigation exposing (Location)
 import Dict exposing (Dict)
 import Image exposing (Image)
+import Dom
 
 
 type Msg
@@ -16,3 +17,4 @@ type Msg
   | UpdatePageData PageData
   | Navbar NavbarAction
   | ToggleZoomedImage String Int
+  | ScrollTop (Result Dom.Error ())
