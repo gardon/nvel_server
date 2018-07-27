@@ -11472,6 +11472,9 @@ var _user$project$Models$Asset = function (a) {
 };
 var _user$project$Models$AssetLoading = {ctor: 'AssetLoading'};
 var _user$project$Models$AssetNotFound = {ctor: 'AssetNotFound'};
+var _user$project$Models$Text = function (a) {
+	return {ctor: 'Text', _0: a};
+};
 var _user$project$Models$Spacer = {ctor: 'Spacer'};
 var _user$project$Models$TitlePanel = function (a) {
 	return {ctor: 'TitlePanel', _0: a};
@@ -11565,6 +11568,30 @@ var _user$project$Resources$decodeSiteInformation = A4(
 						'title',
 						_elm_lang$core$Json_Decode$string,
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$SiteInformation)))))));
+var _user$project$Resources$decodeTextSection = function (text) {
+	return A2(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+		false,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'id',
+			_elm_lang$core$Json_Decode$int,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'chapter',
+				_elm_lang$core$Json_Decode$string,
+				A2(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+					_user$project$Image$emptyImage,
+					A2(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
+						_user$project$Models$Text(text),
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Models$Section))))));
+};
+var _user$project$Resources$decodeText = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	_user$project$Resources$decodeTextSection,
+	A2(_elm_lang$core$Json_Decode$field, 'text', _elm_lang$core$Json_Decode$string));
 var _user$project$Resources$decodeTitlePanelFeatures = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'extra',
@@ -11712,6 +11739,8 @@ var _user$project$Resources$decodeSection = function (sectionType) {
 			return _user$project$Resources$decodeSpacer;
 		case 'title_panel':
 			return _user$project$Resources$decodeTitlePanel;
+		case 'text':
+			return _user$project$Resources$decodeText;
 		default:
 			return _elm_lang$core$Json_Decode$fail(
 				A2(_elm_lang$core$Basics_ops['++'], 'Unknown section type: ', sectionType));
@@ -13984,7 +14013,7 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 					_1: {ctor: '[]'}
 				},
 				{ctor: '[]'});
-		default:
+		case 'TitlePanel':
 			var _p1 = _p0._0;
 			return A2(
 				_user$project$Skeleton$skeletonRow,
@@ -14057,6 +14086,27 @@ var _user$project$Chapters_Chapter$viewSection = function (model) {
 							}
 						}
 					}
+				});
+		default:
+			return A2(
+				_user$project$Skeleton$skeletonRow,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('section-text'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A3(
+						_evancz$elm_markdown$Markdown$toHtmlWith,
+						_user$project$View$markdownOptions,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('text-content'),
+							_1: {ctor: '[]'}
+						},
+						_p0._0),
+					_1: {ctor: '[]'}
 				});
 	}
 };

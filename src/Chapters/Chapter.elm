@@ -91,3 +91,8 @@ viewSection model =
         , Markdown.toHtmlWith markdownOptions [ class "extra" ] features.extra
         , div [ class "copyright" ] [ text features.copyright ]
         ]
+
+      Text text ->
+        skeletonRow [ class "section-text" ]
+        [ Markdown.toHtmlWith markdownOptions [ class "text-content" ] text
+        ]

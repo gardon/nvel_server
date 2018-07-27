@@ -19,6 +19,7 @@ dependencies:
   - path
   - rest
   - serialization
+  - text
   - user
   - views
 version: 8.x-0.1

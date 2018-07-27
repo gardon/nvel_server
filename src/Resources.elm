@@ -65,6 +65,8 @@ decodeSection sectionType =
           decodeSpacer
       "title_panel" ->
           decodeTitlePanel
+      "text" ->
+          decodeText
       _ ->
           Decode.fail <| "Unknown section type: " ++ sectionType
 
@@ -116,6 +118,20 @@ decodeTitlePanelFeatures =
       |> required "author" Decode.string
       |> required "copyright" Decode.string
       |> required "extra" Decode.string
+
+decodeText : Decode.Decoder Section
+decodeText =
+  Decode.field "text" Decode.string
+      |> Decode.andThen decodeTextSection
+
+decodeTextSection : String -> Decode.Decoder Section
+decodeTextSection text =
+  decode Section
+      |> hardcoded (Text text)
+      |> hardcoded Image.emptyImage
+      |> required "chapter" Decode.string
+      |> required "id" Decode.int
+      |> hardcoded False
 
 --markdownDecoder : Decode.Decoder (Html msg)
 --markdownDecoder = 
