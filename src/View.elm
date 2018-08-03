@@ -91,14 +91,26 @@ facebookFeed model =
         ]
       ]
             
-viewChapterList : Maybe (Dict String Chapter) -> List (Html Msg)
-viewChapterList chapters = 
-  case chapters of 
+viewChapterList : Model -> List (Html Msg)
+viewChapterList model = 
+  case model.chapters of 
     Nothing -> 
-        [ loading "Loading chapters..." ]
+        [ skeletonRow [] [ h1 [] [ text (translate model.language MenuArchive) ]], loading "Loading chapters..." ]
 
     Just chapters -> 
-        [ div [ class "container" ] (List.map viewChapterListItem (sortChapterList chapters)) ]
+        let
+          list = List.map viewChapterListItem (sortChapterList chapters)
+          length = List.length list
+          firstcol = List.take (length // 2) list
+            |> skeletonColumn SixColumns []
+          secondcol = List.drop (length // 2) list
+            |> skeletonColumn SixColumns []
+
+        in 
+          skeletonRow [] [ firstcol, secondcol ]
+            |> List.singleton
+            |> List.append [ skeletonRow [] [ h1 [] [ text (translate model.language MenuArchive) ]]]
+            
 
 sortChapterList : Dict String Chapter -> List Chapter
 sortChapterList chapters = 
@@ -157,14 +169,11 @@ viewChapterListItem chapter =
       chapterPath = "/chapters/" ++ chapter.nid
       chapterNumber = "#" ++ (toString chapter.index) ++ ": "
   in
-      div [ class "chapter-list-item"]
-        [
-          h3 [] [ text chapterNumber ]
-        , h2 [] [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ] [ text chapter.title ] ]
-        , div [] [ text chapter.field_description ]
+      div [ class "chapter-list-item", onClick (ChangeLocation chapterPath) ]
+        [ h2 [] [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ] [ span [] [ text chapterNumber ], text chapter.title ] ]
+        , div [ class "description" ] [ text chapter.field_description ]
         , viewImage [] chapter.thumbnail
-        , div [] [ text (String.concat chapter.authors) ]
-        , div [] [ text (Date.Format.format "%Y %b %e" chapter.date)]
+        , div [ class "date" ] [ text (Date.Format.format "%Y %b %e" chapter.date)]
         ]
 
 

@@ -36,7 +36,7 @@ routeContent model = case model.route of
         in templateHome model content
 
       ChaptersRoute ->
-        let content = viewChapterList model.chapters
+        let content = viewChapterList model
         in templatePages model content
 
       ChapterRoute id ->

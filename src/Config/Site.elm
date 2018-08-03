@@ -23,13 +23,13 @@ homeData language =
 
 chaptersListData : Language -> PageData
 chaptersListData language = 
-    { title = "Chapters"
+    { title = translate language MenuArchive
     , lang = Language.toString language
     }
 
 aboutData : Language -> PageData
 aboutData language =
-    { title = "About"
+    { title = translate language MenuAbout
     , lang = Language.toString language
     }
 

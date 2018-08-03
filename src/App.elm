@@ -66,9 +66,11 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     ChaptersLoad (Ok chapters) ->
-      let newmodel = { model | chapters = Just chapters }
+      let 
+        newmodel = { model | chapters = Just chapters }
+        updatedModel = { newmodel | pageData = pageData newmodel }
       in 
-        ( newmodel , updatePageData (Config.pageData newmodel))
+        ( updatedModel , updatePageData updatedModel.pageData)
 
     ChaptersLoad (Err error) ->
       (model, Cmd.none)
@@ -99,11 +101,12 @@ update msg model =
           newRoute =
               parseLocation location
           newmodel = { model | route = newRoute, location = location }
+          updatedModel = { newmodel | pageData = pageData newmodel }
       in
-          ( newmodel, Cmd.batch [ updatePageData (pageData newmodel), facebookRender ()])
+          ( updatedModel, Cmd.batch [ updatePageData model.pageData, facebookRender ()])
 
     UpdatePageData data ->
-      ( { model | pageData = data } , updatePageData data)
+      ( log "model" { model | pageData = data } , updatePageData data)
 
     Navbar action ->
       let

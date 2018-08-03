@@ -13138,85 +13138,86 @@ var _user$project$View$viewChapterListItem = function (chapter) {
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$class('chapter-list-item'),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(
+					_user$project$Msgs$ChangeLocation(chapterPath)),
+				_1: {ctor: '[]'}
+			}
 		},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h3,
+				_elm_lang$html$Html$h2,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(chapterNumber),
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href(chapterPath),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View_Attributes$onLinkClick(
+									_user$project$Msgs$ChangeLocation(chapterPath)),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$span,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(chapterNumber),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(chapter.title),
+								_1: {ctor: '[]'}
+							}
+						}),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$h2,
-					{ctor: '[]'},
+					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$a,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href(chapterPath),
-								_1: {
-									ctor: '::',
-									_0: _user$project$View_Attributes$onLinkClick(
-										_user$project$Msgs$ChangeLocation(chapterPath)),
-									_1: {ctor: '[]'}
-								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(chapter.title),
-								_1: {ctor: '[]'}
-							}),
+						_0: _elm_lang$html$Html_Attributes$class('description'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(chapter.field_description),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$div,
+						_user$project$View$viewImage,
 						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(chapter.field_description),
-							_1: {ctor: '[]'}
-						}),
+						chapter.thumbnail),
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_user$project$View$viewImage,
-							{ctor: '[]'},
-							chapter.thumbnail),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(
-										_elm_lang$core$String$concat(chapter.authors)),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
+							_elm_lang$html$Html$div,
+							{
 								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(
-											A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
-										_1: {ctor: '[]'}
-									}),
+								_0: _elm_lang$html$Html_Attributes$class('date'),
 								_1: {ctor: '[]'}
-							}
-						}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(_mgold$elm_date_format$Date_Format$format, '%Y %b %e', chapter.date)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
 					}
 				}
 			}
@@ -13541,30 +13542,84 @@ var _user$project$View$viewChapterNavbar = F2(
 			}
 		};
 	});
-var _user$project$View$viewChapterList = function (chapters) {
-	var _p2 = chapters;
+var _user$project$View$viewChapterList = function (model) {
+	var _p2 = model.chapters;
 	if (_p2.ctor === 'Nothing') {
 		return {
 			ctor: '::',
-			_0: _user$project$View$loading('Loading chapters...'),
-			_1: {ctor: '[]'}
-		};
-	} else {
-		return {
-			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$div,
+				_user$project$Skeleton$skeletonRow,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('container'),
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(_user$project$Language$translate, model.language, _user$project$Models$MenuArchive)),
+							_1: {ctor: '[]'}
+						}),
 					_1: {ctor: '[]'}
-				},
-				A2(
-					_elm_lang$core$List$map,
-					_user$project$View$viewChapterListItem,
-					_user$project$View$sortChapterList(_p2._0))),
-			_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _user$project$View$loading('Loading chapters...'),
+				_1: {ctor: '[]'}
+			}
 		};
+	} else {
+		var list = A2(
+			_elm_lang$core$List$map,
+			_user$project$View$viewChapterListItem,
+			_user$project$View$sortChapterList(_p2._0));
+		var length = _elm_lang$core$List$length(list);
+		var firstcol = A3(
+			_user$project$Skeleton$skeletonColumn,
+			_user$project$Skeleton$SixColumns,
+			{ctor: '[]'},
+			A2(_elm_lang$core$List$take, (length / 2) | 0, list));
+		var secondcol = A3(
+			_user$project$Skeleton$skeletonColumn,
+			_user$project$Skeleton$SixColumns,
+			{ctor: '[]'},
+			A2(_elm_lang$core$List$drop, (length / 2) | 0, list));
+		return A2(
+			_elm_lang$core$List$append,
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$Skeleton$skeletonRow,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h1,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(_user$project$Language$translate, model.language, _user$project$Models$MenuArchive)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			_elm_lang$core$List$singleton(
+				A2(
+					_user$project$Skeleton$skeletonRow,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: firstcol,
+						_1: {
+							ctor: '::',
+							_0: secondcol,
+							_1: {ctor: '[]'}
+						}
+					})));
 	}
 };
 var _user$project$View$facebookFeed = function (model) {
@@ -14211,13 +14266,13 @@ var _user$project$Config_Site$notFoundData = function (language) {
 };
 var _user$project$Config_Site$aboutData = function (language) {
 	return {
-		title: 'About',
+		title: A2(_user$project$Language$translate, language, _user$project$Models$MenuAbout),
 		lang: _user$project$Language$toString(language)
 	};
 };
 var _user$project$Config_Site$chaptersListData = function (language) {
 	return {
-		title: 'Chapters',
+		title: A2(_user$project$Language$translate, language, _user$project$Models$MenuArchive),
 		lang: _user$project$Language$toString(language)
 	};
 };
@@ -14296,7 +14351,7 @@ var _user$project$Routing$routeContent = function (model) {
 			var content = _user$project$View$viewHome(model);
 			return A2(_user$project$View$templateHome, model, content);
 		case 'ChaptersRoute':
-			var content = _user$project$View$viewChapterList(model.chapters);
+			var content = _user$project$View$viewChapterList(model);
 			return A2(_user$project$View$templatePages, model, content);
 		case 'ChapterRoute':
 			var chapter = function () {
@@ -14453,11 +14508,15 @@ var _user$project$Main$update = F2(
 						{
 							chapters: _elm_lang$core$Maybe$Just(_p0._0._0)
 						});
+					var updatedModel = _elm_lang$core$Native_Utils.update(
+						newmodel,
+						{
+							pageData: _user$project$Config$pageData(newmodel)
+						});
 					return {
 						ctor: '_Tuple2',
-						_0: newmodel,
-						_1: _user$project$Main$updatePageData(
-							_user$project$Config$pageData(newmodel))
+						_0: updatedModel,
+						_1: _user$project$Main$updatePageData(updatedModel.pageData)
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -14514,14 +14573,18 @@ var _user$project$Main$update = F2(
 				var newmodel = _elm_lang$core$Native_Utils.update(
 					model,
 					{route: newRoute, location: _p1});
+				var updatedModel = _elm_lang$core$Native_Utils.update(
+					newmodel,
+					{
+						pageData: _user$project$Config$pageData(newmodel)
+					});
 				return {
 					ctor: '_Tuple2',
-					_0: newmodel,
+					_0: updatedModel,
 					_1: _elm_lang$core$Platform_Cmd$batch(
 						{
 							ctor: '::',
-							_0: _user$project$Main$updatePageData(
-								_user$project$Config$pageData(newmodel)),
+							_0: _user$project$Main$updatePageData(model.pageData),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Main$facebookRender(
@@ -14534,9 +14597,12 @@ var _user$project$Main$update = F2(
 				var _p2 = _p0._0;
 				return {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{pageData: _p2}),
+					_0: A2(
+						_elm_lang$core$Debug$log,
+						'model',
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{pageData: _p2})),
 					_1: _user$project$Main$updatePageData(_p2)
 				};
 			case 'Navbar':
