@@ -101,9 +101,10 @@ viewChapterList model =
         let
           list = List.map viewChapterListItem (sortChapterList chapters)
           length = List.length list
-          firstcol = List.take (length // 2) list
+          half = (length // 2) + (rem length 2)
+          firstcol = List.take half list
             |> skeletonColumn SixColumns []
-          secondcol = List.drop (length // 2) list
+          secondcol = List.drop half list
             |> skeletonColumn SixColumns []
 
         in 

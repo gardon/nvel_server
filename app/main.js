@@ -13575,16 +13575,17 @@ var _user$project$View$viewChapterList = function (model) {
 			_user$project$View$viewChapterListItem,
 			_user$project$View$sortChapterList(_p2._0));
 		var length = _elm_lang$core$List$length(list);
+		var half = ((length / 2) | 0) + A2(_elm_lang$core$Basics$rem, length, 2);
 		var firstcol = A3(
 			_user$project$Skeleton$skeletonColumn,
 			_user$project$Skeleton$SixColumns,
 			{ctor: '[]'},
-			A2(_elm_lang$core$List$take, (length / 2) | 0, list));
+			A2(_elm_lang$core$List$take, half, list));
 		var secondcol = A3(
 			_user$project$Skeleton$skeletonColumn,
 			_user$project$Skeleton$SixColumns,
 			{ctor: '[]'},
-			A2(_elm_lang$core$List$drop, (length / 2) | 0, list));
+			A2(_elm_lang$core$List$drop, half, list));
 		return A2(
 			_elm_lang$core$List$append,
 			{
