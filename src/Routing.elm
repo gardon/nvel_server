@@ -19,7 +19,6 @@ matchers =
         , map AboutRoute (s "about")
         ]
 
-
 parseLocation : Location -> Route
 parseLocation location =
     case (parsePath matchers location) of

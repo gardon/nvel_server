@@ -106,6 +106,15 @@ ul.navbar-list li a:hover {
 	color: #333;
 }
 
+ul.navbar-list li.active a,
+ul.navbar-list li.active a:active,
+ul.navbar-list li.active a:focus,
+ul.navbar-list li.active a:hover {
+	font-weight: bold;
+	color: #C56E56;
+}
+
+
 ul.social-links {
 	position: absolute;
 	right: 0;

@@ -8,11 +8,14 @@ menu =
     [ 
       { title = Models.MenuHome
       , path = "/"
+      , route = Models.HomeRoute
       }
       ,{ title = Models.MenuArchive
       , path = "/chapters"
+      , route = Models.ChaptersRoute
       }
       ,{ title = Models.MenuAbout
       , path = "/about"
+      , route = Models.AboutRoute
       }
     ]

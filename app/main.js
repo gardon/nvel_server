@@ -11440,9 +11440,9 @@ var _user$project$Models$Model = F9(
 	function (a, b, c, d, e, f, g, h, i) {
 		return {chapters: a, siteInformation: b, pageData: c, backendConfig: d, menu: e, route: f, language: g, navbar: h, location: i};
 	});
-var _user$project$Models$MenuItem = F2(
-	function (a, b) {
-		return {title: a, path: b};
+var _user$project$Models$MenuItem = F3(
+	function (a, b, c) {
+		return {title: a, path: b, route: c};
 	});
 var _user$project$Models$Chapter = F9(
 	function (a, b, c, d, e, f, g, h, i) {
@@ -11989,13 +11989,13 @@ var _user$project$Language$toString = function (lang) {
 
 var _user$project$Menu$menu = {
 	ctor: '::',
-	_0: {title: _user$project$Models$MenuHome, path: '/'},
+	_0: {title: _user$project$Models$MenuHome, path: '/', route: _user$project$Models$HomeRoute},
 	_1: {
 		ctor: '::',
-		_0: {title: _user$project$Models$MenuArchive, path: '/chapters'},
+		_0: {title: _user$project$Models$MenuArchive, path: '/chapters', route: _user$project$Models$ChaptersRoute},
 		_1: {
 			ctor: '::',
-			_0: {title: _user$project$Models$MenuAbout, path: '/about'},
+			_0: {title: _user$project$Models$MenuAbout, path: '/about', route: _user$project$Models$AboutRoute},
 			_1: {ctor: '[]'}
 		}
 	}
@@ -12927,13 +12927,18 @@ var _user$project$View$viewSocialLinks = function (model) {
 		});
 };
 var _user$project$View$viewMenuItem = F2(
-	function (lang, item) {
+	function (model, item) {
+		var activeclass = _elm_lang$core$Native_Utils.eq(model.route, item.route) ? 'active' : '';
 		return A2(
 			_elm_lang$html$Html$li,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$class('navbar-item'),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(activeclass),
+					_1: {ctor: '[]'}
+				}
 			},
 			{
 				ctor: '::',
@@ -12956,14 +12961,14 @@ var _user$project$View$viewMenuItem = F2(
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							A2(_user$project$Language$translate, lang, item.title)),
+							A2(_user$project$Language$translate, model.language, item.title)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
 			});
 	});
 var _user$project$View$viewMenu = F2(
-	function (lang, menu) {
+	function (model, menu) {
 		return A2(
 			_elm_lang$html$Html$nav,
 			{
@@ -12982,7 +12987,7 @@ var _user$project$View$viewMenu = F2(
 					},
 					A2(
 						_elm_lang$core$List$map,
-						_user$project$View$viewMenuItem(lang),
+						_user$project$View$viewMenuItem(model),
 						menu)),
 				_1: {ctor: '[]'}
 			});
@@ -13002,7 +13007,7 @@ var _user$project$View$templateHome = F2(
 					},
 					{
 						ctor: '::',
-						_0: A2(_user$project$View$viewMenu, model.language, model.menu),
+						_0: A2(_user$project$View$viewMenu, model, model.menu),
 						_1: {
 							ctor: '::',
 							_0: _user$project$View$viewSocialLinks(model),
@@ -13061,7 +13066,7 @@ var _user$project$View$templatePages = F2(
 					},
 					{
 						ctor: '::',
-						_0: A2(_user$project$View$viewMenu, model.language, model.menu),
+						_0: A2(_user$project$View$viewMenu, model, model.menu),
 						_1: {
 							ctor: '::',
 							_0: _user$project$View$viewSocialLinks(model),

@@ -192,17 +192,20 @@ viewImage attributes image =
       , srcset image.derivatives 
       ]) []
 
-viewMenu : Language -> List MenuItem -> Html Msg 
-viewMenu lang menu =
+viewMenu : Model -> List MenuItem -> Html Msg 
+viewMenu model menu =
   nav [ class "navbar"] [
-      ul [ class "navbar-list" ] (List.map (viewMenuItem lang) menu)
+      ul [ class "navbar-list" ] (List.map (viewMenuItem model) menu)
   ]
 
-viewMenuItem :  Language -> MenuItem -> Html Msg
-viewMenuItem lang item =
-  li [ class "navbar-item" ] [ 
-      a [ href item.path, onLinkClick (ChangeLocation item.path), class "navbar-link" ] [ text (translate lang item.title) ]
-  ]
+viewMenuItem :  Model -> MenuItem -> Html Msg
+viewMenuItem model item =
+  let
+    activeclass = if (model.route == item.route) then "active" else ""
+  in
+    li [ class "navbar-item", class activeclass ] [ 
+      a [ href item.path, onLinkClick (ChangeLocation item.path), class "navbar-link" ] [ text (translate model.language item.title) ]
+    ]
 
 viewSocialLinks : Model -> Html Msg
 viewSocialLinks model =
@@ -386,7 +389,7 @@ viewAbout model =
 templateHome : Model -> List (Html Msg) -> List (Html Msg)
 templateHome model content =
     [ div [ class "container navbar-container" ] 
-      [ viewMenu model.language model.menu
+      [ viewMenu model model.menu
       , viewSocialLinks model 
       ]
     , div [ class "container title-container" ]
@@ -403,7 +406,7 @@ templateHome model content =
 templatePages : Model -> List (Html Msg) -> List (Html Msg)
 templatePages model content =   
   [ div [ class "container navbar-container" ] 
-    [ viewMenu model.language model.menu
+    [ viewMenu model model.menu
     , viewSocialLinks model 
     ]
   ] 

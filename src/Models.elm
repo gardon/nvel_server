@@ -20,6 +20,7 @@ type alias Model =
 type alias MenuItem = 
   { title : Phrase
   , path : String
+  , route : Route
   }
 
 type alias Chapter =
