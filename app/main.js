@@ -13073,7 +13073,22 @@ var _user$project$View$templatePages = F2(
 							_1: {ctor: '[]'}
 						}
 					}),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('container title-container'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _user$project$View$viewTitle(model),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
 			},
 			A2(
 				_elm_lang$core$Basics_ops['++'],
@@ -13552,27 +13567,8 @@ var _user$project$View$viewChapterList = function (model) {
 	if (_p2.ctor === 'Nothing') {
 		return {
 			ctor: '::',
-			_0: A2(
-				_user$project$Skeleton$skeletonRow,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$h1,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								A2(_user$project$Language$translate, model.language, _user$project$Models$MenuArchive)),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: _user$project$View$loading('Loading chapters...'),
-				_1: {ctor: '[]'}
-			}
+			_0: _user$project$View$loading('Loading chapters...'),
+			_1: {ctor: '[]'}
 		};
 	} else {
 		var list = A2(
@@ -13591,41 +13587,19 @@ var _user$project$View$viewChapterList = function (model) {
 			_user$project$Skeleton$SixColumns,
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$drop, half, list));
-		return A2(
-			_elm_lang$core$List$append,
-			{
-				ctor: '::',
-				_0: A2(
-					_user$project$Skeleton$skeletonRow,
-					{ctor: '[]'},
-					{
+		return _elm_lang$core$List$singleton(
+			A2(
+				_user$project$Skeleton$skeletonRow,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: firstcol,
+					_1: {
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h1,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									A2(_user$project$Language$translate, model.language, _user$project$Models$MenuArchive)),
-								_1: {ctor: '[]'}
-							}),
+						_0: secondcol,
 						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			_elm_lang$core$List$singleton(
-				A2(
-					_user$project$Skeleton$skeletonRow,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: firstcol,
-						_1: {
-							ctor: '::',
-							_0: secondcol,
-							_1: {ctor: '[]'}
-						}
-					})));
+					}
+				}));
 	}
 };
 var _user$project$View$facebookFeed = function (model) {

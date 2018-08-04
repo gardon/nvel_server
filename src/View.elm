@@ -95,7 +95,7 @@ viewChapterList : Model -> List (Html Msg)
 viewChapterList model = 
   case model.chapters of 
     Nothing -> 
-        [ skeletonRow [] [ h1 [] [ text (translate model.language MenuArchive) ]], loading "Loading chapters..." ]
+        [ loading "Loading chapters..." ]
 
     Just chapters -> 
         let
@@ -110,7 +110,6 @@ viewChapterList model =
         in 
           skeletonRow [] [ firstcol, secondcol ]
             |> List.singleton
-            |> List.append [ skeletonRow [] [ h1 [] [ text (translate model.language MenuArchive) ]]]
             
 
 sortChapterList : Dict String Chapter -> List Chapter
@@ -409,6 +408,9 @@ templatePages model content =
     [ viewMenu model model.menu
     , viewSocialLinks model 
     ]
+  , div [ class "container title-container" ]
+      [ viewTitle model
+      ]
   ] 
   ++ content
   ++ [ div [ class "container footer-container"]
