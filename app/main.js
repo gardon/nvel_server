@@ -11521,9 +11521,6 @@ var _user$project$Msgs$ToggleZoomedImage = F2(
 var _user$project$Msgs$Navbar = function (a) {
 	return {ctor: 'Navbar', _0: a};
 };
-var _user$project$Msgs$UpdatePageData = function (a) {
-	return {ctor: 'UpdatePageData', _0: a};
-};
 var _user$project$Msgs$ChangeLocation = function (a) {
 	return {ctor: 'ChangeLocation', _0: a};
 };
@@ -14562,22 +14559,10 @@ var _user$project$Main$update = F2(
 							}
 						})
 				};
-			case 'UpdatePageData':
-				var _p2 = _p0._0;
-				return {
-					ctor: '_Tuple2',
-					_0: A2(
-						_elm_lang$core$Debug$log,
-						'model',
-						_elm_lang$core$Native_Utils.update(
-							model,
-							{pageData: _p2})),
-					_1: _user$project$Main$updatePageData(_p2)
-				};
 			case 'Navbar':
 				var navbar = function () {
-					var _p3 = _p0._0;
-					if (_p3.ctor === 'Show') {
+					var _p2 = _p0._0;
+					if (_p2.ctor === 'Show') {
 						return true;
 					} else {
 						return false;

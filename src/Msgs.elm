@@ -14,7 +14,6 @@ type Msg
   | UpdateSiteInfo (Result Error SiteInformation)
   | OnLocationChange Location
   | ChangeLocation String
-  | UpdatePageData PageData
   | Navbar NavbarAction
   | ToggleZoomedImage String Int
   | ScrollTop (Result Dom.Error ())

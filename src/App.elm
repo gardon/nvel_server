@@ -100,9 +100,6 @@ update msg model =
       in
           ( updatedModel, Cmd.batch [ updatePageData updatedModel.pageData, facebookRender ()])
 
-    UpdatePageData data ->
-      ( log "model" { model | pageData = data } , updatePageData data)
-
     Navbar action ->
       let
         navbar = 
