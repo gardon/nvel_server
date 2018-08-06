@@ -11510,6 +11510,7 @@ var _user$project$Models$MenuHome = {ctor: 'MenuHome'};
 var _user$project$Models$Hide = {ctor: 'Hide'};
 var _user$project$Models$Show = {ctor: 'Show'};
 
+var _user$project$Msgs$NoOp = {ctor: 'NoOp'};
 var _user$project$Msgs$ScrollTop = function (a) {
 	return {ctor: 'ScrollTop', _0: a};
 };
@@ -13179,8 +13180,7 @@ var _user$project$View$viewChapterListItem = function (chapter) {
 							_0: _elm_lang$html$Html_Attributes$href(chapterPath),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View_Attributes$onLinkClick(
-									_user$project$Msgs$ChangeLocation(chapterPath)),
+								_0: _user$project$View_Attributes$onLinkClick(_user$project$Msgs$NoOp),
 								_1: {ctor: '[]'}
 							}
 						},
@@ -14429,11 +14429,6 @@ var _user$project$Main$view = function (model) {
 		{ctor: '[]'},
 		content);
 };
-var _user$project$Main$updatePageData = _elm_lang$core$Native_Platform.outgoingPort(
-	'updatePageData',
-	function (v) {
-		return {title: v.title, lang: v.lang};
-	});
 var _user$project$Main$init = function (location) {
 	var route = _user$project$Routing$parseLocation(location);
 	var menu = _user$project$Menu$menu;
@@ -14446,23 +14441,17 @@ var _user$project$Main$init = function (location) {
 	var siteInformation = _user$project$Config$siteInformation;
 	var chapters = _elm_lang$core$Maybe$Nothing;
 	var model = A9(_user$project$Models$Model, chapters, siteInformation, pageData, backendConfig, menu, route, lang, true, location);
-	var commands = _elm_lang$core$Platform_Cmd$batch(
-		{
-			ctor: '::',
-			_0: _user$project$Config$getSiteInformation(model),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Chapters$getChapters(model),
-				_1: {
-					ctor: '::',
-					_0: _user$project$Main$updatePageData(
-						_user$project$Config$pageData(model)),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-	return {ctor: '_Tuple2', _0: model, _1: commands};
+	return {
+		ctor: '_Tuple2',
+		_0: model,
+		_1: _user$project$Config$getSiteInformation(model)
+	};
 };
+var _user$project$Main$updatePageData = _elm_lang$core$Native_Platform.outgoingPort(
+	'updatePageData',
+	function (v) {
+		return {title: v.title, lang: v.lang};
+	});
 var _user$project$Main$renderSocialMedia = _elm_lang$core$Native_Platform.outgoingPort(
 	'renderSocialMedia',
 	function (v) {
@@ -14518,7 +14507,7 @@ var _user$project$Main$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{siteInformation: _p0._0._0}),
-						_1: _elm_lang$core$Platform_Cmd$none
+						_1: _user$project$Chapters$getChapters(model)
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -14564,7 +14553,7 @@ var _user$project$Main$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$batch(
 						{
 							ctor: '::',
-							_0: _user$project$Main$updatePageData(model.pageData),
+							_0: _user$project$Main$updatePageData(updatedModel.pageData),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Main$facebookRender(
@@ -14601,12 +14590,14 @@ var _user$project$Main$update = F2(
 						{navbar: navbar}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			default:
+			case 'ToggleZoomedImage':
 				return {
 					ctor: '_Tuple2',
 					_0: A3(_user$project$Chapters$zoomImage, model, _p0._0, _p0._1),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
 var _user$project$Main$main = A2(

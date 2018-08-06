@@ -48,13 +48,8 @@ init location =
     menu = Menu.menu
     route = parseLocation location
     model = Model chapters siteInformation pageData backendConfig menu route lang True location
-    commands = Cmd.batch
-      [ getSiteInformation model
-      , getChapters model
-      , updatePageData (Config.pageData model)
-      ]
   in 
-    ( model, commands )
+    ( model, getSiteInformation model )
 
 
 port updatePageData : PageData -> Cmd msg
@@ -82,7 +77,7 @@ update msg model =
       (model, Cmd.none)
 
     UpdateSiteInfo (Ok siteInformation) ->
-      ({ model | siteInformation = siteInformation } , Cmd.none)
+      ({ model | siteInformation = siteInformation } , getChapters model)
 
     UpdateSiteInfo (Err _) ->
       (model, Cmd.none)
@@ -103,7 +98,7 @@ update msg model =
           newmodel = { model | route = newRoute, location = location }
           updatedModel = { newmodel | pageData = pageData newmodel }
       in
-          ( updatedModel, Cmd.batch [ updatePageData model.pageData, facebookRender ()])
+          ( updatedModel, Cmd.batch [ updatePageData updatedModel.pageData, facebookRender ()])
 
     UpdatePageData data ->
       ( log "model" { model | pageData = data } , updatePageData data)
@@ -119,6 +114,9 @@ update msg model =
 
     ToggleZoomedImage chapter section ->
       ( zoomImage model chapter section, Cmd.none )
+
+    NoOp ->
+      ( model, Cmd.none )
 
 -- VIEW
 

@@ -67,6 +67,8 @@
         htmlEl = document.documentElement;
         htmlEl.lang = pagedata.lang;
 
+        console.log(pagedata);
+
         if (dataLayer !== undefined) {
           dataLayer.push({
             'event': 'virtualPageView',

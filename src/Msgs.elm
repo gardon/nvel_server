@@ -18,3 +18,4 @@ type Msg
   | Navbar NavbarAction
   | ToggleZoomedImage String Int
   | ScrollTop (Result Dom.Error ())
+  | NoOp

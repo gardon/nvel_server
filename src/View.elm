@@ -170,7 +170,7 @@ viewChapterListItem chapter =
       chapterNumber = "#" ++ (toString chapter.index) ++ ": "
   in
       div [ class "chapter-list-item", onClick (ChangeLocation chapterPath) ]
-        [ h2 [] [ a [ href chapterPath, onLinkClick (ChangeLocation chapterPath) ] [ span [] [ text chapterNumber ], text chapter.title ] ]
+        [ h2 [] [ a [ href chapterPath, onLinkClick NoOp ] [ span [] [ text chapterNumber ], text chapter.title ] ]
         , div [ class "description" ] [ text chapter.field_description ]
         , viewImage [] chapter.thumbnail
         , div [ class "date" ] [ text (Date.Format.format "%Y %b %e" chapter.date)]
