@@ -58,23 +58,9 @@ function draggableviews_views_data_alter(&$data) {
         'left_table' => $base_table,
         'left_field' => $entity_keys['id'],
         'field' => 'entity_id',
-        'extra' => array(
-          array('field' => 'view_name', 'value' => '***VIEW_ID***'),
-        ),
       );
     }
   }
-}
-
-/**
- * Implements hook_views_query_substitutions().
- *
- * Allow replacement of current userid so we can cache these queries.
- */
-function draggableviews_views_query_substitutions(\Drupal\views\ViewExecutable $view) {
-  return array(
-    '***VIEW_ID***' => $view->id(),
-  );
 }
 
 /**
