@@ -352,7 +352,7 @@ viewShareIcon =
 shareLink : String -> String
 shareLink href =
   "https://www.facebook.com/dialog/share?"
-  ++ "app_id=" ++ "145634995501895"
+  ++ "app_id=" ++ "1689418697967004"
   ++ "&display=popup"
   ++ "&href=" ++ href
 
