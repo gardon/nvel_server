@@ -49,7 +49,7 @@ class ChaptersResource extends ResourceBase {
     foreach ($view->result as $row) {
       $id = $row->nid;
       $node = Node::load($id);
-      if (!$node->status) {
+      if (!$node->isPublished()) {
         continue;
       }
       $title = $node->get('title')->view();
