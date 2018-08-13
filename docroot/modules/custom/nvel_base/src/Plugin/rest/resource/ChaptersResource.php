@@ -49,6 +49,9 @@ class ChaptersResource extends ResourceBase {
     foreach ($view->result as $row) {
       $id = $row->nid;
       $node = Node::load($id);
+      if (!$node->status) {
+        continue;
+      }
       $title = $node->get('title')->view();
       $description = $node->get('field_description')->view(array('label' => 'hidden'));
       $image_file = $node->get('field_thumbnail')->referencedEntities()[0];
