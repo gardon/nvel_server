@@ -1,5 +1,7 @@
 <?php
 
+// @codingStandardsIgnoreFile
+
 /**
  * @file
  * Local development override configuration feature.
@@ -49,11 +51,11 @@ $config['system.logging']['error_level'] = 'verbose';
 /**
  * Disable CSS and JS aggregation.
  */
-# $config['system.performance']['css']['preprocess'] = FALSE;
-# $config['system.performance']['js']['preprocess'] = FALSE;
+$config['system.performance']['css']['preprocess'] = FALSE;
+$config['system.performance']['js']['preprocess'] = FALSE;
 
 /**
- * Disable the render cache (this includes the page cache).
+ * Disable the render cache.
  *
  * Note: you should test with the render cache enabled, to ensure the correct
  * cacheability metadata is present. However, in the early stages of
@@ -62,9 +64,31 @@ $config['system.logging']['error_level'] = 'verbose';
  * This setting disables the render cache by using the Null cache back-end
  * defined by the development.services.yml file above.
  *
- * Do not use this setting until after the site is installed.
+ * Only use this setting once the site has been installed.
  */
 # $settings['cache']['bins']['render'] = 'cache.backend.null';
+
+/**
+ * Disable caching for migrations.
+ *
+ * Uncomment the code below to only store migrations in memory and not in the
+ * database. This makes it easier to develop custom migrations.
+ */
+# $settings['cache']['bins']['discovery_migration'] = 'cache.backend.memory';
+
+/**
+ * Disable Internal Page Cache.
+ *
+ * Note: you should test with Internal Page Cache enabled, to ensure the correct
+ * cacheability metadata is present. However, in the early stages of
+ * development, you may want to disable it.
+ *
+ * This setting disables the page cache by using the Null cache back-end
+ * defined by the development.services.yml file above.
+ *
+ * Only use this setting once the site has been installed.
+ */
+# $settings['cache']['bins']['page'] = 'cache.backend.null';
 
 /**
  * Disable Dynamic Page Cache.
@@ -107,46 +131,30 @@ $settings['rebuild_access'] = TRUE;
 $settings['skip_permissions_hardening'] = TRUE;
 
 /**
- * Access control for update.php script.
- *
- * If you are updating your Drupal installation using the update.php script but
- * are not logged in using either an account with the "Administer software
- * updates" permission or the site maintenance account (the account that was
- * created during installation), you will need to modify the access check
- * statement below. Change the FALSE to a TRUE to disable the access check.
- * After finishing the upgrade, be sure to open this file again and change the
- * TRUE back to a FALSE!
+ * Database settings:
  */
-$settings['update_free_access'] = TRUE;
-
-
-# Docker DB connection settings.
-$databases['default']['default'] = array (
-  'database' => 'default',
-  'username' => 'user',
-  'password' => 'user',
-  'host' => 'db',
+$databases['default']['default'] = array(
   'driver' => 'mysql',
+  'database' => !isset($_ENV['MYSQL_DATABASE']) ? 'drupal' : $_ENV['MYSQL_DATABASE'],
+  'username' => !isset($_ENV['MYSQL_USER']) ? 'drupal' : $_ENV['MYSQL_USER'],
+  'password' => !isset($_ENV['MYSQL_PASSWORD']) ? 'drupal' : $_ENV['MYSQL_PASSWORD'],
+  'host' => 'db',
+  'prefix' => '',
 );
 
-# Workaround for permission issues with NFS shares
-$settings['file_chmod_directory'] = 0777;
-$settings['file_chmod_file'] = 0666;
-
-# File system settings.
-$config['system.file']['path']['temporary'] = '/tmp';
-
-# Reverse proxy configuration (Docksal's vhost-proxy)
-if (PHP_SAPI !== 'cli') {
-  $settings['reverse_proxy'] = TRUE;
-  $settings['reverse_proxy_addresses'] = array($_SERVER['REMOTE_ADDR']);
-  // HTTPS behind reverse-proxy
-  if (
-    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' &&
-    !empty($settings['reverse_proxy']) && in_array($_SERVER['REMOTE_ADDR'], $settings['reverse_proxy_addresses'])
-  ) {
-    $_SERVER['HTTPS'] = 'on';
-    // This is hardcoded because there is no header specifying the original port.
-    $_SERVER['SERVER_PORT'] = 443;
-  }
+/**
+ * Setup HTTP Basic Authentication. Leave blank to make publically accessible.
+ */
+if (!empty($_ENV['HTTP_AUTH_ENABLE']) && $_ENV['HTTP_AUTH_ENABLE'] == 'yes') {
+  $settings['http_basic_auth']['user'] = !isset($_ENV['HTTP_AUTH_USER']) ? 'drupal' : $_ENV['HTTP_AUTH_USER'];
+  $settings['http_basic_auth']['password'] = !isset($_ENV['HTTP_AUTH_PASS']) ? 'drupal' : $_ENV['HTTP_AUTH_PASS'];
 }
+
+/**
+ * Trusted host configuration.
+ */
+$settings["trusted_host_patterns"] = array(
+  '^docker',
+  '^localhost$',
+  '^ngrok\.io$',
+);
