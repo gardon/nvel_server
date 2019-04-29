@@ -61,6 +61,7 @@ class ChaptersResource extends ResourceBase {
       $featured_image = $node->get('field_featured_image')->first()->getValue();
       $featured_image = $this->buildImage($featured_image, $featured_image_file, array('featured' => '460w', '_original' => '920w'), 460, 300);
       $pub_date = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'c')));
+      $pub_date_unix = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'U')));
       $authors = array();
       foreach ($node->get('field_authors') as $author) {
         $view = $author->view();
@@ -75,6 +76,7 @@ class ChaptersResource extends ResourceBase {
         'thumbnail' => $image,
         'authors' => $authors,
         'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
+        'publication_date_unix' => (int)  trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date_unix))),
         'featured_image' => $featured_image,
       );
       $chapter['content'] = $this->getSections($node, $chapter);
