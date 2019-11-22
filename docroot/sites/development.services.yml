@@ -2,11 +2,8 @@
 #
 # To activate this feature, follow the instructions at the top of the
 # 'example.settings.local.php' file, which sits next to this file.
-services:
-  cache.backend.null:
-    class: Drupal\Core\Cache\NullBackendFactory
-
 parameters:
+  http.response.debug_cacheability_headers: true
   cors.config:
     enabled: true
     # Specify allowed headers, like 'x-allowed-header'.
@@ -21,3 +18,6 @@ parameters:
     maxAge: false
     # Sets the Access-Control-Allow-Credentials header.
     supportsCredentials: false
+services:
+  cache.backend.null:
+    class: Drupal\Core\Cache\NullBackendFactory
