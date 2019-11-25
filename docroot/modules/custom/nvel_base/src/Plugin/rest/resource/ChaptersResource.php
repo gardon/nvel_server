@@ -10,6 +10,7 @@ use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Component\Render\PlainTextOutput;
 use Drupal\views\Views;
 use Drupal\image\Entity\ImageStyle;
+use Drupal\Core\Language\LanguageInterface;
 //use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 //use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -37,22 +38,26 @@ class ChaptersResource extends ResourceBase {
   public function get() {
     $config = \Drupal::config('nvel_base.settings');
 
-    $query = \Drupal::entityQuery('node');
-    $query->condition('status', 1);
-    $query->condition('type', 'chapter');
-    $entity_ids = $query->execute();
-
     $chapters = $nodes = array();
+
+    // TODO: inject
     $renderer = \Drupal::service('renderer');
+    $language = \Drupal::service('language_manager');
+    $langcode = $language->getCurrentLanguage()->getId();
+
     $view = Views::getView('chapters_admin');
+
     $view->execute('master');
     foreach ($view->result as $row) {
       $id = $row->nid;
-      $node = Node::load($id);
+      //TODO: inject this.
+      $entity = \Drupal::entityTypeManager()->getStorage('node')->load($id);
+      $node = $entity->getTranslation($langcode);
       if (!$node->isPublished()) {
         continue;
       }
       $title = $node->get('title')->view();
+      //var_dump($node->get('title')->value);
       $description = $node->get('field_description')->view(array('label' => 'hidden'));
       $image_file = $node->get('field_thumbnail')->referencedEntities()[0];
       $image = $node->get('field_thumbnail')->first()->getValue();
@@ -87,7 +92,7 @@ class ChaptersResource extends ResourceBase {
     $cacheableMetadata = $build->getCacheableMetadata();
     $cacheableMetadata->addCacheTags(array('node_list'));
 
-    // TODO: add cache for multilingual
+    // TODO: add cache for multilingual? Seems not necessary.
 
     return $build;
   }
