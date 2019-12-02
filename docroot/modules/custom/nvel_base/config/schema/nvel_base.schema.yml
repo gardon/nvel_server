@@ -1,0 +1,29 @@
+# Snippet from core.data_types.schema.yml
+config_object:
+  type: mapping
+  mapping:
+    langcode:
+      type: string
+      label: 'Language code'
+nvel_base.settings:
+  type: config_object
+  label: 'Nvel Settings'
+  mapping:
+    title:
+      type: label
+      label: Site Title
+    description:
+      type: text
+      label: Site Description
+    about:
+      type: text
+      label: About content
+    facebook_page:
+      type: uri
+      label: Facebook Page
+    instagram_handle:
+      type: uri
+      label: Instagram Handle
+    deviantart_profile:
+      type: uri
+      label: Deviantart Profile

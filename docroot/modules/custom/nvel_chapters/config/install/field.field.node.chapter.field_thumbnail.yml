@@ -1,19 +1,26 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
     - field.storage.node.field_thumbnail
     - node.type.chapter
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
 id: node.chapter.field_thumbnail
 field_name: field_thumbnail
 entity_type: node
 bundle: chapter
 label: Thumbnail
 description: ''
-required: false
-translatable: false
+required: true
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

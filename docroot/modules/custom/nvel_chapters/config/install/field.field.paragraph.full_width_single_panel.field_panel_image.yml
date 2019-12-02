@@ -1,11 +1,18 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_panel_image
     - paragraphs.paragraphs_type.full_width_single_panel
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      file: file
+      alt: '0'
+      title: '0'
 id: paragraph.full_width_single_panel.field_panel_image
 field_name: field_panel_image
 entity_type: paragraph

@@ -6,6 +6,24 @@ dependencies:
   - automated_cron
   - basic_auth
   - block
+  - features
+  - nvel_base
+  - rest
+  - serialization
+  - system
+  - user
+themes:
+  - bartik
+  - seven
+  - stark
+package: Nvel
+distribution:
+  name: Nvel
+core_incompatible: false
+install:
+  - automated_cron
+  - basic_auth
+  - block
   - block_content
   - ckeditor
   - color
@@ -43,10 +61,3 @@ dependencies:
   - user
   - views
   - views_ui
-themes:
-  - bartik
-  - seven
-  - stark
-package: Nvel
-distribution:
-  name: Nvel

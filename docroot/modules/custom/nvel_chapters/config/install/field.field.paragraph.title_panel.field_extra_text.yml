@@ -1,4 +1,4 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
@@ -11,7 +11,7 @@ bundle: title_panel
 label: 'Extra text'
 description: 'Extra text is displayed bellow the panel. You can use Markdown for formatting'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
