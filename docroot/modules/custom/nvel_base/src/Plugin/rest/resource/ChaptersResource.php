@@ -151,7 +151,7 @@ class ChaptersResource extends ResourceBase {
                   $section['features']['title'] = '#' . $chapter['index'] . ': ' . $chapter['title'];
                   break;
                 case 'copyright':
-                  $section['features']['copyright'] = '© Todos os direitos reservados';
+                  $section['features']['copyright'] = $this->t('© All rights reserved');
                   break;
                 default:
                   $section['features'][$feature['value']] = '';
