@@ -11,8 +11,6 @@ use Drupal\Component\Render\PlainTextOutput;
 use Drupal\views\Views;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\Core\Language\LanguageInterface;
-//use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-//use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Provides a resource for serving chapters.
@@ -84,7 +82,7 @@ class ChaptersResource extends ResourceBase {
         'publication_date_unix' => (int)  trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date_unix))),
         'featured_image' => $featured_image,
       );
-      $chapter['content'] = $this->getSections($node, $chapter);
+      $chapter['content'] = $this->getSections($node, $chapter, $langcode);
       $chapters[$id] = $chapter;
     }
 
@@ -97,13 +95,16 @@ class ChaptersResource extends ResourceBase {
     return $build;
   }
 
-  private function getSections($node, $chapter) {
+  private function getSections($node, $chapter, $langcode) {
+    //TODO: inject this.
     $renderer = \Drupal::service('renderer');
     $paragraphs = $node->get('field_sections');
     $sections = array();
     $id = 1;
     foreach ($paragraphs as $paragraph) {
-      $entity = Paragraph::load($paragraph->target_id);
+      //TODO: inject this.
+      $entity_base = \Drupal::entityTypeManager()->getStorage('paragraph')->load($paragraph->target_id);
+      $entity = $entity_base->getTranslation($langcode);
       $type = $entity->get('type')->first()->getValue()['target_id'];
       $section = array(
         'type' => $type,
