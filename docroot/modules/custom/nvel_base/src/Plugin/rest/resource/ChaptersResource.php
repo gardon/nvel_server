@@ -66,6 +66,8 @@ class ChaptersResource extends ResourceBase {
       $pub_date = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'c')));
       $pub_date_unix = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'U')));
       $authors = array();
+      // TODO: inject
+      $path = \Drupal::service('nvel.chapter_path')->getChapterPathByNid($id);
       foreach ($node->get('field_authors') as $author) {
         $view = $author->view();
         $authors[] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
@@ -81,9 +83,10 @@ class ChaptersResource extends ResourceBase {
         'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
         'publication_date_unix' => (int)  trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date_unix))),
         'featured_image' => $featured_image,
+        'path' => $path,
       );
       $chapter['content'] = $this->getSections($node, $chapter, $langcode);
-      $chapters[$id] = $chapter;
+      $chapters[$path] = $chapter;
     }
 
     $build = new ResourceResponse($chapters);
@@ -108,7 +111,7 @@ class ChaptersResource extends ResourceBase {
       $type = $entity->get('type')->first()->getValue()['target_id'];
       $section = array(
         'type' => $type,
-        'chapter' => $chapter['nid'],
+        'chapter' => $chapter['path'],
         'id' => $id,
       );
       switch ($type) {
