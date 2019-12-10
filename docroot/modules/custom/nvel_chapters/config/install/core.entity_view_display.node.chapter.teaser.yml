@@ -1,10 +1,12 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.chapter.field_authors
+    - field.field.node.chapter.field_chapter_number
     - field.field.node.chapter.field_description
+    - field.field.node.chapter.field_featured_image
     - field.field.node.chapter.field_original_publication_date
     - field.field.node.chapter.field_sections
     - field.field.node.chapter.field_thumbnail
@@ -19,9 +21,13 @@ content:
   links:
     weight: 100
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_authors: true
+  field_chapter_number: true
   field_description: true
+  field_featured_image: true
   field_original_publication_date: true
   field_sections: true
   field_thumbnail: true

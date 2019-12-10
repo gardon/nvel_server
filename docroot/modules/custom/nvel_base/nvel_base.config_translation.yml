@@ -1,0 +1,5 @@
+nvel_base.settings:
+  title: 'Nvel Settings'
+  base_route_name: nvel_base.settings
+  names:
+    - nvel_base.settings

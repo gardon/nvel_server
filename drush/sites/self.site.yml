@@ -1,14 +1,14 @@
 # Edit or remove this file as needed.
 # Docs at https://github.com/drush-ops/drush/blob/master/examples/example.site.yml
 
-#prod:
-#  host: prod.domain.com
-#  user: www-admin
-#  root: /path/to/drupal
-#  uri: http://www.example.com
+prod:
+  host: abismos.com
+  user: root
+  root: /var/www/nvel_server/docroot
+  uri: https://abismos.com
 #
-#stage:
-#  host: stage.domain.com
-#  user: www-admin
-#  root: /path/to/drupal
-#  uri: http://stage.example.com
+stage:
+  host: abismos.com
+  user: root
+  root: /var/www/nvel_server.test
+  uri: https://test.abismos.com

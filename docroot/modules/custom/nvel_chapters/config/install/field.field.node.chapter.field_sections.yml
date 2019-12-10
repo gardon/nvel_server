@@ -1,4 +1,4 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
@@ -18,7 +18,7 @@ bundle: chapter
 label: Sections
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:

@@ -5,7 +5,14 @@ dependencies:
     - field.storage.node.field_featured_image
     - node.type.chapter
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
 id: node.chapter.field_featured_image
 field_name: field_featured_image
 entity_type: node
@@ -13,7 +20,7 @@ bundle: chapter
 label: 'Featured Image'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

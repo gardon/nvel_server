@@ -31,14 +31,14 @@ class NvelSettingsForm extends ConfigFormBase {
     $form['title'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#default_value' => $config->get('nvel_base.title'),
+      '#default_value' => $config->get('title'),
       '#description' => $this->t('The title of your graphic novel.'),
     );
 
     $form['description'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Description'),
-      '#default_value' => $config->get('nvel_base.description'),
+      '#default_value' => $config->get('description'),
       '#description' => $this->t('A short description of your graphic novel.'),
     );
 
@@ -46,7 +46,7 @@ class NvelSettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Facebook Page'),
       '#field_prefix' => 'www.facebook.com/',
-      '#default_value' => $config->get('nvel_base.facebook_page'),
+      '#default_value' => $config->get('facebook_page'),
       '#description' => $this->t('Link your Facebook page, typing just the handle/id part of the URL.'),
     );
 
@@ -54,7 +54,7 @@ class NvelSettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Instagram Handle'),
       '#field_prefix' => 'instagram.com/',
-      '#default_value' => $config->get('nvel_base.instagram_handle'),
+      '#default_value' => $config->get('instagram_handle'),
       '#description' => $this->t('Link your Instagram profile, typing just the handle/id part of the URL.'),
     );
 
@@ -62,14 +62,14 @@ class NvelSettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Deviantart Profile'),
       '#field_suffix' => '.deviantart.com/',
-      '#default_value' => $config->get('nvel_base.deviantart_profile'),
+      '#default_value' => $config->get('deviantart_profile'),
       '#description' => $this->t('Link your Deviantart profile, typing just your username.'),
     );
 
     $form['about'] = array(
       '#type' => 'textarea',
       '#title' => $this->t('About Content'),
-      '#default_value' => $config->get('nvel_base.about'),
+      '#default_value' => $config->get('about'),
       '#description' => $this->t('About content. You can use Markdown syntax.')
     );
 
@@ -88,12 +88,12 @@ class NvelSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = $this->config('nvel_base.settings');
-    $config->set('nvel_base.title', $form_state->getValue('title'));
-    $config->set('nvel_base.description', $form_state->getValue('description'));
-    $config->set('nvel_base.facebook_page', $form_state->getValue('facebook_page'));
-    $config->set('nvel_base.instagram_handle', $form_state->getValue('instagram_handle'));
-    $config->set('nvel_base.deviantart_profile', $form_state->getValue('deviantart_profile'));
-    $config->set('nvel_base.about', $form_state->getValue('about'));
+    $config->set('title', $form_state->getValue('title'));
+    $config->set('description', $form_state->getValue('description'));
+    $config->set('facebook_page', $form_state->getValue('facebook_page'));
+    $config->set('instagram_handle', $form_state->getValue('instagram_handle'));
+    $config->set('deviantart_profile', $form_state->getValue('deviantart_profile'));
+    $config->set('about', $form_state->getValue('about'));
     $config->save();
     return parent::submitForm($form, $form_state);
 

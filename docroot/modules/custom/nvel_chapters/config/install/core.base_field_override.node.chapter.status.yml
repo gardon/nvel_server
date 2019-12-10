@@ -1,4 +1,4 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
@@ -10,7 +10,7 @@ bundle: chapter
 label: 'Publishing status'
 description: 'A boolean indicating the published state.'
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 1

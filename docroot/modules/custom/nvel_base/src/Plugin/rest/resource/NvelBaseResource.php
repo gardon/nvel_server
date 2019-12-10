@@ -31,7 +31,7 @@ class NvelBaseResource extends ResourceBase {
    */
   public function get() {
     $config = \Drupal::config('nvel_base.settings');
-    $build = new ResourceResponse($config->get('nvel_base'));
+    $build = new ResourceResponse($config->get());
 
     // Add dependency to avoid cache when config changes.
     $build->addCacheableDependency($build, $config);

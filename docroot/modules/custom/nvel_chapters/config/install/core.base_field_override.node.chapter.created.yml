@@ -1,4 +1,4 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
@@ -10,7 +10,7 @@ bundle: chapter
 label: 'Authored on'
 description: 'The time that the node was created.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

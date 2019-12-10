@@ -10,8 +10,7 @@ use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Component\Render\PlainTextOutput;
 use Drupal\views\Views;
 use Drupal\image\Entity\ImageStyle;
-//use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-//use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Provides a resource for serving chapters.
@@ -37,22 +36,26 @@ class ChaptersResource extends ResourceBase {
   public function get() {
     $config = \Drupal::config('nvel_base.settings');
 
-    $query = \Drupal::entityQuery('node');
-    $query->condition('status', 1);
-    $query->condition('type', 'chapter');
-    $entity_ids = $query->execute();
-
     $chapters = $nodes = array();
+
+    // TODO: inject
     $renderer = \Drupal::service('renderer');
+    $language = \Drupal::service('language_manager');
+    $langcode = $language->getCurrentLanguage()->getId();
+
     $view = Views::getView('chapters_admin');
+
     $view->execute('master');
     foreach ($view->result as $row) {
       $id = $row->nid;
-      $node = Node::load($id);
+      //TODO: inject this.
+      $entity = \Drupal::entityTypeManager()->getStorage('node')->load($id);
+      $node = $entity->getTranslation($langcode);
       if (!$node->isPublished()) {
         continue;
       }
       $title = $node->get('title')->view();
+      //var_dump($node->get('title')->value);
       $description = $node->get('field_description')->view(array('label' => 'hidden'));
       $image_file = $node->get('field_thumbnail')->referencedEntities()[0];
       $image = $node->get('field_thumbnail')->first()->getValue();
@@ -63,6 +66,8 @@ class ChaptersResource extends ResourceBase {
       $pub_date = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'c')));
       $pub_date_unix = $node->get('field_original_publication_date')->view(array('label' => 'hidden', 'type' => 'datetime_custom', 'settings' => array('date_format' => 'U')));
       $authors = array();
+      // TODO: inject
+      $path = \Drupal::service('nvel.chapter_path')->getChapterPathByNid($id);
       foreach ($node->get('field_authors') as $author) {
         $view = $author->view();
         $authors[] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
@@ -78,31 +83,35 @@ class ChaptersResource extends ResourceBase {
         'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
         'publication_date_unix' => (int)  trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date_unix))),
         'featured_image' => $featured_image,
+        'path' => $path,
       );
-      $chapter['content'] = $this->getSections($node, $chapter);
-      $chapters[$id] = $chapter;
+      $chapter['content'] = $this->getSections($node, $chapter, $langcode);
+      $chapters[$path] = $chapter;
     }
 
     $build = new ResourceResponse($chapters);
     $cacheableMetadata = $build->getCacheableMetadata();
     $cacheableMetadata->addCacheTags(array('node_list'));
 
-    // TODO: add cache for multilingual
+    // TODO: add cache for multilingual? Seems not necessary.
 
     return $build;
   }
 
-  private function getSections($node, $chapter) {
+  private function getSections($node, $chapter, $langcode) {
+    //TODO: inject this.
     $renderer = \Drupal::service('renderer');
     $paragraphs = $node->get('field_sections');
     $sections = array();
     $id = 1;
     foreach ($paragraphs as $paragraph) {
-      $entity = Paragraph::load($paragraph->target_id);
+      //TODO: inject this.
+      $entity_base = \Drupal::entityTypeManager()->getStorage('paragraph')->load($paragraph->target_id);
+      $entity = $entity_base->getTranslation($langcode);
       $type = $entity->get('type')->first()->getValue()['target_id'];
       $section = array(
         'type' => $type,
-        'chapter' => $chapter['nid'],
+        'chapter' => $chapter['path'],
         'id' => $id,
       );
       switch ($type) {
@@ -145,7 +154,7 @@ class ChaptersResource extends ResourceBase {
                   $section['features']['title'] = '#' . $chapter['index'] . ': ' . $chapter['title'];
                   break;
                 case 'copyright':
-                  $section['features']['copyright'] = '© Todos os direitos reservados';
+                  $section['features']['copyright'] = $this->t('© All rights reserved');
                   break;
                 default:
                   $section['features'][$feature['value']] = '';

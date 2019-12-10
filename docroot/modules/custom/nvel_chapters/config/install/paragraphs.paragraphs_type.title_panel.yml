@@ -1,6 +1,8 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies: {  }
 id: title_panel
 label: 'Title Panel'
+icon_uuid: null
+description: null
 behavior_plugins: {  }
