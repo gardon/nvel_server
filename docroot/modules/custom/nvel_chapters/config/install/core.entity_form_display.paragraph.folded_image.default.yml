@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.folded_image.field_panel_image
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.folded_image
+  module:
+    - image
+id: paragraph.folded_image.default
+targetEntityType: paragraph
+bundle: folded_image
+mode: default
+content:
+  field_panel_image:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+hidden:
+  created: true
+  status: true

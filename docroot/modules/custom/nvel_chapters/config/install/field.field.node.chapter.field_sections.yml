@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.storage.node.field_sections
     - node.type.chapter
+    - paragraphs.paragraphs_type.folded_image
     - paragraphs.paragraphs_type.full_width_single_panel
     - paragraphs.paragraphs_type.single_panel
     - paragraphs.paragraphs_type.spacer
@@ -24,12 +25,14 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
+    negate: 0
     target_bundles:
       single_panel: single_panel
       spacer: spacer
       full_width_single_panel: full_width_single_panel
       text: text
       title_panel: title_panel
+      folded_image: folded_image
     target_bundles_drag_drop:
       single_panel:
         enabled: true
@@ -46,4 +49,7 @@ settings:
       title_panel:
         enabled: true
         weight: -7
+      folded_image:
+        enabled: true
+        weight: 7
 field_type: entity_reference_revisions

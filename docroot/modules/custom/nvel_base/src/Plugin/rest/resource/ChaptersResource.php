@@ -117,6 +117,7 @@ class ChaptersResource extends ResourceBase {
       switch ($type) {
         case 'full_width_single_panel':
         case 'single_panel':
+        case 'folded_image':
           $image_file = $entity->get('field_panel_image')->referencedEntities()[0];
           $image = $entity->get('field_panel_image')->first()->getValue();
           $section['image'] = $this->buildImage($image, $image_file);

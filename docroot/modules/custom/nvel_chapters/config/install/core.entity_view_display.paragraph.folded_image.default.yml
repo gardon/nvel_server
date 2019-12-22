@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.folded_image.field_panel_image
+    - paragraphs.paragraphs_type.folded_image
+  module:
+    - image
+id: paragraph.folded_image.default
+targetEntityType: paragraph
+bundle: folded_image
+mode: default
+content:
+  field_panel_image:
+    weight: 0
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+hidden: {  }
