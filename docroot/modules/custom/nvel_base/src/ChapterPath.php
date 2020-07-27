@@ -2,8 +2,8 @@
 
 namespace Drupal\nvel_base;
 
-use Drupal\Core\Path\AliasManagerInterface;
-use Drupal\Core\Path\AliasStorageInterface;
+use Drupal\path_alias\AliasManagerInterface;
+use Drupal\path_alias\AliasRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Component\Transliteration\TransliterationInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
@@ -23,7 +23,7 @@ class ChapterPath {
   public function __construct(
       AliasManagerInterface $aliasManager,
       EntityTypeManagerInterface $entityTypeManager,
-      AliasStorageInterface $aliasStorage,
+      AliasRepositoryInterface $aliasStorage,
       TransliterationInterface $transliteration,
       LanguageManagerInterface $language ) {
     $this->aliasManager = $aliasManager;
@@ -33,8 +33,8 @@ class ChapterPath {
     $this->language = $language;
   }
 
-  public function getChapterPathByNid($nid) {
-    $alias = $this->aliasManager->getAliasByPath('/node/' . $nid);
+  public function getChapterPathByNid($nid, $langcode = NULL) {
+    $alias = $this->aliasManager->getAliasByPath('/node/' . $nid, $langcode);
     $parts = explode('/', $alias);
     if ($parts[1] != 'chapters') {
       // (re)generate alias for this.

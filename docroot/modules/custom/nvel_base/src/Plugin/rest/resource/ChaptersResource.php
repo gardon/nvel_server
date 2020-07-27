@@ -57,6 +57,11 @@ class ChaptersResource extends ResourceBase {
       $title = $node->get('title')->view();
       //var_dump($node->get('title')->value);
       $description = $node->get('field_description')->view(array('label' => 'hidden'));
+      $audios = [];
+      foreach ($node->field_bg_music as $item) {
+        $file = \Drupal::entityTypeManager()->getStorage('file')->load($item->getValue()['target_id']);
+        $audios[] = $file->url();
+      }
       $image_file = $node->get('field_thumbnail')->referencedEntities()[0];
       $image = $node->get('field_thumbnail')->first()->getValue();
       $image = $this->buildImage($image, $image_file, array('thumbnail' => '100w', 'medium' => '200w', '_original' => '300w'), 100, 100);
@@ -68,6 +73,10 @@ class ChaptersResource extends ResourceBase {
       $authors = array();
       // TODO: inject
       $path = \Drupal::service('nvel.chapter_path')->getChapterPathByNid($id);
+      $language_paths = [];
+      foreach (array_keys($node->getTranslationLanguages()) as $langcode) {
+        $language_paths[$langcode] = \Drupal::service('nvel.chapter_path')->getChapterPathByNid($id, $langcode);
+      }
       foreach ($node->get('field_authors') as $author) {
         $view = $author->view();
         $authors[] = PlainTextOutput::renderFromHtml($renderer->renderRoot($view));
@@ -84,6 +93,8 @@ class ChaptersResource extends ResourceBase {
         'publication_date_unix' => (int)  trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date_unix))),
         'featured_image' => $featured_image,
         'path' => $path,
+        'audios' => $audios,
+        'language_paths' => $language_paths,
       );
       $chapter['content'] = $this->getSections($node, $chapter, $langcode);
       $chapters[$path] = $chapter;

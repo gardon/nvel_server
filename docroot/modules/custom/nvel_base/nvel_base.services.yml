@@ -2,8 +2,8 @@ services:
   nvel.chapter_path:
     class: Drupal\nvel_base\ChapterPath
     arguments:
-      - "@path.alias_manager"
+      - "@path_alias.manager"
       - "@entity_type.manager"
-      - "@path.alias_storage"
+      - "@path_alias.repository"
       - "@transliteration"
       - "@language_manager"

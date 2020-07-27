@@ -7,4 +7,5 @@ core: 8.x
 dependencies:
  - node
  - rest
+ - path_alias
 hidden: false
