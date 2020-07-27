@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_bg_music
+    - node.type.chapter
+  module:
+    - file
+id: node.chapter.field_bg_music
+field_name: field_bg_music
+entity_type: node
+bundle: chapter
+label: 'BG Music'
+description: 'This music will play when the chapter is loaded, and will fade out if another music starts playing on a section. Add multiple files to support multiple formats, only one will be played.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: audios
+  file_extensions: 'mp4 webm mp3 ogg'
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

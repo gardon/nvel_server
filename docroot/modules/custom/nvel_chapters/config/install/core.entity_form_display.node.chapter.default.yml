@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.chapter.field_authors
+    - field.field.node.chapter.field_bg_music
     - field.field.node.chapter.field_chapter_number
     - field.field.node.chapter.field_description
     - field.field.node.chapter.field_featured_image
@@ -13,6 +14,7 @@ dependencies:
     - node.type.chapter
   module:
     - datetime
+    - file
     - image
     - paragraphs
     - path
@@ -28,6 +30,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_bg_music:
+    weight: 122
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
     region: content
   field_chapter_number:
     weight: 31

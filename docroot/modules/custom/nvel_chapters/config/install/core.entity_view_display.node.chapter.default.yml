@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.chapter.field_authors
+    - field.field.node.chapter.field_bg_music
     - field.field.node.chapter.field_chapter_number
     - field.field.node.chapter.field_description
     - field.field.node.chapter.field_featured_image
@@ -13,6 +14,7 @@ dependencies:
   module:
     - datetime
     - entity_reference_revisions
+    - file
     - image
     - user
 id: node.chapter.default
@@ -27,6 +29,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_bg_music:
+    weight: 108
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
     region: content
   field_chapter_number:
     weight: 106
