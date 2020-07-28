@@ -25,7 +25,7 @@ class ChapterPath {
       EntityTypeManagerInterface $entityTypeManager,
       AliasRepositoryInterface $aliasStorage,
       TransliterationInterface $transliteration,
-      LanguageManagerInterface $language ) {
+      LanguageManagerInterface $language) {
     $this->aliasManager = $aliasManager;
     $this->entityTypeManager = $entityTypeManager;
     $this->aliasStorage = $aliasStorage;
@@ -42,7 +42,7 @@ class ChapterPath {
     }
     elseif (!empty($parts[3])) {
       // update invalid alias.
-      return $this->truncateAlias($alias);
+      return $this->truncateAlias($alias, $langcode);
     }
     else {
       return implode('/', [$parts[2]]);
@@ -59,19 +59,28 @@ class ChapterPath {
     $alias = strtolower('/chapters/' . $number . '-' . $this->transliteration->transliterate($title, $node->langcode));
     // TODO: Get source from node route?
     // TODO: delete existing ones?
-    $this->aliasStorage->save('/node/' . $nid, $alias, $langcode);
+    $this->entityTypeManager->getStorage('path_alias')
+      ->create([
+        'path' => '/node/' . $nid,
+        'alias' => $alias,
+        'langcode' => $langcode,
+      ])->save();
     $path = str_replace('/chapters/', '', $alias);
     return $path;
   }
 
-  private function truncateAlias($alias) {
+  private function truncateAlias($alias, $langcode) {
     $parts = explode('/', $alias);
     $new_alias = implode('/', array_slice($parts, 0, 3));
 
-    $alias_record = $this->aliasStorage->load(['alias' => $alias]);
+    $alias_record = $this->aliasStorage->lookupByAlias($alias, $langcode);
     if ($alias_record) {
-      $alias_record['alias'] = $new_alias;
-      $this->aliasStorage->save($alias_record['source'], $alias_record['alias'], $alias_record['langcode'], $alias_record['pid']);
+      $alias_entity = $this
+        ->entityTypeManager
+        ->getStorage('path_alias')
+        ->load($alias_record['pid']);
+
+      $alias_entity->setPath($new_alias)->save();
       $path = str_replace('/chapters/', '', $new_alias);
       return $path;
     }
