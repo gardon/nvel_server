@@ -75,7 +75,7 @@ class ChaptersResource extends ResourceBase {
       $path = \Drupal::service('nvel.chapter_path')->getChapterPathByNid($id);
       $language_paths = [];
       foreach (array_keys($node->getTranslationLanguages()) as $translation_langcode) {
-        $language_paths[$langcode] = \Drupal::service('nvel.chapter_path')->getChapterPathByNid($id, $translation_langcode);
+        $language_paths[$translation_langcode] = \Drupal::service('nvel.chapter_path')->getChapterPathByNid($id, $translation_langcode);
       }
       foreach ($node->get('field_authors') as $author) {
         $view = $author->view();
