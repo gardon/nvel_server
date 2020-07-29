@@ -174,6 +174,14 @@ class ChaptersResource extends ResourceBase {
             }
           }
           break;
+        case 'audio':
+          foreach ($entity->field_music as $item) {
+            $file = \Drupal::entityTypeManager()->getStorage('file')->load($item->getValue()['target_id']);
+            $section['audios'][] = $file->url();
+          }
+          $crossfade = $entity->get('field_crossfade')->first()->getValue()['value'];
+          $section['crossfade'] = (int) $crossfade;
+          break;
       }
       $sections[] = $section;
       $id++;

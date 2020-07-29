@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_crossfade
+    - paragraphs.paragraphs_type.audio
+id: paragraph.audio.field_crossfade
+field_name: field_crossfade
+entity_type: paragraph
+bundle: audio
+label: Crossfade
+description: 'Use something between 300 and 5000'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ms
+field_type: integer

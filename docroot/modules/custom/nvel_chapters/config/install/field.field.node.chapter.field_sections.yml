@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.storage.node.field_sections
     - node.type.chapter
+    - paragraphs.paragraphs_type.audio
     - paragraphs.paragraphs_type.folded_image
     - paragraphs.paragraphs_type.full_width_single_panel
     - paragraphs.paragraphs_type.single_panel
@@ -33,23 +34,27 @@ settings:
       text: text
       title_panel: title_panel
       folded_image: folded_image
+      audio: audio
     target_bundles_drag_drop:
+      audio:
+        enabled: true
+        weight: 8
+      folded_image:
+        enabled: true
+        weight: 7
+      full_width_single_panel:
+        enabled: true
+        weight: -9
       single_panel:
         enabled: true
         weight: -11
       spacer:
         enabled: true
         weight: -10
-      full_width_single_panel:
-        enabled: true
-        weight: -9
       text:
         enabled: true
         weight: -8
       title_panel:
         enabled: true
         weight: -7
-      folded_image:
-        enabled: true
-        weight: 7
 field_type: entity_reference_revisions

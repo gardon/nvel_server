@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_music
+    - paragraphs.paragraphs_type.audio
+  module:
+    - file
+id: paragraph.audio.field_music
+field_name: field_music
+entity_type: paragraph
+bundle: audio
+label: Music
+description: 'Music will start playing when this section is reached.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: audios
+  file_extensions: 'mp4 webm mp3 ogg'
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file
