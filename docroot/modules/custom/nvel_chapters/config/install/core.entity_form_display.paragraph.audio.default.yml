@@ -1,9 +1,10 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
     - field.field.paragraph.audio.field_crossfade
     - field.field.paragraph.audio.field_music
+    - field.field.paragraph.audio.field_scheduled
     - paragraphs.paragraphs_type.audio
   module:
     - file
@@ -25,6 +26,12 @@ content:
       progress_indicator: throbber
     third_party_settings: {  }
     type: file_generic
+    region: content
+  field_scheduled:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_timestamp
     region: content
 hidden:
   created: true

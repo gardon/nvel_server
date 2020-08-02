@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.title_panel.field_extra_text
+    - field.field.paragraph.title_panel.field_scheduled
     - field.field.paragraph.title_panel.field_title_image
     - field.field.paragraph.title_panel.field_title_panel_features
     - paragraphs.paragraphs_type.title_panel
@@ -20,6 +21,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_scheduled:
+    weight: 3
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+    type: timestamp
     region: content
   field_title_image:
     weight: 0

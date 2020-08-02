@@ -1,9 +1,10 @@
-langcode: en
+langcode: pt-br
 status: true
 dependencies:
   config:
     - field.field.paragraph.audio.field_crossfade
     - field.field.paragraph.audio.field_music
+    - field.field.paragraph.audio.field_scheduled
     - paragraphs.paragraphs_type.audio
   module:
     - file
@@ -28,5 +29,15 @@ content:
       use_description_as_link_text: true
     third_party_settings: {  }
     type: file_default
+    region: content
+  field_scheduled:
+    weight: 2
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+    type: timestamp
     region: content
 hidden: {  }

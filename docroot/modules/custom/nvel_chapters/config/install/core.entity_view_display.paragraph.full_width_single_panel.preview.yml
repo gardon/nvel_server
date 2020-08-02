@@ -4,6 +4,7 @@ dependencies:
   config:
     - core.entity_view_mode.paragraph.preview
     - field.field.paragraph.full_width_single_panel.field_panel_image
+    - field.field.paragraph.full_width_single_panel.field_scheduled
     - paragraphs.paragraphs_type.full_width_single_panel
   module:
     - image
@@ -20,4 +21,5 @@ content:
     third_party_settings: {  }
     type: image_url
     region: content
-hidden: {  }
+hidden:
+  field_scheduled: true

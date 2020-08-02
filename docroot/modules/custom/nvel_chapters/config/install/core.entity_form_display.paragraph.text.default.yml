@@ -2,6 +2,7 @@ langcode: pt-br
 status: true
 dependencies:
   config:
+    - field.field.paragraph.text.field_scheduled
     - field.field.paragraph.text.field_text
     - paragraphs.paragraphs_type.text
   module:
@@ -11,6 +12,12 @@ targetEntityType: paragraph
 bundle: text
 mode: default
 content:
+  field_scheduled:
+    weight: 11
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_timestamp
+    region: content
   field_text:
     weight: 0
     settings:

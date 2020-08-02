@@ -90,7 +90,7 @@ class ChaptersResource extends ResourceBase {
         'thumbnail' => $image,
         'authors' => $authors,
         'publication_date' => trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date))),
-        'publication_date_unix' => (int)  trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date_unix))),
+        'publication_date_unix' => (int) trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($pub_date_unix))),
         'featured_image' => $featured_image,
         'path' => $path,
         'audios' => $audios,
@@ -118,33 +118,48 @@ class ChaptersResource extends ResourceBase {
     foreach ($paragraphs as $paragraph) {
       //TODO: inject this.
       $entity_base = \Drupal::entityTypeManager()->getStorage('paragraph')->load($paragraph->target_id);
+      if (!$entity_base->hasTranslation($langcode)) {
+        continue;
+      }
       $entity = $entity_base->getTranslation($langcode);
       $type = $entity->get('type')->first()->getValue()['target_id'];
-      $section = array(
+      $pub_date_unix = $entity->get('field_scheduled')->first()->getValue()['value'];
+      $preview = $pub_date_unix > \Drupal::time()->getRequestTime();
+      $section = [
         'type' => $type,
         'chapter' => $chapter['path'],
         'id' => $id,
-      );
+        'publication_date_unix' => (int) $pub_date_unix,
+        'preview' => $preview,
+      ];
       switch ($type) {
         case 'full_width_single_panel':
         case 'single_panel':
         case 'folded_image':
           $image_file = $entity->get('field_panel_image')->referencedEntities()[0];
           $image = $entity->get('field_panel_image')->first()->getValue();
-          $section['image'] = $this->buildImage($image, $image_file);
+          $sizes = $preview ? ['blur' => $image['width']] : [];
+          $section['image'] = $this->buildImage($image, $image_file, $sizes);
           break;
+
         case 'text':
-          $text = $entity->get('field_text')->view(array('label' => 'hidden'));
-          $text_content = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($text)));
-          $section['text'] = $text_content;
+          if ($preview) {
+            $text = '';
+          }
+          else {
+            $text = $entity->get('field_text')->view(['label' => 'hidden']);
+            $text_content = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($text)));
+            $section['text'] = $text_content;
+          }
           break;
+
         case 'title_panel':
           $image_file = $entity->get('field_title_image')->referencedEntities();
           if (!empty($image_file)) {
             $image = $entity->get('field_title_image')->first()->getValue();
             $section['image'] = $this->buildImage($image, $image_file[0]);
           }
-          $extra = $entity->get('field_extra_text')->view(array('label' => 'hidden'));
+          $extra = $entity->get('field_extra_text')->view(['label' => 'hidden']);
           $extra_text = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($extra)));
           $features = $entity->get('field_title_panel_features')->getValue();
           $section['features'] = array(
@@ -174,14 +189,19 @@ class ChaptersResource extends ResourceBase {
             }
           }
           break;
+
         case 'audio':
-          foreach ($entity->field_music as $item) {
-            $file = \Drupal::entityTypeManager()->getStorage('file')->load($item->getValue()['target_id']);
-            $section['audios'][] = $file->url();
+          $section['audios'] = [];
+          if (!$preview) {
+            foreach ($entity->field_music as $item) {
+              $file = \Drupal::entityTypeManager()->getStorage('file')->load($item->getValue()['target_id']);
+              $section['audios'][] = $file->url();
+            }
           }
           $crossfade = $entity->get('field_crossfade')->first()->getValue()['value'];
           $section['crossfade'] = (int) $crossfade;
           break;
+
       }
       $sections[] = $section;
       $id++;

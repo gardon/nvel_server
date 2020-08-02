@@ -1,0 +1,18 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_scheduled
+    - paragraphs.paragraphs_type.single_panel
+id: paragraph.single_panel.field_scheduled
+field_name: field_scheduled
+entity_type: paragraph
+bundle: single_panel
+label: 'Agendar publicação'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

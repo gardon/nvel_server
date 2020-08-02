@@ -1,0 +1,20 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.spacer.field_scheduled
+    - paragraphs.paragraphs_type.spacer
+id: paragraph.spacer.default
+targetEntityType: paragraph
+bundle: spacer
+mode: default
+content:
+  field_scheduled:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_timestamp
+    region: content
+hidden:
+  created: true
+  status: true

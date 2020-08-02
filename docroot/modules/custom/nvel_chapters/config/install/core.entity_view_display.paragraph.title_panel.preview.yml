@@ -4,6 +4,7 @@ dependencies:
   config:
     - core.entity_view_mode.paragraph.preview
     - field.field.paragraph.title_panel.field_extra_text
+    - field.field.paragraph.title_panel.field_scheduled
     - field.field.paragraph.title_panel.field_title_image
     - field.field.paragraph.title_panel.field_title_panel_features
     - image.style.thumbnail
@@ -32,4 +33,5 @@ content:
     type: image
     region: content
 hidden:
+  field_scheduled: true
   field_title_panel_features: true

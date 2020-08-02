@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.full_width_single_panel.field_panel_image
+    - field.field.paragraph.full_width_single_panel.field_scheduled
     - image.style.large
     - paragraphs.paragraphs_type.full_width_single_panel
   module:
@@ -19,6 +20,12 @@ content:
       progress_indicator: throbber
     third_party_settings: {  }
     type: image_image
+    region: content
+  field_scheduled:
+    weight: 11
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_timestamp
     region: content
   translation:
     weight: 10

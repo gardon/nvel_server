@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.folded_image.field_panel_image
+    - field.field.paragraph.folded_image.field_scheduled
     - image.style.thumbnail
     - paragraphs.paragraphs_type.folded_image
   module:
@@ -19,6 +20,12 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
+    region: content
+  field_scheduled:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_timestamp
     region: content
 hidden:
   created: true
