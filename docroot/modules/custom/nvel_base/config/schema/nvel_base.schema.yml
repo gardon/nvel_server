@@ -18,6 +18,9 @@ nvel_base.settings:
     about:
       type: text
       label: About content
+    preface:
+      type: text
+      label: Preface
     facebook_page:
       type: uri
       label: Facebook Page

@@ -70,9 +70,15 @@ class NvelSettingsForm extends ConfigFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('About Content'),
       '#default_value' => $config->get('about'),
-      '#description' => $this->t('About content. You can use Markdown syntax.')
+      '#description' => $this->t('Content displayed in About page. You can use Markdown syntax.'),
     );
 
+    $form['preface'] = array(
+      '#type' => 'textarea',
+      '#title' => $this->t('Preface'),
+      '#default_value' => $config->get('preface'),
+      '#description' => $this->t('Preface content in Homepage. You can use Markdown syntax.'),
+    );
     return $form;
   }
 
@@ -94,6 +100,8 @@ class NvelSettingsForm extends ConfigFormBase {
     $config->set('instagram_handle', $form_state->getValue('instagram_handle'));
     $config->set('deviantart_profile', $form_state->getValue('deviantart_profile'));
     $config->set('about', $form_state->getValue('about'));
+    $config->set('preface', $form_state->getValue('preface'));
+
     $config->save();
     return parent::submitForm($form, $form_state);
 
