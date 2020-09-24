@@ -123,7 +123,7 @@ class ChaptersResource extends ResourceBase {
       }
       $entity = $entity_base->getTranslation($langcode);
       $type = $entity->get('type')->first()->getValue()['target_id'];
-      $pub_date_unix = $entity->get('field_scheduled')->first()->getValue()['value'];
+      $pub_date_unix = $entity->get('field_scheduled')->first() ? $entity->get('field_scheduled')->first()->getValue()['value'] : \Drupal::time()->getRequestTime();;
       $preview = $pub_date_unix > \Drupal::time()->getRequestTime();
       $section = [
         'type' => $type,
