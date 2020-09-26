@@ -12,6 +12,7 @@ dependencies:
   - file
   - hal
   - image
+  - image_effects
   - language
   - menu_ui
   - node

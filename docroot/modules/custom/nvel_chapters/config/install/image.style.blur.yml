@@ -1,0 +1,37 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - image_effects
+name: blur
+label: Blur
+effects:
+  fcdf9a9b-1a3f-4c0b-aca8-4df165827916:
+    uuid: fcdf9a9b-1a3f-4c0b-aca8-4df165827916
+    id: image_effects_gaussian_blur
+    weight: -9
+    data:
+      radius: 15
+      sigma: !!float 10
+  1e0cdd40-0883-4e88-8af2-e380108e5b6c:
+    uuid: 1e0cdd40-0883-4e88-8af2-e380108e5b6c
+    id: image_effects_gaussian_blur
+    weight: -8
+    data:
+      radius: 15
+      sigma: !!float 10
+  3c538df2-53b8-445a-b7b3-68d1c5dc644e:
+    uuid: 3c538df2-53b8-445a-b7b3-68d1c5dc644e
+    id: image_effects_gaussian_blur
+    weight: -7
+    data:
+      radius: 15
+      sigma: !!float 10
+  51533627-37f6-4006-86e2-b91f9c6c9315:
+    uuid: 51533627-37f6-4006-86e2-b91f9c6c9315
+    id: image_crop
+    weight: -10
+    data:
+      width: 400
+      height: 400
+      anchor: center-center
