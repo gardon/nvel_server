@@ -4,13 +4,9 @@ namespace Drupal\nvel_base\Plugin\rest\resource;
 
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\node\Entity\Node;
-use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Component\Render\PlainTextOutput;
 use Drupal\views\Views;
 use Drupal\image\Entity\ImageStyle;
-use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Provides a resource for serving chapters.
@@ -34,9 +30,8 @@ class ChaptersResource extends ResourceBase {
    *   The response containing the chapters.
    */
   public function get() {
-    $config = \Drupal::config('nvel_base.settings');
 
-    $chapters = $nodes = array();
+    $chapters = [];
 
     // TODO: inject
     $renderer = \Drupal::service('renderer');
@@ -115,6 +110,7 @@ class ChaptersResource extends ResourceBase {
     $paragraphs = $node->get('field_sections');
     $sections = array();
     $id = 1;
+    $has_preview = FALSE;
     foreach ($paragraphs as $paragraph) {
       //TODO: inject this.
       $entity_base = \Drupal::entityTypeManager()->getStorage('paragraph')->load($paragraph->target_id);
@@ -125,6 +121,18 @@ class ChaptersResource extends ResourceBase {
       $type = $entity->get('type')->first()->getValue()['target_id'];
       $pub_date_unix = $entity->get('field_scheduled')->first() ? $entity->get('field_scheduled')->first()->getValue()['value'] : \Drupal::time()->getRequestTime();;
       $preview = $pub_date_unix > \Drupal::time()->getRequestTime();
+
+      // Only provide the first preview.
+      if ($preview) {
+        if (!$has_preview) {
+          $has_preview = TRUE;
+        }
+        else {
+          continue;
+        }
+      }
+
+      // Fill in common values.
       $section = [
         'type' => $type,
         'chapter' => $chapter['path'],
@@ -174,15 +182,19 @@ class ChaptersResource extends ResourceBase {
                 case 'extra':
                   $section['features']['extra'] = $extra_text;
                   break;
+
                 case 'author':
                   $section['features']['author'] = $chapter['authors'][0];
                   break;
+
                 case 'title':
                   $section['features']['title'] = '#' . $chapter['index'] . ': ' . $chapter['title'];
                   break;
+
                 case 'copyright':
                   $section['features']['copyright'] = $this->t('© All rights reserved');
                   break;
+
                 default:
                   $section['features'][$feature['value']] = '';
               }
