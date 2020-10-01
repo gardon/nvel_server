@@ -92,6 +92,7 @@ class ChaptersResource extends ResourceBase {
         'language_paths' => $language_paths,
       );
       $chapter['content'] = $this->getSections($node, $chapter, $langcode);
+      $chapter['updated_date'] = $this->getUpdatedDate($chapter);
       $chapters[$path] = $chapter;
     }
 
@@ -170,12 +171,14 @@ class ChaptersResource extends ResourceBase {
           $extra = $entity->get('field_extra_text')->view(['label' => 'hidden']);
           $extra_text = trim(PlainTextOutput::renderFromHtml($renderer->renderRoot($extra)));
           $features = $entity->get('field_title_panel_features')->getValue();
-          $section['features'] = array(
+
+          $section['features'] = [
             'title' => '',
             'author' => '',
             'copyright' => '',
             'extra' => '',
-          );
+          ];
+
           foreach ($features as $feature) {
             if (isset($section['features'][$feature['value']])) {
               switch ($feature['value']) {
@@ -219,6 +222,19 @@ class ChaptersResource extends ResourceBase {
       $id++;
     }
     return $sections;
+  }
+
+  /**
+   * Returns updated date from latest updated section, excluding previews.
+   */
+  private function getUpdatedDate($chapter) {
+    $date_unix = $chapter['publication_date_unix'];
+    foreach ($chapter['content'] as $section) {
+      if (!$section['preview']) {
+        $date_unix = max($date_unix, $section['publication_date_unix']);
+      }
+    }
+    return $date_unix;
   }
 
   private function buildImage($image, $image_file, array $sizes = [], $width = NULL, $height = NULL) {
