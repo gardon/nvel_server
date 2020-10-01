@@ -23,7 +23,7 @@
         "drupal/config_inspector": "^1.0",
         "drupal/config_update": "^1.6",
         "drupal/console": "^1.0.2",
-        "drupal/core": "^8.7.0",
+        "drupal/core": "8.9.6",
         "drupal/draggableviews": "^1.2",
         "drupal/entity_reference_revisions": "^1.7",
         "drupal/features": "^3.8",
@@ -34,12 +34,12 @@
         "drupal/token": "^1.5",
         "drush/drush": "^10.0",
         "vlucas/phpdotenv": "^2.4",
+        "webflo/drupal-core-require-dev": "8.9.6",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3",
         "zaporylie/composer-drupal-optimizations": "^1.0"
     },
     "require-dev": {
-        "webflo/drupal-core-require-dev": "^8.7.0"
     },
     "conflict": {
         "drupal/drupal": "*"
