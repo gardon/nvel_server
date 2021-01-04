@@ -41,6 +41,8 @@ class ChaptersResource extends ResourceBase {
     $view = Views::getView('chapters_admin');
 
     $view->execute('master');
+
+    $next_update = 0;
     foreach ($view->result as $row) {
       $id = $row->nid;
       //TODO: inject this.
@@ -94,11 +96,18 @@ class ChaptersResource extends ResourceBase {
       $chapter['content'] = $this->getSections($node, $chapter, $langcode);
       $chapter['updated_date'] = $this->getUpdatedDate($chapter);
       $chapters[$path] = $chapter;
+      $next_update = $next_update ? min($next_update, $this->getNextUpdated($chapter)) : $this->getNextUpdated($chapter);
     }
 
     $build = new ResourceResponse($chapters);
     $cacheableMetadata = $build->getCacheableMetadata();
-    $cacheableMetadata->addCacheTags(array('node_list'));
+    $cacheableMetadata->addCacheTags(['node_list']);
+    if ($next_update) {
+      $current_time = \Drupal::time()->getRequestTime();
+      if ($next_update > $current_time) {
+        $cacheableMetadata->setCacheMaxAge($next_update - $current_time);
+      }
+    }
 
     // TODO: add cache for multilingual? Seems not necessary.
 
@@ -235,6 +244,24 @@ class ChaptersResource extends ResourceBase {
       }
     }
     return $date_unix;
+  }
+
+  /**
+   * Returns the date of the next update if scheduled, useful for cache age.
+   */
+  private function getNextUpdated($chapter) {
+    $time = 0;
+    foreach ($chapter['content'] as $section) {
+      if ($section['preview']) {
+        if ($time) {
+          $time = min($time, $section['publication_date_unix']);
+        }
+        else {
+          $time = $section['publication_date_unix'];
+        }
+      }
+    }
+    return $time;
   }
 
   private function buildImage($image, $image_file, array $sizes = [], $width = NULL, $height = NULL) {
