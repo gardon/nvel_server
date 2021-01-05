@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.chapter.field_bg_music
     - field.field.node.chapter.field_chapter_number
     - field.field.node.chapter.field_description
+    - field.field.node.chapter.field_disqus_id
     - field.field.node.chapter.field_featured_image
     - field.field.node.chapter.field_original_publication_date
     - field.field.node.chapter.field_sections
@@ -52,6 +53,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
+  field_disqus_id:
+    weight: 123
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_featured_image:
     weight: 32

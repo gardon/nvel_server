@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.chapter.field_bg_music
     - field.field.node.chapter.field_chapter_number
     - field.field.node.chapter.field_description
+    - field.field.node.chapter.field_disqus_id
     - field.field.node.chapter.field_featured_image
     - field.field.node.chapter.field_original_publication_date
     - field.field.node.chapter.field_sections
@@ -23,7 +24,7 @@ bundle: chapter
 mode: default
 content:
   field_authors:
-    weight: 104
+    weight: 4
     label: above
     settings:
       link_to_entity: false
@@ -31,7 +32,7 @@ content:
     type: string
     region: content
   field_bg_music:
-    weight: 108
+    weight: 8
     label: above
     settings:
       use_description_as_link_text: true
@@ -39,7 +40,7 @@ content:
     type: file_default
     region: content
   field_chapter_number:
-    weight: 106
+    weight: 6
     label: above
     settings:
       thousand_separator: ''
@@ -48,14 +49,14 @@ content:
     type: number_integer
     region: content
   field_description:
-    weight: 101
+    weight: 1
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
   field_featured_image:
-    weight: 107
+    weight: 7
     label: above
     settings:
       image_style: ''
@@ -64,7 +65,7 @@ content:
     type: image
     region: content
   field_original_publication_date:
-    weight: 105
+    weight: 5
     label: hidden
     settings:
       timezone_override: ''
@@ -73,7 +74,7 @@ content:
     region: content
   field_sections:
     type: entity_reference_revisions_entity_view
-    weight: 102
+    weight: 2
     label: hidden
     settings:
       view_mode: default
@@ -81,7 +82,7 @@ content:
     third_party_settings: {  }
     region: content
   field_thumbnail:
-    weight: 103
+    weight: 3
     label: above
     settings:
       image_style: ''
@@ -90,9 +91,10 @@ content:
     type: image
     region: content
   links:
-    weight: 100
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_disqus_id: true
   langcode: true

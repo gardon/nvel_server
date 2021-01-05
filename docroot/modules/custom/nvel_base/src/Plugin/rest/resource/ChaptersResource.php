@@ -2,11 +2,16 @@
 
 namespace Drupal\nvel_base\Plugin\rest\resource;
 
-use Drupal\rest\Plugin\ResourceBase;
-use Drupal\rest\ResourceResponse;
-use Drupal\Component\Render\PlainTextOutput;
 use Drupal\views\Views;
+use Psr\Log\LoggerInterface;
+use Drupal\rest\ResourceResponse;
 use Drupal\image\Entity\ImageStyle;
+use Drupal\rest\Plugin\ResourceBase;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Component\Render\PlainTextOutput;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\node\NodeInterface;
 
 /**
  * Provides a resource for serving chapters.
@@ -22,6 +27,50 @@ use Drupal\image\Entity\ImageStyle;
 class ChaptersResource extends ResourceBase {
 
   /**
+   * Renderer Service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
+   * Language Service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * Entity Type Manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, RendererInterface $renderer, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $entity_type_manager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->renderer = $renderer;
+    $this->languageManager = $language_manager;
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create($container, $configuration, $plugin_id, $plugin_definition) {
+    return new static($configuration, $plugin_id, $plugin_definition,
+      $container->getParameter('serializer.formats'),
+      $container->get('logger.factory')->get('rest'),
+      $container->get('renderer'),
+      $container->get('language_manager'),
+      $container->get('entity_type.manager')
+    );
+  }
+
+  /**
    * Responds to GET requests.
    *
    * Returns a structured list of chapters.
@@ -33,10 +82,10 @@ class ChaptersResource extends ResourceBase {
 
     $chapters = [];
 
-    // TODO: inject
-    $renderer = \Drupal::service('renderer');
-    $language = \Drupal::service('language_manager');
-    $langcode = $language->getCurrentLanguage()->getId();
+    $renderer = $this->renderer;
+    $langcode = $this->languageManager->getCurrentLanguage()->getId();
+    $nodeStorage = $this->entityTypeManager->getStorage('node');
+    $fileStorage = $this->entityTypeManager->getStorage('file');
 
     $view = Views::getView('chapters_admin');
 
@@ -45,20 +94,33 @@ class ChaptersResource extends ResourceBase {
     $next_update = 0;
     foreach ($view->result as $row) {
       $id = $row->nid;
-      //TODO: inject this.
-      $entity = \Drupal::entityTypeManager()->getStorage('node')->load($id);
+
+      /**
+       * @var \Drupal\node\NodeInterface
+       */
+      $entity = $nodeStorage->load($id);
+
       $node = $entity->getTranslation($langcode);
       if (!$node->isPublished()) {
         continue;
       }
+
+      $display_options = ['label' => 'hidden'];
+
       $title = $node->get('title')->view();
-      //var_dump($node->get('title')->value);
-      $description = $node->get('field_description')->view(array('label' => 'hidden'));
+      $description = $node->get('field_description')->view($display_options);
+
       $audios = [];
       foreach ($node->field_bg_music as $item) {
-        $file = \Drupal::entityTypeManager()->getStorage('file')->load($item->getValue()['target_id']);
-        $audios[] = $file->url();
+        // @TODO: $item should have a method to get the entity.
+        /**
+         * @var \Drupal\file\FileInterface
+         */
+        $file = $fileStorage->load($item->getValue()['target_id']);
+        $audios[] = $file->createFileUrl(FALSE);
       }
+
+      $disqus_id = $node->field_disqus_id->value;
       $image_file = $node->get('field_thumbnail')->referencedEntities()[0];
       $image = $node->get('field_thumbnail')->first()->getValue();
       $image = $this->buildImage($image, $image_file, array('thumbnail' => '100w', 'medium' => '200w', '_original' => '300w'), 100, 100);
@@ -92,6 +154,7 @@ class ChaptersResource extends ResourceBase {
         'path' => $path,
         'audios' => $audios,
         'language_paths' => $language_paths,
+        'disqus_id' => $disqus_id,
       );
       $chapter['content'] = $this->getSections($node, $chapter, $langcode);
       $chapter['updated_date'] = $this->getUpdatedDate($chapter);
@@ -108,8 +171,6 @@ class ChaptersResource extends ResourceBase {
         $cacheableMetadata->setCacheMaxAge($next_update - $current_time);
       }
     }
-
-    // TODO: add cache for multilingual? Seems not necessary.
 
     return $build;
   }

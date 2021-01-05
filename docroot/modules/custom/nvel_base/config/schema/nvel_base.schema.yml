@@ -30,3 +30,6 @@ nvel_base.settings:
     deviantart_profile:
       type: uri
       label: Deviantart Profile
+    disqus_domain:
+      type: uri
+      label: Disqus Domain

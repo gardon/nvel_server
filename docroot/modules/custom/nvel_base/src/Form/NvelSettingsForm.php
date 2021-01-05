@@ -66,6 +66,13 @@ class NvelSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Link your Deviantart profile, typing just your username.'),
     );
 
+    $form['disqus_domain'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Disqus Domain'),
+      '#default_value' => $config->get('disqus_domain'),
+      '#description' => $this->t('Ex. abismos.disqus.com'),
+    );
+
     $form['about'] = array(
       '#type' => 'textarea',
       '#title' => $this->t('About Content'),
@@ -99,6 +106,7 @@ class NvelSettingsForm extends ConfigFormBase {
     $config->set('facebook_page', $form_state->getValue('facebook_page'));
     $config->set('instagram_handle', $form_state->getValue('instagram_handle'));
     $config->set('deviantart_profile', $form_state->getValue('deviantart_profile'));
+    $config->set('disqus_domain', $form_state->getValue('disqus_domain'));
     $config->set('about', $form_state->getValue('about'));
     $config->set('preface', $form_state->getValue('preface'));
 
