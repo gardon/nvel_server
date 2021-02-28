@@ -1,9 +1,6 @@
 bundle: nvel
 excluded:
-  - core.base_field_override.shortcut.default.title
   - language.content_settings.file.file
-  - language.content_settings.menu_link_content.menu_link_content
-  - language.content_settings.shortcut.default
   - shortcut.set.default
   - language.entity.pt-br
   - nvel_base.settings

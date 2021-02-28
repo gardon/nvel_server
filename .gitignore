@@ -24,3 +24,5 @@
 /.env
 
 .docksal
+
+/config/sync/*.yml

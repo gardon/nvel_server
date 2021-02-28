@@ -20,6 +20,7 @@
         "composer/installers": "^1.2",
         "cweagans/composer-patches": "^1.6.5",
         "drupal-composer/drupal-scaffold": "^2.5",
+        "drupal/cache_control_override": "^1.0@alpha",
         "drupal/config_inspector": "^1.0",
         "drupal/config_update": "^1.6",
         "drupal/console": "^1.0.2",
@@ -70,6 +71,11 @@
         ]
     },
     "extra": {
+        "patches": {
+          "drupal/core" : {
+            "Fixes max-age cache for anonymous users": "https://www.drupal.org/files/issues/2021-02-05/2951814-79.patch"
+          }
+        },
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"
