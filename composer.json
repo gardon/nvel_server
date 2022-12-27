@@ -43,14 +43,16 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/console-extend-plugin": true,
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true
+        }
     },
     "extra": {
-        "patches": {
-          "drupal/core" : {
-            "Fixes max-age cache for anonymous users": "https://www.drupal.org/files/issues/2021-02-05/2951814-79.patch"
-          }
-        },
+        "patches": {},
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"
