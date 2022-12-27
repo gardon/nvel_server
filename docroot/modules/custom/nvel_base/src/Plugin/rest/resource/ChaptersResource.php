@@ -332,7 +332,7 @@ class ChaptersResource extends ResourceBase {
     foreach ($sizes as $style => $size) {
       if ($style == '_original') {
         $image['derivatives'][] = array(
-          'uri' => $image_file->url(),
+          'uri' => $image_file->toUrl(),
           'size' => $size,
         );
       }
@@ -344,7 +344,7 @@ class ChaptersResource extends ResourceBase {
         );
       }
     }
-    $image['uri'] = empty($sizes) ? $image_file->url() : reset($image['derivatives'])['uri'];
+    $image['uri'] = empty($sizes) ? $image_file->toUrl() : reset($image['derivatives'])['uri'];
     return $image;
   }
 }
