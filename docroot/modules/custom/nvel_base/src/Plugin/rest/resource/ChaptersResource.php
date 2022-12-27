@@ -2,8 +2,10 @@
 
 namespace Drupal\nvel_base\Plugin\rest\resource;
 
+use Drupal\Core\Url;
 use Drupal\views\Views;
 use Psr\Log\LoggerInterface;
+use Drupal\node\NodeInterface;
 use Drupal\rest\ResourceResponse;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\rest\Plugin\ResourceBase;
@@ -11,7 +13,6 @@ use Drupal\Core\Render\RendererInterface;
 use Drupal\Component\Render\PlainTextOutput;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\node\NodeInterface;
 
 /**
  * Provides a resource for serving chapters.
@@ -280,7 +281,7 @@ class ChaptersResource extends ResourceBase {
           if (!$preview) {
             foreach ($entity->field_music as $item) {
               $file = \Drupal::entityTypeManager()->getStorage('file')->load($item->getValue()['target_id']);
-              $section['audios'][] = $file->toUrl();
+              $section['audios'][] = Url::fromUri(file_create_url($file->getFileUri()))->toString();
             }
           }
           $crossfade = $entity->get('field_crossfade')->first()->getValue()['value'];
@@ -332,7 +333,7 @@ class ChaptersResource extends ResourceBase {
     foreach ($sizes as $style => $size) {
       if ($style == '_original') {
         $image['derivatives'][] = array(
-          'uri' => $image_file->toUrl(),
+          'uri' => Url::fromUri(file_create_url($image_file->getFileUri()))->toString(),
           'size' => $size,
         );
       }
@@ -344,7 +345,7 @@ class ChaptersResource extends ResourceBase {
         );
       }
     }
-    $image['uri'] = empty($sizes) ? $image_file->toUrl() : reset($image['derivatives'])['uri'];
+    $image['uri'] = empty($sizes) ? Url::fromUri(file_create_url($image_file->getFileUri()))->toString() : reset($image['derivatives'])['uri'];
     return $image;
   }
 }
