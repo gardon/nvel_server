@@ -10,7 +10,6 @@ dependencies:
   - entity_reference_revisions
   - field
   - file
-  - hal
   - image
   - image_effects
   - language

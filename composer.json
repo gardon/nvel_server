@@ -32,7 +32,7 @@
         "drupal/paragraphs": "^1.10",
         "drupal/restui": "^1.17",
         "drupal/token": "^1.5",
-        "drupal/upgrade_status": "^3.18",
+        "drupal/upgrade_status": "^4.0",
         "drush/drush": "^10.6"
     },
     "conflict": {
