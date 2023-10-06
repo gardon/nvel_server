@@ -2,7 +2,7 @@ name: 'Nvel Chapters'
 description: 'Provides Chapters content type and paragraphs.'
 package: Nvel
 type: module
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 dependencies:
   - content_translation
   - datetime

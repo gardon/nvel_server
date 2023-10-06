@@ -281,7 +281,7 @@ class ChaptersResource extends ResourceBase {
           if (!$preview) {
             foreach ($entity->field_music as $item) {
               $file = \Drupal::entityTypeManager()->getStorage('file')->load($item->getValue()['target_id']);
-              $section['audios'][] = Url::fromUri(file_create_url($file->getFileUri()))->toString();
+              $section['audios'][] = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
             }
           }
           $crossfade = $entity->get('field_crossfade')->first()->getValue()['value'];
@@ -333,7 +333,7 @@ class ChaptersResource extends ResourceBase {
     foreach ($sizes as $style => $size) {
       if ($style == '_original') {
         $image['derivatives'][] = array(
-          'uri' => Url::fromUri(file_create_url($image_file->getFileUri()))->toString(),
+          'uri' => \Drupal::service('file_url_generator')->generateAbsoluteString($image_file->getFileUri()),
           'size' => $size,
         );
       }
@@ -345,7 +345,7 @@ class ChaptersResource extends ResourceBase {
         );
       }
     }
-    $image['uri'] = empty($sizes) ? Url::fromUri(file_create_url($image_file->getFileUri()))->toString() : reset($image['derivatives'])['uri'];
+    $image['uri'] = empty($sizes) ? \Drupal::service('file_url_generator')->generateAbsoluteString($image_file->getFileUri()) : reset($image['derivatives'])['uri'];
     return $image;
   }
 }
